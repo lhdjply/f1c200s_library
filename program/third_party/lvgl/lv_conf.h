@@ -336,13 +336,13 @@
  *https://fonts.google.com/specimen/Montserrat*/
 #define LV_FONT_MONTSERRAT_8  0
 #define LV_FONT_MONTSERRAT_10 0
-#define LV_FONT_MONTSERRAT_12 0
+#define LV_FONT_MONTSERRAT_12 1
 #define LV_FONT_MONTSERRAT_14 0
-#define LV_FONT_MONTSERRAT_16 0
+#define LV_FONT_MONTSERRAT_16 1
 #define LV_FONT_MONTSERRAT_18 0
-#define LV_FONT_MONTSERRAT_20 0
+#define LV_FONT_MONTSERRAT_20 1
 #define LV_FONT_MONTSERRAT_22 0
-#define LV_FONT_MONTSERRAT_24 1
+#define LV_FONT_MONTSERRAT_24 0
 #define LV_FONT_MONTSERRAT_26 0
 #define LV_FONT_MONTSERRAT_28 0
 #define LV_FONT_MONTSERRAT_30 0
@@ -372,7 +372,7 @@
 #define LV_FONT_CUSTOM_DECLARE
 
 /*Always set a default font*/
-#define LV_FONT_DEFAULT &lv_font_montserrat_24
+#define LV_FONT_DEFAULT &lv_font_montserrat_20
 
 /*Enable handling large font and/or fonts with a lot of characters.
  *The limit depends on the font size, font face and bpp.
@@ -452,7 +452,7 @@
 
 #define LV_USE_BTNMATRIX  1
 
-#define LV_USE_CANVAS     0
+#define LV_USE_CANVAS     1
 
 #define LV_USE_CHECKBOX   1
 
@@ -475,7 +475,7 @@
 
 #define LV_USE_SLIDER     1  /*Requires: lv_bar*/
 
-#define LV_USE_SWITCH     0
+#define LV_USE_SWITCH     1
 
 #define LV_USE_TEXTAREA   1   /*Requires: lv_label*/
 #if LV_USE_TEXTAREA != 0
@@ -491,9 +491,9 @@
 /*-----------
  * Widgets
  *----------*/
-#define LV_USE_ANIMIMG    0
+#define LV_USE_ANIMIMG    1
 
-#define LV_USE_CALENDAR   0
+#define LV_USE_CALENDAR   1
 #if LV_USE_CALENDAR
     #define LV_CALENDAR_WEEK_STARTS_MONDAY 0
     #if LV_CALENDAR_WEEK_STARTS_MONDAY
@@ -509,37 +509,37 @@
 
 #define LV_USE_CHART      1
 
-#define LV_USE_COLORWHEEL 0
+#define LV_USE_COLORWHEEL 1
 
 #define LV_USE_IMGBTN     1
 
 #define LV_USE_KEYBOARD   1
 
-#define LV_USE_LED        0
+#define LV_USE_LED        1
 
 #define LV_USE_LIST       1
 
-#define LV_USE_MENU       0
+#define LV_USE_MENU       1
 
 #define LV_USE_METER      1
 
 #define LV_USE_MSGBOX     1
 
-#define LV_USE_SPAN       0
+#define LV_USE_SPAN       1
 #if LV_USE_SPAN
     /*A line text can contain maximum num of span descriptor */
     #define LV_SPAN_SNIPPET_STACK_SIZE 64
 #endif
 
-#define LV_USE_SPINBOX    0
+#define LV_USE_SPINBOX    1
 
-#define LV_USE_SPINNER    0
+#define LV_USE_SPINNER    1
 
 #define LV_USE_TABVIEW    1
 
 #define LV_USE_TILEVIEW   1
 
-#define LV_USE_WIN        0
+#define LV_USE_WIN        1
 
 /*-----------
  * Themes
@@ -573,7 +573,7 @@
 #define LV_USE_FLEX 1
 
 /*A layout similar to Grid in CSS.*/
-#define LV_USE_GRID 0
+#define LV_USE_GRID 1
 
 /*---------------------
  * 3rd party libraries
@@ -680,7 +680,7 @@
 
 /*1: Enable Pinyin input method*/
 /*Requires: lv_keyboard*/
-#define LV_USE_IME_PINYIN 1
+#define LV_USE_IME_PINYIN 0
 #if LV_USE_IME_PINYIN
     /*1: Use default thesaurus*/
     /*If you do not use the default thesaurus, be sure to use `lv_ime_pinyin` after setting the thesauruss*/
@@ -708,26 +708,26 @@
  ====================*/
 
 /*Show some widget. It might be required to increase `LV_MEM_SIZE` */
-#define LV_USE_DEMO_WIDGETS 0
+#define LV_USE_DEMO_WIDGETS 1
 #if LV_USE_DEMO_WIDGETS
 #define LV_DEMO_WIDGETS_SLIDESHOW 0
 #endif
 
 /*Demonstrate the usage of encoder and keyboard*/
-#define LV_USE_DEMO_KEYPAD_AND_ENCODER 0
+#define LV_USE_DEMO_KEYPAD_AND_ENCODER 1
 
 /*Benchmark your system*/
-#define LV_USE_DEMO_BENCHMARK 0
+#define LV_USE_DEMO_BENCHMARK 1
 #if LV_USE_DEMO_BENCHMARK
 /*Use RGB565A8 images with 16 bit color depth instead of ARGB8565*/
 #define LV_DEMO_BENCHMARK_RGB565A8 0
 #endif
 
 /*Stress test for LVGL*/
-#define LV_USE_DEMO_STRESS 0
+#define LV_USE_DEMO_STRESS 1
 
 /*Music player demo*/
-#define LV_USE_DEMO_MUSIC 0
+#define LV_USE_DEMO_MUSIC 1
 #if LV_USE_DEMO_MUSIC
     #define LV_DEMO_MUSIC_SQUARE    0
     #define LV_DEMO_MUSIC_LANDSCAPE 0

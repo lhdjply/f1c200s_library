@@ -6,12 +6,14 @@
 	],
 	"settings": {
 		"files.associations": {
-			"myresource.h": "c",
-			"lvgl.h": "c",
+			"delay.h": "c",
 			"gpio.h": "c",
-			"f1cx00s_gpio.h": "c",
-			"w25qxx.h": "c",
-			"task.h": "c"
+			"myresource.h": "c",
+			"pagemain.h": "c",
+			"functional": "c",
+			"lv_demos.h": "c",
+			"pagedemoselect.h": "c",
+			"lvgl.h": "c"
 		}
-	}
+	},
 }

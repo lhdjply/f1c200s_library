@@ -1,7 +1,7 @@
 #ifndef MYRESOURCE_H
 #define MYRESOURCE_H
 
-#include "pagemain.h"
+#include "pagedemoselect.h"
 #include "common.h"
 
 #endif

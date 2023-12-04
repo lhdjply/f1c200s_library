@@ -34,6 +34,8 @@ $(wildcard *.c program/third_party/cherryusb/core/*c) \
 $(wildcard *.c program/third_party/cherryusb/osal/*c) \
 $(wildcard *.c program/third_party/cherryusb/port/*c) \
 $(wildcard *.c program/third_party/fatfs/*c) \
+$(wildcard *.c program/third_party/lvgl/lvgl/demos/**/*c) \
+$(wildcard *.c program/third_party/lvgl/lvgl/demos/**/**/*c) \
 $(wildcard *.c program/third_party/lvgl/lvgl/porting/*c) \
 $(wildcard *.c program/third_party/lvgl/lvgl/src/**/*c) \
 $(wildcard *.c program/third_party/lvgl/lvgl/src/draw/sw/*c) \
@@ -72,6 +74,7 @@ C_INCLUDES = \
 -Iprogram/third_party/cherryusb/port \
 -Iprogram/third_party/fatfs \
 -Iprogram/third_party/lvgl \
+-Iprogram/third_party/lvgl/lvgl/demos \
 -Iprogram/third_party/lvgl/lvgl/porting \
 -Iprogram/third_party/rt-thread/include \
 -Iprogram/third_party/rt-thread/bsp \

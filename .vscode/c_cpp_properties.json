@@ -11,6 +11,7 @@
                 "${workspaceFolder}/program/system/inc",
                 "${workspaceFolder}/program/third_party/fatfs",
                 "${workspaceFolder}/program/third_party/lvgl",
+                "${workspaceFolder}/program/third_party/lvgl/lvgl/demos",
                 "${workspaceFolder}/program/third_party/lvgl/lvgl/porting",
                 "${workspaceFolder}/program/third_party/rt-thread/include",
                 "${workspaceFolder}/program/third_party/rt-thread/bsp",
@@ -23,7 +24,6 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "D:\\CodeBlocks\\MinGW\\bin\\gcc.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++14",
             "intelliSenseMode": "windows-gcc-x64",

@@ -19,7 +19,7 @@ void LCD_task(void * p)
   delay_ms(100);
   LCD_EN = 1;
   LCD_SetBrightness(100);
-  PageMain_Init();
+  PageDemoSelect_Init();
   while(1)
   {
     lv_task_handler();
