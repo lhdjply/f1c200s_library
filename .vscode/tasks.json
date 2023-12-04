@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "编译",
+      "type": "shell",
+      "command": "make -j4",
+      "group": "build"
+    },
+    {
+      "label": "重新编译",
+      "type": "shell",
+      "command": "make clean\r\nmake -j4",
+      "group": "build"
+    },
+    {
+      "label": "清理",
+      "type": "shell",
+      "command": "make clean",
+      "group": "build"
+    },
+    {
+      "label": "下载",
+      "type": "shell",
+      "command": "make write",
+      "group": "build"
+    },
+  ]
+}

@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/program/bootloader",
+                "${workspaceFolder}/program/f1cx00s_lib/inc",
+                "${workspaceFolder}/program/hardware/inc",
+                "${workspaceFolder}/program/myResource/inc",
+                "${workspaceFolder}/program/system/inc",
+                "${workspaceFolder}/program/third_party/fatfs",
+                "${workspaceFolder}/program/third_party/lvgl",
+                "${workspaceFolder}/program/third_party/lvgl/lvgl/porting",
+                "${workspaceFolder}/program/third_party/rt-thread/include",
+                "${workspaceFolder}/program/third_party/rt-thread/bsp",
+                "${workspaceFolder}/program/third_party/rt-thread/components/libc/compilers/common/include",
+                "${workspaceFolder}/program/third_party/rt-thread/libcpu/f1c100s",
+                "${workspaceFolder}/program/user"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "D:\\CodeBlocks\\MinGW\\bin\\gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "windows-gcc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}

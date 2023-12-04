@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"myresource.h": "c",
+			"lvgl.h": "c",
+			"gpio.h": "c",
+			"f1cx00s_gpio.h": "c",
+			"w25qxx.h": "c",
+			"task.h": "c"
+		}
+	}
+}

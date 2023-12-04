@@ -1,0 +1,15 @@
+{
+  "editor.fontSize": 18,
+  "editor.tabSize": 2,
+  "C_Cpp.errorSquiggles": "disabled",
+  "cmake.buildDirectory": "${workspaceFolder}/cmake_build",
+  "files.associations": {
+    "gt911.h": "c",
+    "gpio.h": "c",
+    "delay.h": "c",
+    "task.h": "c",
+    "function.h": "c",
+    "lv_port_disp.h": "c",
+    "usbh_core.h": "c"
+  }
+}
