@@ -1,5 +1,5 @@
 ---
-name: 错误报告
+name: bug反馈
 about: 请详细描述您使用过程中遇到的问题。
 title: "一些问题。。。"
 labels: ["bug"]
