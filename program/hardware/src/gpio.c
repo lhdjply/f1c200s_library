@@ -1,7 +1,7 @@
 #include "gpio.h"
 #include "delay.h"
 
-void BELL_Init(void)
+void BUZZER_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -11,5 +11,5 @@ void BELL_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-  BELL = 0;
+  BUZZER = 0;
 }

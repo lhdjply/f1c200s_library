@@ -137,7 +137,7 @@ static void LCD_BL_Config(void)
 
   PWM_InitStructure.channel = PWM_CHANNEL_1;
   PWM_InitStructure.duty_cycle = 0;
-  PWM_InitStructure.period = 463000; // 2160hz
+  PWM_InitStructure.period = 463000; // 2160hz :1000000000/463000
   PWM_InitStructure.polarity = 1;
   PWM_Init(&PWM_InitStructure);
 

@@ -2,9 +2,9 @@
 
 extern UART_DATA uart_Data;
 
-void BELL_task(void * p)
+void BUZZER_task(void * p)
 {
-  BELL_Init();
+  BUZZER_Init();
   while(1)
   {
     delay_ms(500);

@@ -38,6 +38,11 @@ static void Button_Event(lv_event_t * e)
       lv_demo_widgets();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
     }
+    else if(target == pageDemoSelect.gpio_test_btn)
+    {
+      Pagegpiotest_Init();
+      lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    }
   }
 }
 
@@ -99,6 +104,7 @@ static void lv_demo_create(void)
   lv_label_set_text(pageDemoSelect.widgets_label, "widgets");
   lv_obj_center(pageDemoSelect.widgets_label);
 }
+
 static void lv_librarytest_create(void)
 {
   pageDemoSelect.library_test = lv_obj_create(pageDemoSelect.view);
@@ -113,6 +119,7 @@ static void lv_librarytest_create(void)
 
   pageDemoSelect.gpio_test_btn = lv_btn_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.gpio_test_btn, LV_PCT(70));
+  lv_obj_add_event_cb(pageDemoSelect.gpio_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.gpio_test_label = lv_label_create(pageDemoSelect.gpio_test_btn);
   lv_label_set_text(pageDemoSelect.gpio_test_label, "gpio test");
   lv_obj_center(pageDemoSelect.gpio_test_label);

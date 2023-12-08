@@ -3,8 +3,8 @@
 
 #include "sys.h"
 
-#define BELL PEout(4)
+#define BUZZER PEout(4)
 
-void BELL_Init(void);
+void BUZZER_Init(void);
 
 #endif

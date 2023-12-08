@@ -13,7 +13,9 @@
 			"functional": "c",
 			"lv_demos.h": "c",
 			"pagedemoselect.h": "c",
-			"lvgl.h": "c"
+			"lvgl.h": "c",
+			"pagegpiotest.h": "c",
+			"task.h": "c"
 		}
 	},
 }
