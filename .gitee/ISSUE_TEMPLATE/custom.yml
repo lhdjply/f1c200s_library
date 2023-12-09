@@ -1,0 +1,10 @@
+name: 其他类型
+description: 其他类型
+title:
+labels: ["custom"]
+body:
+  - type: textarea
+    attributes:
+      label: 内容
+    validations:
+      required: true
