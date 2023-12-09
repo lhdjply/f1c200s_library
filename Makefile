@@ -129,14 +129,14 @@ clean:
 	@rmdir /Q /S $(BUILD_DIR) 
 
 write:
-	@program/tools/sunxi-fel -p spiflash-write 0 $(BUILD_DIR)/$(TARGET).bin
-	@program/tools/xfel reset
+	@tools/sunxi-fel -p spiflash-write 0 $(BUILD_DIR)/$(TARGET).bin
+	@tools/xfel reset
 
 mktool:
-	cd program/tools/mksunxiboot && make
-	cd program/tools/mksunxi && make
+	cd tools/mksunxiboot && make
+	cd tools/mksunxi && make
 
-MKSUNXI		:=program/tools/mksunxi
+MKSUNXI		:=tools/mksunxi
 
 mkboot:
 	@$(MKSUNXI) $(BUILD_DIR)/$(TARGET).bin
