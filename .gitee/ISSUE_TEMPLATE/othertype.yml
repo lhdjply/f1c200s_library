@@ -1,7 +1,7 @@
 name: 其他类型
 description: 其他类型
 title:
-labels: ["custom"]
+labels: ["othertype"]
 body:
   - type: textarea
     attributes:
