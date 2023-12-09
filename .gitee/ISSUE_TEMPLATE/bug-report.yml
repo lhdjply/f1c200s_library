@@ -1,0 +1,33 @@
+name: bug反馈
+description: 请详细描述您使用过程中遇到的问题。
+title:
+labels: ["bug"]
+body:
+  - type: checkboxes
+    attributes:
+      label: 软件版本
+      options:
+        - label: 软件已更新到最新版本
+          required: true
+  - type: textarea
+    attributes:
+      label: 您使用的场景？
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 您做了什么操作？
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 您遇到了什么问题？
+  - type: textarea
+    attributes:
+      label: 您期望的结果是怎样的？
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        感谢你提交 bug，我们会尽快处理。

@@ -1,0 +1,23 @@
+name: 问题交流
+description: 讨论中没有回答的使用问题。
+title:
+labels: ["question"]
+body:
+  - type: textarea
+    attributes:
+      label: 预期行为
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 实际行为
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 原因分析（如果可以）
+  - type: textarea
+    attributes:
+      label: 问题重现步骤
+    validations:
+      required: true
