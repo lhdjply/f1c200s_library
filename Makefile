@@ -1,4 +1,4 @@
-TARGET = Battery_ResTest
+TARGET = f1c200s_library
 OPT = -Ofast
 BUILD_DIR = output
 CPU = -mcpu=arm926ej-s
