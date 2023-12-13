@@ -44,7 +44,7 @@ typedef struct
   uint32_t alpha_value;
   uint32_t alpha_enable;
   uint32_t vram_format;
-  uint16_t * vram;
+  void * vram;
 } LCD_Layer_Struct;
 
 void LCD_DeInit(void);

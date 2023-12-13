@@ -159,18 +159,14 @@ static void LCD_EN_Config(void)
 
 void LCD_Color_Fill(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, lv_color_t * data)
 {
-  uint32_t y = y1, i;
-  lv_color_t * lcdbuf_gui;
-  for(y = y1; y < y2 + 1; y++)
+  uint32_t y = y1;
+  lv_color_t * lcdbuf_gui = (lv_color_t *)(lcd_layer.vram);
+  do
   {
-    lcdbuf_gui = (lv_color_t *)lcd_layer.vram + y * MY_DISP_HOR_RES + x1;
-    for(i = 0; i < x2 - x1 + 1; i++)
-    {
-      *lcdbuf_gui = data[i];
-      lcdbuf_gui++;
-    }
+    memcpy(&lcdbuf_gui[y * MY_DISP_HOR_RES + x1], data, (x2 - x1 + 1)*sizeof(lv_color_t));
     data = data + x2 - x1 + 1;
-  }
+    y++;
+  } while(y != y2 + 1);
 }
 
 void LCD_SetBrightness(int32_t brightness)
