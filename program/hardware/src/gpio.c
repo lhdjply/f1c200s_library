@@ -11,5 +11,5 @@ void BUZZER_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-  BUZZER = 0;
+  BUZZER = 0;// GPIO_ResetBits(GPIOE, GPIO_Pin_4);
 }
