@@ -8,7 +8,7 @@
 
 #include "rtthread.h"
 
-#define CHERRYUSB_VERSION 0x001001
+#define CHERRYUSB_VERSION 0x001002
 
 /* ================ USB common Configuration ================ */
 
@@ -47,25 +47,25 @@
 // #define CONFIG_USBDEV_TEST_MODE
 
 #ifndef CONFIG_USBDEV_MSC_BLOCK_SIZE
-#define CONFIG_USBDEV_MSC_BLOCK_SIZE 512
+#define CONFIG_USBDEV_MSC_BLOCK_SIZE 30*1024
 #endif
 
 #ifndef CONFIG_USBDEV_MSC_MANUFACTURER_STRING
-#define CONFIG_USBDEV_MSC_MANUFACTURER_STRING ""
+#define CONFIG_USBDEV_MSC_MANUFACTURER_STRING "MASS"
 #endif
 
 #ifndef CONFIG_USBDEV_MSC_PRODUCT_STRING
-#define CONFIG_USBDEV_MSC_PRODUCT_STRING ""
+#define CONFIG_USBDEV_MSC_PRODUCT_STRING "Storage Device"
 #endif
 
 #ifndef CONFIG_USBDEV_MSC_VERSION_STRING
-#define CONFIG_USBDEV_MSC_VERSION_STRING "0.01"
+#define CONFIG_USBDEV_MSC_VERSION_STRING "1.00"
 #endif
 
-// #define CONFIG_USBDEV_MSC_THREAD
+#define CONFIG_USBDEV_MSC_THREAD
 
 #ifndef CONFIG_USBDEV_MSC_PRIO
-#define CONFIG_USBDEV_MSC_PRIO 4
+#define CONFIG_USBDEV_MSC_PRIO 2
 #endif
 
 #ifndef CONFIG_USBDEV_MSC_STACKSIZE
@@ -130,9 +130,10 @@
 
 /* ================ USB Device Port Configuration ================*/
 
-//#define USBD_IRQHandler USBD_IRQHandler
-//#define USB_BASE (0x40080000UL)
-//#define USB_NUM_BIDIR_ENDPOINTS 4
+#define USBD_IRQHandler USBD_IRQHandler
+#define USB_BASE (0x01c13000)
+#define USB_NUM_BIDIR_ENDPOINTS 4
+#define CONFIG_USB_HS
 
 /* ================ USB Host Port Configuration ==================*/
 

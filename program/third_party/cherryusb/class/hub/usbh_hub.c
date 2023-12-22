@@ -29,6 +29,8 @@ extern int usbh_hport_deactivate_ep0(struct usbh_hubport *hport);
 extern int usbh_enumerate(struct usbh_hubport *hport);
 static void usbh_hub_thread_wakeup(struct usbh_hub *hub);
 
+const char *speed_table[] = { "error-speed", "low-speed", "full-speed", "high-speed", "wireless-speed", "super-speed", "superplus-speed" };
+
 #ifdef CONFIG_USBHOST_XHCI
 struct usbh_hubport *usbh_get_roothub_port(unsigned int port)
 {
@@ -297,7 +299,8 @@ static void hub_int_complete_callback(void *arg, int nbytes)
 {
     struct usbh_hub *hub = (struct usbh_hub *)arg;
 
-    if (nbytes > 0) {
+    if (nbytes > 0)
+    {
         usbh_hub_thread_wakeup(hub);
     }
 }
@@ -310,7 +313,7 @@ static int usbh_hub_connect(struct usbh_hubport *hport, uint8_t intf)
 
     struct usbh_hub *hub = usbh_hub_class_alloc();
     if (hub == NULL) {
-        USB_LOG_ERR("Fail to alloc cdc_acm_class\r\n");
+        USB_LOG_ERR("Fail to alloc hub_class\r\n");
         return -ENOMEM;
     }
 
@@ -602,6 +605,8 @@ static void usbh_hub_events(struct usbh_hub *hub)
                     child->port = port + 1;
                     child->speed = speed;
 
+                    USB_LOG_INFO("New %s device on Hub %u, Port %u connected\r\n", speed_table[speed], hub->index, port + 1);
+
                     /* create disposable thread to enumerate device on current hport, do not block hub thread */
                     child->thread = usb_osal_thread_create("usbh_enum", CONFIG_USBHOST_PSC_STACKSIZE, CONFIG_USBHOST_PSC_PRIO + 1, usbh_hubport_enumerate_thread, (void *)child);
                 } else {
@@ -636,7 +641,7 @@ static void usbh_hub_thread(void *argument)
 
     usb_hc_init();
     while (1) {
-        ret = usb_osal_mq_recv(hub_mq, (uintptr_t *)&hub, 0xffffffff);
+        ret = usb_osal_mq_recv(hub_mq, (uintptr_t *)&hub, USB_OSAL_WAITING_FOREVER);
         if (ret < 0) {
             continue;
         }
