@@ -7,7 +7,7 @@
 #define MMCSD_BUS_WIDTH_4 4
 #define MMCSD_BUS_WIDTH_8 8
 
-#define BIT(x) (1 << (x))
+#define SDIO_BIT(x) (1 << (x))
 
 /*
     SD CMD reg
@@ -25,18 +25,18 @@ REG[15]  : Send initialization
 REG[21]  : Update clock
 REG[31]  : Load cmd
 */
-#define SDXC_RESPONSE_CMD BIT(6)
-#define SDXC_LONG_RESPONSE_CMD BIT(7)
-#define SDXC_CHECK_CRC_CMD BIT(8)
-#define SDXC_HAS_DATA_CMD BIT(9)
-#define SDXC_WRITE_CMD BIT(10)
-#define SDXC_STEAM_CMD BIT(11)
-#define SDXC_AUTO_STOP_CMD BIT(12)
-#define SDXC_WAIT_OVER_CMD BIT(13)
-#define SDXC_ABOUT_CMD BIT(14)
-#define SDXC_SEND_INIT_CMD BIT(15)
-#define SDXC_UPDATE_CLOCK_CMD BIT(21)
-#define SDXC_LOAD_CMD BIT(31)
+#define SDXC_RESPONSE_CMD SDIO_BIT(6)
+#define SDXC_LONG_RESPONSE_CMD SDIO_BIT(7)
+#define SDXC_CHECK_CRC_CMD SDIO_BIT(8)
+#define SDXC_HAS_DATA_CMD SDIO_BIT(9)
+#define SDXC_WRITE_CMD SDIO_BIT(10)
+#define SDXC_STEAM_CMD SDIO_BIT(11)
+#define SDXC_AUTO_STOP_CMD SDIO_BIT(12)
+#define SDXC_WAIT_OVER_CMD SDIO_BIT(13)
+#define SDXC_ABOUT_CMD SDIO_BIT(14)
+#define SDXC_SEND_INIT_CMD SDIO_BIT(15)
+#define SDXC_UPDATE_CLOCK_CMD SDIO_BIT(21)
+#define SDXC_LOAD_CMD SDIO_BIT(31)
 
 typedef struct
 {

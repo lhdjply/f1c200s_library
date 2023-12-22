@@ -4,18 +4,4 @@
 			"path": "."
 		}
 	],
-	"settings": {
-		"files.associations": {
-			"delay.h": "c",
-			"gpio.h": "c",
-			"myresource.h": "c",
-			"pagemain.h": "c",
-			"functional": "c",
-			"lv_demos.h": "c",
-			"pagedemoselect.h": "c",
-			"lvgl.h": "c",
-			"pagegpiotest.h": "c",
-			"task.h": "c"
-		}
-	},
 }

@@ -1,30 +1,9 @@
-#include <rtthread.h>
-#include <rthw.h>
-#include "interrupt.h"
-#include "stdbool.h"
-#include "usb_phy.h"
-#include "usbh_core.h"
-#include "usbh_msc.h"
+#include "usbh_msc_config.h"
 
-static volatile bool mounted_flag;
+volatile bool mounted_flag;
 USB_NOCACHE_RAM_SECTION struct usbh_msc * active_msc_class;
 
-extern void USBD_IRQHandler();
 extern void USBH_IRQHandler();
-
-void usb_dc_low_level_init(void)
-{
-  usb_phy_open_clock();
-  USBC_PhyConfig();
-  USBC_ConfigFIFO_Base();
-  USBC_EnableDpDmPullUp();
-  USBC_EnableIdPullUp();
-  USBC_ForceId(USBC_ID_TYPE_DEVICE);
-  USBC_ForceVbusValid(USBC_VBUS_TYPE_HIGH);
-
-  rt_hw_interrupt_install(USB_OTG_INTERRUPT, (rt_isr_handler_t)USBD_IRQHandler, NULL, "musb_irq");
-  rt_hw_interrupt_umask(USB_OTG_INTERRUPT);
-}
 
 void usb_hc_low_level_init(void)
 {
