@@ -24,6 +24,7 @@ BIN = $(CP) -O binary -S
 # C sources
 C_SOURCES = \
 $(wildcard *.c program/bootloader/*c) \
+$(wildcard *.c program/dsp/source/**/src/*c) \
 $(wildcard *.c program/f1cx00s_lib/src/*c) \
 $(wildcard *.c program/hardware/src/*c) \
 $(wildcard *.c program/myresource/src/**/*c) \
@@ -61,6 +62,7 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES = \
 -Iprogram/bootloader \
+-Iprogram/dsp/include \
 -Iprogram/f1cx00s_lib/inc \
 -Iprogram/hardware/inc \
 -Iprogram/myresource/inc \

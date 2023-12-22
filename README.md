@@ -26,6 +26,7 @@ arm-none-eabi-gcc
 | 文件夹      | 简介                                                    |
 | ----------- | ------------------------------------------------------- |
 | bootloader  | bootloader文件                                          |
+| dsp         | dsp库（例如`arm_mean_f32`)                              |
 | f1cx00s_lib | 模仿**stm32**风格写的库函数                             |
 | hardware    | 外设初始化                                              |
 | myresoure   | 屏幕界面程序（使用lvgl)                                 |
