@@ -17,7 +17,6 @@ void LCD_task(void * p)
   lv_port_disp_init();
   lv_port_indev_init();
   delay_ms(100);
-  LCD_EN = 1;
   LCD_SetBrightness(100);
   PageDemoSelect_Init();
   while(1)

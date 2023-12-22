@@ -5,8 +5,6 @@
 #include "rtthread.h"
 #include "lvgl/lvgl.h"
 
-#define LCD_EN PEout(5)
-
 #define LCD_FREQ 30000000//30Mhz
 #define MY_DISP_HOR_RES 800
 #define MY_DISP_VER_RES 480

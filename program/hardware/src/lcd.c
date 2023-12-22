@@ -8,7 +8,6 @@ static void LCD_Clock_Config(void);
 static void LCD_GPIO_Config(void);
 static void LCD_Fun_Config(void);
 static void LCD_BL_Config(void);
-static void LCD_EN_Config(void);
 
 void LCD_Config(void)
 {
@@ -16,7 +15,6 @@ void LCD_Config(void)
   LCD_GPIO_Config();
   LCD_Fun_Config();
   LCD_BL_Config();
-  LCD_EN_Config();
 }
 
 static void LCD_Clock_Config(void)
@@ -142,19 +140,6 @@ static void LCD_BL_Config(void)
   PWM_Init(&PWM_InitStructure);
 
   PWM_Cmd(PWM_CHANNEL_1, ENABLE);
-}
-
-static void LCD_EN_Config(void)
-{
-  GPIO_InitTypeDef GPIO_InitStructure;
-
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_DriveCurrent = GPIO_DriveCurrent_Level3;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_Init(GPIOE, &GPIO_InitStructure);
-
-  LCD_EN = 0;
 }
 
 void LCD_Color_Fill(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, lv_color_t * data)

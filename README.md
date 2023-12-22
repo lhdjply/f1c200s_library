@@ -17,7 +17,7 @@ arm-none-eabi-gcc
 * .gitee：gitee平台issue和pr模板
 * .github：github平台issue和pr模板，以及ci检查
 * pcb：pcb文件待更新
-* program：所有程序在改文件夹中
+* program：所有程序在该文件夹中
 * tools：下载程序工具，code-format工具（需要安装astyle)
 
 ## program文件夹
