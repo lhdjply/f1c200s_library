@@ -26,6 +26,11 @@
 
 typedef struct
 {
+  uint8_t lcd_brightness;
+} DATA;
+
+typedef struct
+{
   rt_sem_t sem;
   rt_mutex_t mutex;
   uint32_t count;

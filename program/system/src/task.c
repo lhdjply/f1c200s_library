@@ -1,6 +1,6 @@
 #include "task.h"
 
-extern UART_DATA uart_Data;
+DATA mydata;
 
 void BUZZER_task(void * p)
 {
@@ -16,8 +16,8 @@ void LCD_task(void * p)
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
-  delay_ms(100);
-  LCD_SetBrightness(100);
+  mydata.lcd_brightness = 100;
+  LCD_SetBrightness(mydata.lcd_brightness);
   PageDemoSelect_Init();
   while(1)
   {

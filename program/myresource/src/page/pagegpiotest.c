@@ -2,7 +2,6 @@
 #include "myresource.h"
 
 Pagegpiotest pagegpiotest;
-extern PageDemoSelect pageDemoSelect;
 
 static void Back_Button_Event(lv_event_t * e)
 {
