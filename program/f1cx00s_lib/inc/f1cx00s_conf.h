@@ -11,5 +11,6 @@
 #include "f1cx00s_sdio.h"
 #include "f1cx00s_spi.h"
 #include "f1cx00s_uart.h"
+#include "f1cx00s_wdog.h"
 
 #endif

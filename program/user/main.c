@@ -12,11 +12,19 @@ int main(void)
                                BUZZER_Thread_Tick);
   rt_thread_startup(thread[0]);
 
-  thread[2] = rt_thread_create("LCD",
+  thread[1] = rt_thread_create("LCD",
                                LCD_task,
                                RT_NULL,
                                LCD_Thread_StackSize,
                                LCD_Thread_Priority,
                                LCD_Thread_Tick);
+  rt_thread_startup(thread[1]);
+
+  thread[2] = rt_thread_create("WDOG",
+                               WDOG_task,
+                               RT_NULL,
+                               WDOG_Thread_StackSize,
+                               WDOG_Thread_Priority,
+                               WDOG_Thread_Tick);
   rt_thread_startup(thread[2]);
 }

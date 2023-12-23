@@ -12,6 +12,7 @@
 #include "sdcard.h"
 #include "w25qxx.h"
 #include "lcd.h"
+#include "wdog.h"
 #include "myresource.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"

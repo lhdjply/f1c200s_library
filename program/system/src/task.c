@@ -25,3 +25,13 @@ void LCD_task(void * p)
     delay_ms(10);
   }
 }
+
+void WDOG_task(void * p)
+{
+  WDOG_Config();
+  while(1)
+  {
+    WDOG_Feed();
+    delay_ms(500);
+  }
+}

@@ -396,6 +396,16 @@ typedef struct
   volatile uint32_t DBG_DLH;
 } UART_TypeDef;
 
+typedef struct
+{
+  volatile uint32_t IRQ_EN;
+  volatile uint32_t IRQ_STA;
+  volatile uint32_t Reserve[2];
+  volatile uint32_t CTRL;
+  volatile uint32_t CFG;
+  volatile uint32_t MODE;
+} WDOG_TypeDef;
+
 #define AUDIO_BASE 0x01C23C00
 #define CCU_BASE 0x01C20000
 #define DEBE_BASE 0x01E60000
@@ -421,6 +431,7 @@ typedef struct
 #define UART0_BASE 0x01C25000
 #define UART1_BASE 0x01C25400
 #define UART2_BASE 0x01C25800
+#define WDOG_BASE 0x01C20CA0
 
 #define AUDIO ((AUDIO_TypeDef *)AUDIO_BASE)
 #define DEBE ((DEBE_TypeDef *)DEBE_BASE)
@@ -447,5 +458,6 @@ typedef struct
 #define UART0 ((UART_TypeDef *)UART0_BASE)
 #define UART1 ((UART_TypeDef *)UART1_BASE)
 #define UART2 ((UART_TypeDef *)UART2_BASE)
+#define WDOG ((WDOG_TypeDef *)WDOG_BASE)
 
 #endif

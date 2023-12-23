@@ -21,7 +21,9 @@ static const uint32_t prescaler_table[] =
   0,
   0,
 };
+
 static volatile uint32_t * channel_period;
+
 static void PWM_Config(PWM_InitTypeDef * PWM_InitStruct)
 {
   uint64_t rate = 24000000; // hosc =24MHz //clk_get_rate(pwm->clk);

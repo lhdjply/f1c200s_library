@@ -15,7 +15,13 @@
 #define LCD_Thread_Priority 2     // 线程优先级
 #define LCD_Thread_Tick 20        // 线程时间
 
+// WDOG线程
+#define WDOG_Thread_StackSize 1000 // 线程堆栈大小
+#define WDOG_Thread_Priority 2     // 线程优先级
+#define WDOG_Thread_Tick 20        // 线程时间
+
 void BUZZER_task(void * p);
 void LCD_task(void * p);
+void WDOG_task(void * p);
 
 #endif /* SYSTEM_TASK_H_ */
