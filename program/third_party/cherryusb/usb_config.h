@@ -131,12 +131,14 @@
 /* ================ USB Device Port Configuration ================*/
 
 #define USBD_IRQHandler USBD_IRQHandler
-#define USB_BASE (0x01c13000)
-#define USB_NUM_BIDIR_ENDPOINTS 4
+#define USBD_BASE 0x01c13000
+#define CONFIG_USBDEV_EP_NUM 4
 #define CONFIG_USB_HS
 
 /* ================ USB Host Port Configuration ==================*/
 
+#define USBH_IRQHandler USBH_IRQHandler
+#define USBH_BASE 0x01c13000
 #define CONFIG_USBHOST_PIPE_NUM 4
 
 #define CONFIG_USB_MUSB_SUNXI

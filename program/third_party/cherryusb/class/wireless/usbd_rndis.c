@@ -45,8 +45,8 @@ struct usbd_rndis_priv {
 #define CONFIG_USBDEV_RNDIS_RESP_BUFFER_SIZE 156
 #endif
 
-USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t g_rndis_rx_buffer[CONFIG_USBDEV_RNDIS_ETH_MAX_FRAME_SIZE + 44];
-USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t g_rndis_tx_buffer[CONFIG_USBDEV_RNDIS_ETH_MAX_FRAME_SIZE + 44];
+static USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t g_rndis_rx_buffer[CONFIG_USBDEV_RNDIS_ETH_MAX_FRAME_SIZE + 44];
+static USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t g_rndis_tx_buffer[CONFIG_USBDEV_RNDIS_ETH_MAX_FRAME_SIZE + 44];
 
 USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t rndis_encapsulated_resp_buffer[CONFIG_USBDEV_RNDIS_RESP_BUFFER_SIZE];
 USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t NOTIFY_RESPONSE_AVAILABLE[8];
@@ -512,7 +512,7 @@ int usbd_rndis_eth_tx(struct pbuf *p)
     }
 
     if (g_rndis_tx_data_length > 0) {
-        return -EBUSY;
+        return -USB_ERR_BUSY;
     }
 
     if (p->tot_len > sizeof(g_rndis_tx_buffer)) {
