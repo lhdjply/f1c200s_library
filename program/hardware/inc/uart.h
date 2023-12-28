@@ -4,8 +4,7 @@
 #include "sys.h"
 #include "common.h"
 
-#define MY_UART UART1
-
-void MY_UART_Init(void);
+void UART2_Init(void);
+void My_Printf(char * format, ...);
 
 #endif /* _UART_H_ */

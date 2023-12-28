@@ -48,6 +48,11 @@ static void Button_Event(lv_event_t * e)
       Pagepwmtest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
     }
+    else if(target == pageDemoSelect.uart_test_btn)
+    {
+      Pageuarttest_Init();
+      lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    }
   }
 }
 
@@ -156,6 +161,7 @@ static void lv_librarytest_create(void)
 
   pageDemoSelect.uart_test_btn = lv_btn_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.uart_test_btn, LV_PCT(70));
+  lv_obj_add_event_cb(pageDemoSelect.uart_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.uart_test_label = lv_label_create(pageDemoSelect.uart_test_btn);
   lv_label_set_text(pageDemoSelect.uart_test_label, "uart test");
   lv_obj_center(pageDemoSelect.uart_test_label);

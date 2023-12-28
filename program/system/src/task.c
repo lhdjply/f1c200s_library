@@ -11,6 +11,13 @@ void BUZZER_task(void * p)
   }
 }
 
+void UART_task(void * p)
+{
+  UART2_Init();
+  My_Printf("F1C200S demo test!\r\n");
+  My_Printf("---------------------------\r\n");
+}
+
 void LCD_task(void * p)
 {
   lv_init();
