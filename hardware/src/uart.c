@@ -53,7 +53,7 @@ void My_Printf(char * format, ...)
   va_end(p);
   for(i = 0; i < strlen((char *)uart_Data.TXD_BUF); i++)
   {
-    USART_SendData(UART2, uart_Data.TXD_BUF[i]);
+    UART_SendData(UART2, uart_Data.TXD_BUF[i]);
     while(UART_Get_Status(UART2, UART_USR_TFNF) != SET)
     {
     }

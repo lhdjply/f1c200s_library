@@ -36,7 +36,17 @@ void UART_Init(UART_TypeDef * UARTx, UART_InitTypeDef * UART_InitStruct)
   UARTx->RFL = 0x3f;
 }
 
-void USART_SendData(UART_TypeDef * UARTx, uint16_t Data)
+void UART_SendBaudRate(UART_TypeDef * UARTx, uint32_t BaudRate)
+{
+  uint32_t val;
+  UARTx->LCR |= (1 << 7);
+  val = APB_Get_clk() / (16 * BaudRate);
+  UARTx->RBR_THR_DLL = val & 0xff;
+  UARTx->DLH_IER = (val >> 8) & 0xff;
+  UARTx->LCR &= ~(1 << 7);
+}
+
+void UART_SendData(UART_TypeDef * UARTx, uint16_t Data)
 {
   UARTx->RBR_THR_DLL = Data;
 }

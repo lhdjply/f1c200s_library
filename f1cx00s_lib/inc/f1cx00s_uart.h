@@ -45,7 +45,8 @@ typedef struct
 } UART_InitTypeDef;
 
 void UART_Init(UART_TypeDef * UARTx, UART_InitTypeDef * UART_InitStruct);
-void USART_SendData(UART_TypeDef * UARTx, uint16_t Data);
+void UART_SendBaudRate(UART_TypeDef * UARTx, uint32_t BaudRate);
+void UART_SendData(UART_TypeDef * UARTx, uint16_t Data);
 uint16_t UART_ReceiveData(UART_TypeDef * UARTx);
 FlagStatus UART_Get_Status(UART_TypeDef * UARTx, uint8_t USR_FLAG);
 void UART_ITConfig(UART_TypeDef * UARTx, uint8_t UART_IT, FunctionalState NewState);
