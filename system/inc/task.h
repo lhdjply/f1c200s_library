@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-#define THREAD_NUM 4
+#define THREAD_NUM 5
 
 // BUZZER线程
 #define BUZZER_Thread_StackSize 1000 // 线程堆栈大小
@@ -14,6 +14,11 @@
 #define UART_Thread_StackSize 1000 // 线程堆栈大小
 #define UART_Thread_Priority 3     // 线程优先级
 #define UART_Thread_Tick 20        // 线程时间
+
+// USB线程
+#define USB_Thread_StackSize 1000 // 线程堆栈大小
+#define USB_Thread_Priority 3     // 线程优先级
+#define USB_Thread_Tick 20        // 线程时间
 
 // LCD线程
 #define LCD_Thread_StackSize 5000 // 线程堆栈大小
@@ -27,6 +32,7 @@
 
 void BUZZER_task(void * p);
 void UART_task(void * p);
+void USB_task(void * p);
 void LCD_task(void * p);
 void WDOG_task(void * p);
 

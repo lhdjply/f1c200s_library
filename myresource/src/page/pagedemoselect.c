@@ -53,6 +53,11 @@ static void Button_Event(lv_event_t * e)
       Pageuarttest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
     }
+    else if(target == pageDemoSelect.usb_test_btn)
+    {
+      Pageusbtest_Init();
+      lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    }
   }
 }
 
@@ -168,6 +173,7 @@ static void lv_librarytest_create(void)
 
   pageDemoSelect.usb_test_btn = lv_btn_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.usb_test_btn, LV_PCT(70));
+  lv_obj_add_event_cb(pageDemoSelect.usb_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.usb_test_label = lv_label_create(pageDemoSelect.usb_test_btn);
   lv_label_set_text(pageDemoSelect.usb_test_label, "usb test");
   lv_obj_center(pageDemoSelect.usb_test_label);

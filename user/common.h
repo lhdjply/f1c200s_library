@@ -17,9 +17,8 @@
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 #include "lv_port_fs.h"
-#include "usbh_core.h"
-#include "usbh_msc.h"
-#include "usb_musb_reg.h"
+#include "usbh_msc_config.h"
+#include "ff.h"
 
 #define SET_RX_Len 500
 #define SET_TX_Len 500
