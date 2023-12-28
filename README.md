@@ -35,4 +35,4 @@ arm-none-eabi-gcc
 
 界面左边为lvgl官方例子，界面右边为库函数测试例子
 
-其中库函数例子外设初始化以及功能函数已在`hardware`，界面例子目前只写了`gpio`、`pwm`、`uart`、`usb`其他待更新
+其中库函数例子外设初始化以及功能函数已在`hardware`，界面例子目前只写了`gpio`、`pwm`、`sdio`、`uart`、`usb`其他待更新

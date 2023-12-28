@@ -1,8 +1,6 @@
 #include "sdcard.h"
 #include <delay.h>
 
-static uint8_t sd_first_init = 0;
-
 static SD_Error SD_PowerON(SDIO_TypeDef * SDIOx);
 static SD_Error SD_InitializeCards(SDIO_TypeDef * SDIOx);
 static SD_Error SD_GetCardInfo(SD_CardInfo * cardinfo);
@@ -60,82 +58,79 @@ SD_Error SD_Init(SDIO_TypeDef * SDIOx)
   /*重置SD_Error状态*/
   SD_Error errorstatus = SD_OK;
 
-  if(sd_first_init == 0)
+  /* SDIO 外设底层引脚初始化 */
+  SDIO_GPIO_Configuration();
+
+  /*上电并进行卡识别流程，确认卡的操作电压  */
+  errorstatus = SD_PowerON(SDIOx);
+
+  /*如果上电，识别不成功，返回“响应超时”错误 */
+  if(errorstatus != SD_OK)
   {
-    sd_first_init = 1;
-    /* SDIO 外设底层引脚初始化 */
-    SDIO_GPIO_Configuration();
-
-    /*上电并进行卡识别流程，确认卡的操作电压  */
-    errorstatus = SD_PowerON(SDIOx);
-
-    /*如果上电，识别不成功，返回“响应超时”错误 */
-    if(errorstatus != SD_OK)
-    {
-      /*!< CMD Response TimeOut (wait for CMDSENT flag) */
-      return (errorstatus);
-    }
-
-    delay_ms(1);
-
-    /*卡识别成功，进行卡初始化    */
-    errorstatus = SD_InitializeCards(SDIOx);
-
-    if(errorstatus != SD_OK)  // 失败返回
-    {
-      /*!< CMD Response TimeOut (wait for CMDSENT flag) */
-      return (errorstatus);
-    }
-
-    delay_ms(1);
-
-    /* 用来读取csd/cid寄存器 */
-    errorstatus = SD_GetCardInfo(&SDCardInfo);
-
-    if(errorstatus != SD_OK)
-    {
-      /*!< CMD Response TimeOut (wait for CMDSENT flag) */
-      return (errorstatus);
-    }
-
-    delay_ms(1);
-
-    /* 通过cmd7  ,rca选择要操作的卡 */
-    errorstatus = SD_SelectDeselect(SDIOx, (uint32_t)(RCA << 16));
-
-    if(errorstatus != SD_OK)
-    {
-      /*!< CMD Response TimeOut (wait for CMDSENT flag) */
-      return (errorstatus);
-    }
-
-    delay_ms(1);
-
-    // 设置块大小
-    SDCardInfo.CardBlockSize = 512;
-    errorstatus = SD_SetBlockSize(SDIOx, SDCardInfo.CardBlockSize);
-
-    if(errorstatus != SD_OK)
-    {
-      /*!< CMD Response TimeOut (wait for CMDSENT flag) */
-      return (errorstatus);
-    }
-
-    delay_ms(1);
-
-    errorstatus = SDIO_Config_Clock(SDIOx, 20000000);
-
-    if(errorstatus != SD_OK)
-    {
-      /*!< CMD Response TimeOut (wait for CMDSENT flag) */
-      return (errorstatus);
-    }
-
-    delay_ms(1);
-
-    /* 最后为了提高读写，开启4bits模式 */
-    errorstatus = SD_EnableWideBusOperation(SDIOx, MMCSD_BUS_WIDTH_4);
+    /*!< CMD Response TimeOut (wait for CMDSENT flag) */
+    return (errorstatus);
   }
+
+  delay_ms(1);
+
+  /*卡识别成功，进行卡初始化    */
+  errorstatus = SD_InitializeCards(SDIOx);
+
+  if(errorstatus != SD_OK)  // 失败返回
+  {
+    /*!< CMD Response TimeOut (wait for CMDSENT flag) */
+    return (errorstatus);
+  }
+
+  delay_ms(1);
+
+  /* 用来读取csd/cid寄存器 */
+  errorstatus = SD_GetCardInfo(&SDCardInfo);
+
+  if(errorstatus != SD_OK)
+  {
+    /*!< CMD Response TimeOut (wait for CMDSENT flag) */
+    return (errorstatus);
+  }
+
+  delay_ms(1);
+
+  /* 通过cmd7  ,rca选择要操作的卡 */
+  errorstatus = SD_SelectDeselect(SDIOx, (uint32_t)(RCA << 16));
+
+  if(errorstatus != SD_OK)
+  {
+    /*!< CMD Response TimeOut (wait for CMDSENT flag) */
+    return (errorstatus);
+  }
+
+  delay_ms(1);
+
+  // 设置块大小
+  SDCardInfo.CardBlockSize = 512;
+  errorstatus = SD_SetBlockSize(SDIOx, SDCardInfo.CardBlockSize);
+
+  if(errorstatus != SD_OK)
+  {
+    /*!< CMD Response TimeOut (wait for CMDSENT flag) */
+    return (errorstatus);
+  }
+
+  delay_ms(1);
+
+  errorstatus = SDIO_Config_Clock(SDIOx, 20000000);
+
+  if(errorstatus != SD_OK)
+  {
+    /*!< CMD Response TimeOut (wait for CMDSENT flag) */
+    return (errorstatus);
+  }
+
+  delay_ms(1);
+
+  /* 最后为了提高读写，开启4bits模式 */
+  errorstatus = SD_EnableWideBusOperation(SDIOx, MMCSD_BUS_WIDTH_4);
+
   return (errorstatus);
 }
 

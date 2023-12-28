@@ -1,7 +1,7 @@
 #include "task.h"
 
 DATA mydata;
-rt_sem_t usbh_msc_test_sem;
+rt_sem_t sdio_test_sem, usbh_msc_test_sem;
 
 void BUZZER_task(void * p)
 {
@@ -17,6 +17,29 @@ void UART_task(void * p)
   UART2_Init();
   My_Printf("F1C200S demo test!\r\n");
   My_Printf("---------------------------\r\n");
+}
+
+void SDIO_task(void * p)
+{
+  const char * sdio_test_text = "This the sdio test demo!";
+  UINT bw;
+  FATFS * fs;
+  FIL * file;
+  sdio_test_sem = rt_sem_create("sdio_test_sem", 0, RT_IPC_FLAG_FIFO);
+  SD_Init(SDIO0);
+  while(1)
+  {
+    rt_sem_take(sdio_test_sem, RT_WAITING_FOREVER);
+    fs = (FATFS *)rt_malloc(sizeof(FATFS));
+    file = (FIL *)rt_malloc(sizeof(FIL));
+    f_mount(fs, "0:/", 0);
+    f_open(file, "0:/sdio_test.txt", FA_CREATE_ALWAYS | FA_WRITE);
+    f_write(file, sdio_test_text, strlen(sdio_test_text), &bw);
+    f_close(file);
+    f_mount(NULL, "0:/", 0);
+    rt_free(fs);
+    rt_free(file);
+  }
 }
 
 void USB_task(void * p)
