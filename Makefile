@@ -4,7 +4,7 @@ BUILD_DIR = output
 CPU = -mcpu=arm926ej-s
 FPU =
 FLOAT-ABI = -mfloat-abi=soft
-LDSCRIPT = program/link.lds
+LDSCRIPT = user/link.lds
 AS_DEFS = 
 C_DEFS =  \
 -D__ARM32_ARCH__=5 \
@@ -23,66 +23,66 @@ BIN = $(CP) -O binary -S
 ######################################
 # C sources
 C_SOURCES = \
-$(wildcard *.c program/bootloader/*c) \
-$(wildcard *.c program/dsp/source/**/src/*c) \
-$(wildcard *.c program/f1cx00s_lib/src/*c) \
-$(wildcard *.c program/hardware/src/*c) \
-$(wildcard *.c program/myresource/src/**/*c) \
-$(wildcard *.c program/system/src/*c) \
-$(wildcard *.c program/third_party/cherryusb/class/hub/*c) \
-$(wildcard *.c program/third_party/cherryusb/class/msc/*c) \
-$(wildcard *.c program/third_party/cherryusb/core/*c) \
-$(wildcard *.c program/third_party/cherryusb/osal/*c) \
-$(wildcard *.c program/third_party/cherryusb/port/*c) \
-$(wildcard *.c program/third_party/fatfs/*c) \
-$(wildcard *.c program/third_party/lvgl/lvgl/demos/**/*c) \
-$(wildcard *.c program/third_party/lvgl/lvgl/demos/**/**/*c) \
-$(wildcard *.c program/third_party/lvgl/lvgl/porting/*c) \
-$(wildcard *.c program/third_party/lvgl/lvgl/src/**/*c) \
-$(wildcard *.c program/third_party/lvgl/lvgl/src/draw/sw/*c) \
-$(wildcard *.c program/third_party/lvgl/lvgl/src/extra/**/**/*c) \
-$(wildcard *.c program/third_party/rt-thread/bsp/*c) \
-$(wildcard *.c program/third_party/rt-thread/components/libc/compilers/common/*c) \
-$(wildcard *.c program/third_party/rt-thread/components/libc/compilers/newlib/*c) \
-$(wildcard *.c program/third_party/rt-thread/libcpu/f1c100s/*c) \
-$(wildcard *.c program/third_party/rt-thread/src/*c) \
-$(wildcard *.c program/user/*c) \
+$(wildcard *.c bootloader/*c) \
+$(wildcard *.c dsp/source/**/src/*c) \
+$(wildcard *.c f1cx00s_lib/src/*c) \
+$(wildcard *.c hardware/src/*c) \
+$(wildcard *.c myresource/src/**/*c) \
+$(wildcard *.c system/src/*c) \
+$(wildcard *.c third_party/cherryusb/class/hub/*c) \
+$(wildcard *.c third_party/cherryusb/class/msc/*c) \
+$(wildcard *.c third_party/cherryusb/core/*c) \
+$(wildcard *.c third_party/cherryusb/osal/*c) \
+$(wildcard *.c third_party/cherryusb/port/*c) \
+$(wildcard *.c third_party/fatfs/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/demos/**/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/demos/**/**/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/porting/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/src/**/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/src/draw/sw/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/src/extra/**/**/*c) \
+$(wildcard *.c third_party/rt-thread/bsp/*c) \
+$(wildcard *.c third_party/rt-thread/components/libc/compilers/common/*c) \
+$(wildcard *.c third_party/rt-thread/components/libc/compilers/newlib/*c) \
+$(wildcard *.c third_party/rt-thread/libcpu/f1c100s/*c) \
+$(wildcard *.c third_party/rt-thread/src/*c) \
+$(wildcard *.c user/*c) \
 
 # ASM sources
 ASM_SOURCES = \
-program/bootloader/memcmp.S \
-program/bootloader/memcpy.S \
-program/bootloader/memset.S \
-program/bootloader/start_gcc.S \
-program/third_party/rt-thread/libcpu/f1c100s/context_gcc.S \
+bootloader/memcmp.S \
+bootloader/memcpy.S \
+bootloader/memset.S \
+bootloader/start_gcc.S \
+third_party/rt-thread/libcpu/f1c100s/context_gcc.S \
 
 # AS includes
 AS_INCLUDES = 
 
 # C includes
 C_INCLUDES = \
--Iprogram/bootloader \
--Iprogram/dsp/include \
--Iprogram/f1cx00s_lib/inc \
--Iprogram/hardware/inc \
--Iprogram/myresource/inc \
--Iprogram/system/inc \
--Iprogram/third_party/cherryusb \
--Iprogram/third_party/cherryusb/class/hub \
--Iprogram/third_party/cherryusb/class/msc \
--Iprogram/third_party/cherryusb/common \
--Iprogram/third_party/cherryusb/core \
--Iprogram/third_party/cherryusb/osal \
--Iprogram/third_party/cherryusb/port \
--Iprogram/third_party/fatfs \
--Iprogram/third_party/lvgl \
--Iprogram/third_party/lvgl/lvgl/demos \
--Iprogram/third_party/lvgl/lvgl/porting \
--Iprogram/third_party/rt-thread/include \
--Iprogram/third_party/rt-thread/bsp \
--Iprogram/third_party/rt-thread/components/libc/compilers/common/include \
--Iprogram/third_party/rt-thread/libcpu/f1c100s \
--Iprogram/user
+-Ibootloader \
+-Idsp/include \
+-If1cx00s_lib/inc \
+-Ihardware/inc \
+-Imyresource/inc \
+-Isystem/inc \
+-Ithird_party/cherryusb \
+-Ithird_party/cherryusb/class/hub \
+-Ithird_party/cherryusb/class/msc \
+-Ithird_party/cherryusb/common \
+-Ithird_party/cherryusb/core \
+-Ithird_party/cherryusb/osal \
+-Ithird_party/cherryusb/port \
+-Ithird_party/fatfs \
+-Ithird_party/lvgl \
+-Ithird_party/lvgl/lvgl/demos \
+-Ithird_party/lvgl/lvgl/porting \
+-Ithird_party/rt-thread/include \
+-Ithird_party/rt-thread/bsp \
+-Ithird_party/rt-thread/components/libc/compilers/common/include \
+-Ithird_party/rt-thread/libcpu/f1c100s \
+-Iuser
 
 # mcu
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
