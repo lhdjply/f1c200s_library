@@ -43,6 +43,11 @@ static void Button_Event(lv_event_t * e)
       Pagegpiotest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
     }
+    else if(target == pageDemoSelect.i2c_test_btn)
+    {
+      Pagei2ctest_Init();
+      lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    }
     else if(target == pageDemoSelect.pwm_test_btn)
     {
       Pagepwmtest_Init();
@@ -151,6 +156,7 @@ static void lv_librarytest_create(void)
 
   pageDemoSelect.i2c_test_btn = lv_btn_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.i2c_test_btn, LV_PCT(70));
+  lv_obj_add_event_cb(pageDemoSelect.i2c_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.i2c_test_label = lv_label_create(pageDemoSelect.i2c_test_btn);
   lv_label_set_text(pageDemoSelect.i2c_test_label, "i2c test");
   lv_obj_center(pageDemoSelect.i2c_test_label);

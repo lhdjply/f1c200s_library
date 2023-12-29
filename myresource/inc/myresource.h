@@ -3,6 +3,7 @@
 
 #include "pagedemoselect.h"
 #include "pagegpiotest.h"
+#include "pagei2ctest.h"
 #include "pagepwmtest.h"
 #include "pagesdiotest.h"
 #include "pagespitest.h"
@@ -12,6 +13,7 @@
 
 extern PageDemoSelect pageDemoSelect;
 extern Pagegpiotest pagegpiotest;
+extern Pagei2ctest pagei2ctest;
 extern Pagepwmtest pagepwmtest;
 extern Pagesdiotest pagesdiotest;
 extern Pagespitest pagespitest;
