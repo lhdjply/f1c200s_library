@@ -26,6 +26,10 @@
 typedef struct
 {
   uint8_t lcd_brightness;
+  FRESULT sd_res;
+  uint8_t sd_write_ok_flag;
+  FRESULT usb_res;
+  uint8_t usb_write_ok_flag;
 } DATA;
 
 typedef struct

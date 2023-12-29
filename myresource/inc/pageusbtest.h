@@ -12,6 +12,7 @@ typedef struct
   lv_obj_t * usbh_msc_connect_state;
   lv_obj_t * usbh_msc_test_btn;
   lv_obj_t * usbh_msc_test_label;
+  lv_obj_t * usbh_msc_write_file_tips;
 
   lv_timer_t * timer;
 } Pageusbtest;

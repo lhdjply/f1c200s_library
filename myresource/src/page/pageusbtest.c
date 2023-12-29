@@ -2,6 +2,7 @@
 #include "myresource.h"
 
 Pageusbtest pageusbtest;
+extern DATA mydata;
 extern rt_sem_t usbh_msc_test_sem;
 
 static void Back_Button_Event(lv_event_t * e)
@@ -21,6 +22,7 @@ static void Test_Event(lv_event_t * e)
   if(code == LV_EVENT_CLICKED)
   {
     rt_sem_release(usbh_msc_test_sem);
+    mydata.usb_write_ok_flag = 0;
   }
 }
 
@@ -42,10 +44,44 @@ static void my_timer(lv_timer_t * timer)
                                 LV_PART_MAIN);
     lv_label_set_text(pageusbtest.usbh_msc_connect_state, "usbh msc connect state:disconnect");
   }
+
+  if(mydata.usb_write_ok_flag == 1)
+  {
+    lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips:file write sucess");
+    lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
+                    pageusbtest.usbh_msc_test_btn,
+                    LV_ALIGN_OUT_BOTTOM_MID,
+                    0,
+                    0);
+  }
+  else
+  {
+    if(mydata.usb_res == FR_OK)
+    {
+      lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips:%d", mydata.usb_res);
+      lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
+                      pageusbtest.usbh_msc_test_btn,
+                      LV_ALIGN_OUT_BOTTOM_MID,
+                      0,
+                      0);
+    }
+    else
+    {
+      lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips_error:%d", mydata.usb_res);
+      lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
+                      pageusbtest.usbh_msc_test_btn,
+                      LV_ALIGN_OUT_BOTTOM_MID,
+                      0,
+                      0);
+    }
+  }
 }
 
 void Pageusbtest_Init(void)
 {
+  mydata.usb_res = FR_OK;
+  mydata.usb_write_ok_flag = 0;
+
   pageusbtest.view = lv_obj_create(lv_scr_act());
   lv_obj_remove_style_all(pageusbtest.view);
   lv_obj_set_size(pageusbtest.view, LV_PCT(100), LV_PCT(100));
@@ -96,6 +132,14 @@ void Pageusbtest_Init(void)
   pageusbtest.usbh_msc_test_label = lv_label_create(pageusbtest.usbh_msc_test_btn);
   lv_obj_center(pageusbtest.usbh_msc_test_label);
   lv_label_set_text(pageusbtest.usbh_msc_test_label, "usbh msc test");
+
+  pageusbtest.usbh_msc_write_file_tips = lv_label_create(pageusbtest.view);
+  lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips:%d", mydata.usb_res);
+  lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
+                  pageusbtest.usbh_msc_test_btn,
+                  LV_ALIGN_OUT_BOTTOM_MID,
+                  0,
+                  0);
 
   pageusbtest.timer = lv_timer_create(my_timer, 100, NULL);
 }

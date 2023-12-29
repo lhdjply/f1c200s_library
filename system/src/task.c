@@ -33,10 +33,24 @@ void SDIO_task(void * p)
     rt_sem_take(sdio_test_sem, RT_WAITING_FOREVER);
     fs = (FATFS *)rt_malloc(sizeof(FATFS));
     file = (FIL *)rt_malloc(sizeof(FIL));
-    f_mount(fs, "0:/", 0);
-    f_open(file, "0:/sdio_test.txt", FA_CREATE_ALWAYS | FA_WRITE);
-    f_write(file, sdio_test_text, strlen(sdio_test_text), &bw);
-    f_close(file);
+    mydata.sd_res = f_mount(fs, "0:/", 0);
+    if(mydata.sd_res == FR_OK)
+    {
+      mydata.sd_res = f_open(file, "0:/sdio_test.txt", FA_CREATE_ALWAYS | FA_WRITE);
+      if(mydata.sd_res == FR_OK)
+      {
+        mydata.sd_res = f_write(file, sdio_test_text, strlen(sdio_test_text), &bw);
+        f_close(file);
+        if(mydata.sd_res == FR_OK)
+        {
+          mydata.sd_write_ok_flag = 1;
+        }
+      }
+      else
+      {
+        f_close(file);
+      }
+    }
     f_mount(NULL, "0:/", 0);
     rt_free(fs);
     rt_free(file);
@@ -56,10 +70,24 @@ void USB_task(void * p)
     rt_sem_take(usbh_msc_test_sem, RT_WAITING_FOREVER);
     fs = (FATFS *)rt_malloc(sizeof(FATFS));
     file = (FIL *)rt_malloc(sizeof(FIL));
-    f_mount(fs, "1:/", 0);
-    f_open(file, "1:/usbh_msc_test.txt", FA_CREATE_ALWAYS | FA_WRITE);
-    f_write(file, usbh_msc_test_text, strlen(usbh_msc_test_text), &bw);
-    f_close(file);
+    mydata.usb_res =  f_mount(fs, "1:/", 0);
+    if(mydata.usb_res == FR_OK)
+    {
+      mydata.usb_res = f_open(file, "1:/usbh_msc_test.txt", FA_CREATE_ALWAYS | FA_WRITE);
+      if(mydata.usb_res == FR_OK)
+      {
+        mydata.usb_res = f_write(file, usbh_msc_test_text, strlen(usbh_msc_test_text), &bw);
+        f_close(file);
+        if(mydata.usb_res == FR_OK)
+        {
+          mydata.usb_write_ok_flag = 1;
+        }
+      }
+      else
+      {
+        f_close(file);
+      }
+    }
     f_mount(NULL, "1:/", 0);
     rt_free(fs);
     rt_free(file);
