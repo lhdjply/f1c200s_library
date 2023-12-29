@@ -16,15 +16,14 @@ static void os_clock_irq_handle(int irqno, void *param)
 
 static void mmu_init(void)
 {
+    uint32_t *dsz = (void *)0x0000005c;
     struct mem_desc r6_mem_desc[] =
-        {
-            {0x00000000, 0xFFFFFFFF, 0x00000000, RW_NCNB},   /* None cached for 4G memory */
-            {0x80000000, 0x84000000 - 1, 0x80000000, RW_CB}, /* 64M cached SDRAM memory */
-            //{ 0x00000000, 0x00001000-1, 0x80000000, RW_CB },         /* isr vector table */
-            // here not set mmu
-            // start_gcc.S Copy vector to the correct address
-        };
-
+    {
+        {0x00000000, 0xFFFFFFFF, 0x00000000, RW_NCNB},   /* None cached for 4G memory */
+        {0x80000000, 0x84000000 - 1, 0x80000000, RW_CB}, /* 64M cached SDRAM memory */
+    };
+    #pragma GCC diagnostic ignored "-Warray-bounds"
+    r6_mem_desc[1].vaddr_end=0x7FFFFFFF+(dsz[0] & 0xff)*0x100000;
     rt_hw_mmu_init(r6_mem_desc, sizeof(r6_mem_desc) / sizeof(r6_mem_desc[0]));
 }
 
