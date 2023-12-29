@@ -6,10 +6,11 @@ rt_sem_t sdio_test_sem, usbh_msc_test_sem;
 void BUZZER_task(void * p)
 {
   BUZZER_Init();
-  while(1)
-  {
-    delay_ms(500);
-  }
+}
+
+void W25QXX_task(void * p)
+{
+  W25QXX_Init();
 }
 
 void UART_task(void * p)

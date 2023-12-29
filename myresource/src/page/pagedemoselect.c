@@ -53,6 +53,11 @@ static void Button_Event(lv_event_t * e)
       Pagesdiotest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
     }
+    else if(target == pageDemoSelect.spi_test_btn)
+    {
+      Pagespitest_Init();
+      lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    }
     else if(target == pageDemoSelect.uart_test_btn)
     {
       Pageuarttest_Init();
@@ -166,6 +171,7 @@ static void lv_librarytest_create(void)
 
   pageDemoSelect.spi_test_btn = lv_btn_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.spi_test_btn, LV_PCT(70));
+  lv_obj_add_event_cb(pageDemoSelect.spi_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.spi_test_label = lv_label_create(pageDemoSelect.spi_test_btn);
   lv_label_set_text(pageDemoSelect.spi_test_label, "spi test");
   lv_obj_center(pageDemoSelect.spi_test_label);

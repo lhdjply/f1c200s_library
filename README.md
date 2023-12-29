@@ -25,7 +25,7 @@ arm-none-eabi-gcc
 | f1cx00s_lib | 模仿**stm32**风格写的库函数                             |
 | hardware    | 外设初始化                                              |
 | myresoure   | 屏幕界面程序（使用lvgl)                                 |
-| pcb         | pcb文件待更新                                           |
+| pcb         | pcb文件待绘制                                           |
 | system      | 任务文件，以及延迟等等                                  |
 | third_party | 第三方库，包含`cherryusb`、`fatfs`、`lvgl`、`rt-thread` |
 | tools       | 下载程序工具，code-format工具（需要安装astyle)          |
@@ -33,6 +33,5 @@ arm-none-eabi-gcc
 
 ## myresoure文件夹
 
-界面左边为lvgl官方例子，界面右边为库函数测试例子
-
-其中库函数例子外设初始化以及功能函数已在`hardware`，界面例子目前只写了`gpio`、`pwm`、`sdio`、`uart`、`usb`其他待更新
+界面左边为lvgl官方例子，界面右边为库函数测试例子。
+其中库函数例子外设初始化以及功能函数已在`hardware`，界面例子包括`gpio`、`i2c`、`pwm`、`sdio`、`spi`、`uart`、`usb`。

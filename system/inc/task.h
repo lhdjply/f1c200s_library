@@ -3,12 +3,17 @@
 
 #include "common.h"
 
-#define THREAD_NUM 6
+#define THREAD_NUM 7
 
 // BUZZER线程
 #define BUZZER_Thread_StackSize 1000 // 线程堆栈大小
 #define BUZZER_Thread_Priority 8     // 线程优先级
 #define BUZZER_Thread_Tick 20        // 线程时间
+
+// W25QXX线程
+#define W25QXX_Thread_StackSize 1000 // 线程堆栈大小
+#define W25QXX_Thread_Priority 3     // 线程优先级
+#define W25QXX_Thread_Tick 20        // 线程时间
 
 // UART线程
 #define UART_Thread_StackSize 1000 // 线程堆栈大小
@@ -36,6 +41,7 @@
 #define WDOG_Thread_Tick 20        // 线程时间
 
 void BUZZER_task(void * p);
+void W25QXX_task(void * p);
 void UART_task(void * p);
 void SDIO_task(void * p);
 void USB_task(void * p);
