@@ -3,6 +3,16 @@
 DATA mydata;
 rt_sem_t sdio_test_sem, usbh_msc_test_sem;
 
+void LED_task(void * p)
+{
+  LED_Init();
+  while(1)
+  {
+    LED = !LED;
+    delay_ms(500);
+  }
+}
+
 void BUZZER_task(void * p)
 {
   BUZZER_Init();
@@ -15,7 +25,7 @@ void W25QXX_task(void * p)
 
 void UART_task(void * p)
 {
-  UART2_Init();
+  UART1_Init();
   My_Printf("F1C200S demo test!\r\n");
   My_Printf("---------------------------\r\n");
 }

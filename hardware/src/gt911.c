@@ -15,21 +15,22 @@ void GT911_Init(void)
   GPIO_InitTypeDef GPIO_InitStructure;
   I2C_InitTypeDef I2C_InitStructure;
 
-  CCU_BUS2_GatingClockCmd(CCU_BUS2Gating_I2C2, ENABLE);
-  CCU_BUS2_GatingResetCmd(CCU_BUS2Gating_I2C2, ENABLE);
+  CCU_BUS2_GatingClockCmd(CCU_BUS2Gating_I2C0, ENABLE);
+  CCU_BUS2_GatingResetCmd(CCU_BUS2Gating_I2C0, ENABLE);
 
-  GPIO_AF_Remap(GPIOE, GPIO_PinSource0, GPIO_AF_PE0_I2C2_SCK);
-  GPIO_AF_Remap(GPIOE, GPIO_PinSource1, GPIO_AF_PE1_I2C2_SDA);
+  GPIO_AF_Remap(GPIOE, GPIO_PinSource11, GPIO_AF_PE11_I2C0_SCK);
+  GPIO_AF_Remap(GPIOE, GPIO_PinSource12, GPIO_AF_PE12_I2C0_SDA);
 
-  // GT911_RST,GT911_INT
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  // GT911_SCK,GT911_SDA
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_DriveCurrent = GPIO_DriveCurrent_Level3;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  // GT911_RST,GT911_INT
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_DriveCurrent = GPIO_DriveCurrent_Level3;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOE, &GPIO_InitStructure);
@@ -50,7 +51,7 @@ void GT911_Init(void)
   delay_ms(55);
 
   // GT911_INT设为输入模式
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
   GPIO_InitStructure.GPIO_DriveCurrent = GPIO_DriveCurrent_Level3;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;

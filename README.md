@@ -15,21 +15,21 @@ arm-none-eabi-gcc
 # 文件夹介绍
 
 
-| 文件夹      | 简介                                                    |
-| ----------- | ------------------------------------------------------- |
-| .gitee      | gitee平台issue和pr模板                                  |
-| .github     | github平台issue和pr模板，以及ci检查                     |
-| .vscode     | vscode配置文件                                          |
-| bootloader  | bootloader文件                                          |
-| dsp         | dsp库（例如`arm_mean_f32`)                              |
-| f1cx00s_lib | 模仿**stm32**风格写的库函数                             |
-| hardware    | 外设初始化                                              |
-| myresoure   | 屏幕界面程序（使用lvgl)                                 |
-| pcb         | pcb文件待绘制                                           |
-| system      | 任务文件，以及延迟等等                                  |
-| third_party | 第三方库，包含`cherryusb`、`fatfs`、`lvgl`、`rt-thread` |
-| tools       | 下载程序工具，code-format工具（需要安装astyle)          |
-| user        | main函数，链接脚本                                      |
+| 文件夹      | 简介                                                          |
+| ----------- | ------------------------------------------------------------- |
+| .gitee      | gitee平台issue和pr模板                                        |
+| .github     | github平台issue和pr模板，以及ci检查                           |
+| .vscode     | vscode配置文件                                                |
+| bootloader  | bootloader文件                                                |
+| dsp         | dsp库（例如`arm_mean_f32`)                                    |
+| f1cx00s_lib | 模仿**stm32**风格写的库函数                                   |
+| hardware    | 外设初始化                                                    |
+| myresoure   | 屏幕界面程序（使用lvgl)                                       |
+| pcb         | 使用嘉立创EDA专业版进行绘制，项目例子都基于改线路板进行编写。 |
+| system      | 任务文件，以及延迟等等                                        |
+| third_party | 第三方库，包含`cherryusb`、`fatfs`、`lvgl`、`rt-thread`       |
+| tools       | 下载程序工具，code-format工具（需要安装astyle)                |
+| user        | main函数，链接脚本                                            |
 
 ## myresoure文件夹
 

@@ -5,9 +5,9 @@
 #include "delay.h"
 #include "lcd.h"
 
-#define GT911_I2C I2C2
-#define GT911_INT PEout(2) // GT911_INT
-#define GT911_RST PEout(3)  // GT911_RST
+#define GT911_I2C I2C0
+#define GT911_INT PEout(10) // GT911_INT
+#define GT911_RST PEout(9)  // GT911_RST
 
 #define GTP_MAX_WIDTH MY_DISP_HOR_RES
 #define GTP_MAX_HEIGHT MY_DISP_VER_RES

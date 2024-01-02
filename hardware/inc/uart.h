@@ -4,7 +4,7 @@
 #include "sys.h"
 #include "common.h"
 
-void UART2_Init(void);
+void UART1_Init(void);
 void My_Printf(char * format, ...);
 
 #endif /* _UART_H_ */

@@ -3,10 +3,15 @@
 
 #include "common.h"
 
-#define THREAD_NUM 7
+#define THREAD_NUM 8
+
+// LED线程
+#define LED_Thread_StackSize 300 // 线程堆栈大小
+#define LED_Thread_Priority 8     // 线程优先级
+#define LED_Thread_Tick 20        // 线程时间
 
 // BUZZER线程
-#define BUZZER_Thread_StackSize 1000 // 线程堆栈大小
+#define BUZZER_Thread_StackSize 300 // 线程堆栈大小
 #define BUZZER_Thread_Priority 8     // 线程优先级
 #define BUZZER_Thread_Tick 20        // 线程时间
 
@@ -40,6 +45,7 @@
 #define WDOG_Thread_Priority 2     // 线程优先级
 #define WDOG_Thread_Tick 20        // 线程时间
 
+void LED_task(void * p);
 void BUZZER_task(void * p);
 void W25QXX_task(void * p);
 void UART_task(void * p);

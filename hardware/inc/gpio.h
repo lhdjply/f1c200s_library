@@ -3,8 +3,10 @@
 
 #include "sys.h"
 
+#define LED PEout(5)
 #define BUZZER PEout(4)
 
+void LED_Init(void);
 void BUZZER_Init(void);
 
 #endif
