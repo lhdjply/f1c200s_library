@@ -8,7 +8,8 @@
 
 #include "rtthread.h"
 
-#define CHERRYUSB_VERSION 0x001002
+#define CHERRYUSB_VERSION     0x010000
+#define CHERRYUSB_VERSION_STR "v1.0.0"
 
 /* ================ USB common Configuration ================ */
 
@@ -95,8 +96,8 @@
 #define CONFIG_USBHOST_MAX_RHPORTS          1
 #define CONFIG_USBHOST_MAX_EXTHUBS          1
 #define CONFIG_USBHOST_MAX_EHPORTS          4
-#define CONFIG_USBHOST_MAX_INTERFACES       6
-#define CONFIG_USBHOST_MAX_INTF_ALTSETTINGS 1
+#define CONFIG_USBHOST_MAX_INTERFACES       8
+#define CONFIG_USBHOST_MAX_INTF_ALTSETTINGS 8
 #define CONFIG_USBHOST_MAX_ENDPOINTS        4
 
 #define CONFIG_USBHOST_MAX_CDC_ACM_CLASS 4
