@@ -231,6 +231,45 @@ typedef struct
 
 typedef struct
 {
+  volatile uint32_t SCONR;
+  volatile uint32_t STMG0R;
+  volatile uint32_t STMG1R;
+  volatile uint32_t SCTLR;
+  volatile uint32_t SREFR;
+  volatile uint32_t SEXTMR;
+  volatile uint32_t Reserve0[3];
+  volatile uint32_t DDLYR;
+  volatile uint32_t DADRR;
+  volatile uint32_t DVALR;
+  volatile uint32_t DRPTR0;
+  volatile uint32_t DRPTR1;
+  volatile uint32_t DRPTR2;
+  volatile uint32_t DRPTR3;
+  volatile uint32_t SEFR;
+  volatile uint32_t MAE;
+  volatile uint32_t ASPR;
+  volatile uint32_t SDLY0;
+  volatile uint32_t SDLY1;
+  volatile uint32_t SDLY2;
+  volatile uint32_t Reserve1[42];
+  volatile uint32_t MCR0;
+  volatile uint32_t MCR1;
+  volatile uint32_t MCR2;
+  volatile uint32_t MCR3;
+  volatile uint32_t MCR4;
+  volatile uint32_t MCR5;
+  volatile uint32_t MCR6;
+  volatile uint32_t MCR7;
+  volatile uint32_t MCR8;
+  volatile uint32_t MCR9;
+  volatile uint32_t MCR10;
+  volatile uint32_t MCR11;
+  volatile uint32_t Reserve2[4];
+  volatile uint32_t BWCR;
+} DRAMC_TypeDef;
+
+typedef struct
+{
   volatile uint32_t CFG0;
   volatile uint32_t CFG1;
   volatile uint32_t CFG2;
@@ -315,6 +354,12 @@ typedef struct
   volatile uint32_t Reserve6[48];
   volatile uint32_t FIFO;
 } SDIO_TypeDef;
+
+typedef struct
+{
+  volatile uint32_t PAD_DRV;
+  volatile uint32_t PAD_PUL;
+} SDR_TypeDef;
 
 typedef struct
 {
@@ -410,6 +455,7 @@ typedef struct
 #define CCU_BASE 0x01C20000
 #define DEBE_BASE 0x01E60000
 #define DEFE_BASE 0x01E00000
+#define DRAMC_BASE 0x01C01000
 #define EXTID_BASE 0x01C20A00
 #define EXTIE_BASE 0x01C20A20
 #define EXTIF_BASE 0x01C20A40
@@ -425,6 +471,7 @@ typedef struct
 #define PWM_BASE 0x01C21000
 #define SDIO0_BASE 0x01C0F000
 #define SDIO1_BASE 0x01C10000
+#define SDR_BASE 0x01C20AC0
 #define SPI0_BASE 0x01C05000
 #define SPI1_BASE 0x01C06000
 #define TCON_BASE 0x01C0C000
@@ -436,6 +483,7 @@ typedef struct
 #define AUDIO ((AUDIO_TypeDef *)AUDIO_BASE)
 #define DEBE ((DEBE_TypeDef *)DEBE_BASE)
 #define DEFE ((DEFE_TypeDef *)DEFE_BASE)
+#define DRAMC ((DRAMC_TypeDef *)DRAMC_BASE)
 #define CCU ((CCU_TypeDef *)CCU_BASE)
 #define EXTID ((EXTI_TypeDef *)EXTID_BASE)
 #define EXTIE ((EXTI_TypeDef *)EXTIE_BASE)
@@ -452,6 +500,7 @@ typedef struct
 #define PWM ((PWM_TypeDef *)PWM_BASE)
 #define SDIO0 ((SDIO_TypeDef *)SDIO0_BASE)
 #define SDIO1 ((SDIO_TypeDef *)SDIO1_BASE)
+#define SDR ((SDR_TypeDef *)SDR_BASE)
 #define SPI0 ((SPI_TypeDef *)SPI0_BASE)
 #define SPI1 ((SPI_TypeDef *)SPI1_BASE)
 #define TCON ((TCON_TypeDef *)TCON_BASE)

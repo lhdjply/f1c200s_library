@@ -1,13 +1,6 @@
-//#include <xboot.h>
 #include <stdint.h>
-#include <reg-ccu.h>
+#include <delay.h>
 #include <io.h>
-
-static inline void sdelay(int loops)
-{
-  __asm__ __volatile__("1:\n" "subs %0, %1, #1\n"
-                       "bne 1b":"=r"(loops):"0"(loops));
-}
 
 static void wait_pll_stable(uint32_t base)
 {
@@ -60,42 +53,42 @@ static void clock_set_pll_cpu(uint32_t clk)
     p = 0;
   }
 
-  rval = read32(F1C100S_CCU_BASE + CCU_PLL_CPU_CTRL);
+  rval = CCU->PLL_CPU_CTRL;
   rval &= ~((0x3 << 16) | (0x1f << 8) | (0x3 << 4) | (0x3 << 0));
   rval |= (1U << 31) | (p << 16) | (n << 8) | (k << 4) | m;
-  write32(F1C100S_CCU_BASE + CCU_PLL_CPU_CTRL, rval);
-  wait_pll_stable(F1C100S_CCU_BASE + CCU_PLL_CPU_CTRL);
+  CCU->PLL_CPU_CTRL = rval;
+  wait_pll_stable((uint32_t) & (CCU->PLL_CPU_CTRL));
 }
 
 void sys_clock_init(void)
 {
   uint32_t val;
 
-  write32(F1C100S_CCU_BASE + CCU_PLL_STABLE_TIME0, 0x1ff);
-  write32(F1C100S_CCU_BASE + CCU_PLL_STABLE_TIME1, 0x1ff);
+  CCU->PLL_STABLE_TIME0 = 0x1ff;
+  CCU->PLL_STABLE_TIME1 = 0x1ff;
 
-  val = read32(F1C100S_CCU_BASE + CCU_CPU_CFG);
+  val = CCU->CPU_CLK_SRC;
   val &= ~(0x3 << 16);
   val |= (0x1 << 16);
-  write32(F1C100S_CCU_BASE + CCU_CPU_CFG, val);
-  sdelay(100);
+  CCU->CPU_CLK_SRC = val;
+  delay_unit(100);
 
-  write32(F1C100S_CCU_BASE + CCU_PLL_VIDEO_CTRL, 0x81004107);
-  sdelay(100);
-  write32(F1C100S_CCU_BASE + CCU_PLL_PERIPH_CTRL, 0x80041800);
-  sdelay(100);
-  write32(F1C100S_CCU_BASE + CCU_AHB_APB_CFG, 0x00003180);
-  sdelay(100);
+  CCU->PLL_VIDEO_CTRL = 0x81004107;
+  delay_unit(100);
+  CCU->PLL_PERIPH_CTRL = 0x80041800;
+  delay_unit(100);
+  CCU->AHB_APB_HCLKC_CFG = 0x00003180;
+  delay_unit(100);
 
-  val = read32(F1C100S_CCU_BASE + CCU_DRAM_CLK_GATE);
+  val = CCU->DRAM_GATING;
   val |= (0x1 << 26) | (0x1 << 24);
-  write32(F1C100S_CCU_BASE + CCU_DRAM_CLK_GATE, val);
-  sdelay(100);
+  CCU->DRAM_GATING = val;
+  delay_unit(100);
 
   clock_set_pll_cpu(408000000);
-  val = read32(F1C100S_CCU_BASE + CCU_CPU_CFG);
+  val = CCU->CPU_CLK_SRC;
   val &= ~(0x3 << 16);
   val |= (0x2 << 16);
-  write32(F1C100S_CCU_BASE + CCU_CPU_CFG, val);
-  sdelay(100);
+  CCU->CPU_CLK_SRC = val;
+  delay_unit(100);
 }
