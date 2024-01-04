@@ -56,7 +56,7 @@ static void Layer_Config(LCD_Layer_Struct * pdat)
   }
   else
   {
-    DEBE->LAY_ATT_CTRL_REG1[pdat->Layer_Num] = (0x0B << 8) | (1 << 2);
+    DEBE->LAY_ATT_CTRL_REG1[pdat->Layer_Num] = 0x0B << 8;
     DEBE->LAY_LINEWIDTH[pdat->Layer_Num] = pdat->width * 24;
   }
   DEBE->LAY_ATT_CTRL_REG0[pdat->Layer_Num] = (pdat->alpha_value << 24) | (pdat->pipe << 15) | (pdat->priority << 10) |
