@@ -10,12 +10,15 @@ static void Back_Button_Event(lv_event_t * e)
   lv_event_code_t code = lv_event_get_code(e);
   if(code == LV_EVENT_CLICKED)
   {
+#if TEST_USB_MODE==TEST_USB_MODE_HOST
     lv_timer_del(pageusbtest.timer);
+#endif
     lv_obj_del(pageusbtest.view);
     lv_obj_clear_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
   }
 }
 
+#if TEST_USB_MODE==TEST_USB_MODE_HOST
 static void Test_Event(lv_event_t * e)
 {
   lv_event_code_t code = lv_event_get_code(e);
@@ -76,12 +79,10 @@ static void my_timer(lv_timer_t * timer)
     }
   }
 }
+#endif
 
 void Pageusbtest_Init(void)
 {
-  mydata.usb_res = FR_OK;
-  mydata.usb_write_ok_flag = 0;
-
   pageusbtest.view = lv_obj_create(lv_scr_act());
   lv_obj_remove_style_all(pageusbtest.view);
   lv_obj_set_size(pageusbtest.view, LV_PCT(100), LV_PCT(100));
@@ -94,6 +95,20 @@ void Pageusbtest_Init(void)
   pageusbtest.back_btn_label = lv_label_create(pageusbtest.back_btn);
   lv_obj_center(pageusbtest.back_btn_label);
   lv_label_set_text(pageusbtest.back_btn_label, "back");
+#if TEST_USB_MODE==TEST_USB_MODE_HOST
+  mydata.usb_res = FR_OK;
+  mydata.usb_write_ok_flag = 0;
+
+  pageusbtest.usb_mode_tips = lv_label_create(pageusbtest.view);
+  lv_obj_set_width(pageusbtest.usb_mode_tips, LV_PCT(90));
+  lv_label_set_text(pageusbtest.usb_mode_tips,
+                    "Current usb mode is host mode.If you want to change mode to device mode,\
+please #define TEST_USB_MODE TEST_USB_MODE_DEVICE in user/common.h");
+  lv_obj_align_to(pageusbtest.usb_mode_tips,
+                  pageusbtest.back_btn,
+                  LV_ALIGN_OUT_BOTTOM_LEFT,
+                  0,
+                  10);
 
   pageusbtest.usbh_msc_connect_state = lv_label_create(pageusbtest.view);
   lv_obj_center(pageusbtest.usbh_msc_connect_state);
@@ -140,6 +155,13 @@ void Pageusbtest_Init(void)
                   LV_ALIGN_OUT_BOTTOM_MID,
                   0,
                   0);
-
   pageusbtest.timer = lv_timer_create(my_timer, 100, NULL);
+#else
+  pageusbtest.usb_mode_tips = lv_label_create(pageusbtest.view);
+  lv_obj_set_width(pageusbtest.usb_mode_tips, LV_PCT(90));
+  lv_label_set_text(pageusbtest.usb_mode_tips,
+                    "Current usb mode is device mode.If you want to change mode to host mode,\
+please #define TEST_USB_MODE TEST_USB_MODE_HOST in user/common.h");
+  lv_obj_center(pageusbtest.usb_mode_tips);
+#endif
 }

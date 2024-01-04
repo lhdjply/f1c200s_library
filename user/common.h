@@ -18,18 +18,25 @@
 #include "lv_port_indev.h"
 #include "lv_port_fs.h"
 #include "usbh_msc_config.h"
+#include "usbd_msc_config.h"
 #include "ff.h"
 
 #define SET_RX_Len 500
 #define SET_TX_Len 500
+
+#define TEST_USB_MODE_HOST 0
+#define TEST_USB_MODE_DEVICE 1
+#define TEST_USB_MODE TEST_USB_MODE_HOST
 
 typedef struct
 {
   uint8_t lcd_brightness;
   FRESULT sd_res;
   uint8_t sd_write_ok_flag;
+#if TEST_USB_MODE==TEST_USB_MODE_HOST
   FRESULT usb_res;
   uint8_t usb_write_ok_flag;
+#endif
 } DATA;
 
 typedef struct

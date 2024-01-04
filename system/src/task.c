@@ -69,6 +69,8 @@ void SDIO_task(void * p)
 
 void USB_task(void * p)
 {
+  delay_ms(1000);
+#if TEST_USB_MODE == TEST_USB_MODE_HOST
   const char * usbh_msc_test_text = "This the usbh msc test demo!";
   UINT bw;
   FATFS * fs;
@@ -102,6 +104,9 @@ void USB_task(void * p)
     rt_free(fs);
     rt_free(file);
   }
+#else
+  usbd_msc_init();
+#endif
 }
 
 void LCD_task(void * p)
