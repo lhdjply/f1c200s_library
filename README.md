@@ -372,7 +372,7 @@ UART_ReceiveData(UART1);
 
 ### 设备
 
-使用主机前，请在[user/common.h](./user/common.h)中定义
+使用设备前，请在[user/common.h](./user/common.h)中定义
 
 ```c
 #define TEST_USB_MODE TEST_USB_MODE_DEVICE
