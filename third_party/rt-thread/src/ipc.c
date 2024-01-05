@@ -50,6 +50,10 @@
 #include <rtthread.h>
 #include <rthw.h>
 
+#define DBG_TAG           "kernel.ipc"
+#define DBG_LVL           DBG_INFO
+#include <rtdbg.h>
+
 #ifndef __on_rt_object_trytake_hook
     #define __on_rt_object_trytake_hook(parent)     __ON_HOOK_ARGS(rt_object_trytake_hook, (parent))
 #endif
@@ -211,7 +215,7 @@ rt_inline rt_err_t _ipc_list_resume(rt_list_t *list)
 
     thread->error = RT_EOK;
 
-    RT_DEBUG_LOG(RT_DEBUG_IPC, ("resume thread:%s\n", thread->parent.name));
+    LOG_D("resume thread:%s\n", thread->parent.name);
 
     /* resume it */
     rt_thread_resume(thread);
@@ -513,10 +517,10 @@ static rt_err_t _rt_sem_take(rt_sem_t sem, rt_int32_t timeout, int suspend_flag)
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
 
-    RT_DEBUG_LOG(RT_DEBUG_IPC, ("thread %s take sem:%s, which value is: %d\n",
-                                rt_thread_self()->parent.name,
-                                sem->parent.parent.name,
-                                sem->value));
+    LOG_D("thread %s take sem:%s, which value is: %d",
+          rt_thread_self()->parent.name,
+          sem->parent.parent.name,
+          sem->value);
 
     if (sem->value > 0)
     {
@@ -544,7 +548,7 @@ static rt_err_t _rt_sem_take(rt_sem_t sem, rt_int32_t timeout, int suspend_flag)
             /* reset thread error number */
             thread->error = -RT_EINTR;
 
-            RT_DEBUG_LOG(RT_DEBUG_IPC, ("sem take: suspend thread - %s\n", thread->parent.name));
+            LOG_D("sem take: suspend thread - %s", thread->parent.name);
 
             /* suspend thread */
             ret = _ipc_list_suspend(&(sem->parent.suspend_thread),
@@ -560,7 +564,7 @@ static rt_err_t _rt_sem_take(rt_sem_t sem, rt_int32_t timeout, int suspend_flag)
             /* has waiting time, start thread timer */
             if (timeout > 0)
             {
-                RT_DEBUG_LOG(RT_DEBUG_IPC, ("set thread:%s to timer list\n", thread->parent.name));
+                LOG_D("set thread:%s to timer list", thread->parent.name);
 
                 /* reset the timeout of thread timer and start it */
                 rt_timer_control(&(thread->thread_timer),
@@ -654,10 +658,10 @@ rt_err_t rt_sem_release(rt_sem_t sem)
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
 
-    RT_DEBUG_LOG(RT_DEBUG_IPC, ("thread %s releases sem:%s, which value is: %d\n",
-                                rt_thread_self()->parent.name,
-                                sem->parent.parent.name,
-                                sem->value));
+    LOG_D("thread %s releases sem:%s, which value is: %d",
+          rt_thread_self()->parent.name,
+          sem->parent.parent.name,
+          sem->value);
 
     if (!rt_list_isempty(&sem->parent.suspend_thread))
     {
@@ -787,54 +791,58 @@ rt_inline rt_uint8_t _thread_get_mutex_priority(struct rt_thread* thread)
 /* update priority of target thread and the thread suspended it if any */
 rt_inline void _thread_update_priority(struct rt_thread *thread, rt_uint8_t priority, int suspend_flag)
 {
-    rt_err_t ret;
-    RT_DEBUG_LOG(RT_DEBUG_IPC,
-            ("thread:%s priority -> %d\n", thread->parent.name, priority));
+    rt_err_t ret = -RT_ERROR;
+    struct rt_object* pending_obj = RT_NULL;
+
+    LOG_D("thread:%s priority -> %d", thread->parent.name, priority);
 
     /* change priority of the thread */
-    rt_thread_control(thread,
-                      RT_THREAD_CTRL_CHANGE_PRIORITY,
-                      &priority);
+    ret = rt_thread_control(thread, RT_THREAD_CTRL_CHANGE_PRIORITY, &priority);
 
-    if ((thread->stat & RT_THREAD_SUSPEND_MASK) == RT_THREAD_SUSPEND_MASK)
+    while ((ret == RT_EOK) && ((thread->stat & RT_THREAD_SUSPEND_MASK) == RT_THREAD_SUSPEND_MASK))
     {
         /* whether change the priority of taken mutex */
-        struct rt_object* pending_obj = thread->pending_object;
+        pending_obj = thread->pending_object;
 
         if (pending_obj && rt_object_get_type(pending_obj) == RT_Object_Class_Mutex)
         {
-            rt_uint8_t mutex_priority;
+            rt_uint8_t mutex_priority = 0xff;
             struct rt_mutex* pending_mutex = (struct rt_mutex *)pending_obj;
 
             /* re-insert thread to suspended thread list */
             rt_list_remove(&(thread->tlist));
 
             ret = _ipc_list_suspend(&(pending_mutex->parent.suspend_thread),
-                                thread,
-                                pending_mutex->parent.parent.flag,
-                                suspend_flag);
-            if (ret != RT_EOK)
+                                    thread,
+                                    pending_mutex->parent.parent.flag,
+                                    suspend_flag);
+            if (ret == RT_EOK)
             {
-                /* TODO */
-                return ;
-            }
+                /* update priority */
+                _mutex_update_priority(pending_mutex);
+                /* change the priority of mutex owner thread */
+                LOG_D("mutex: %s priority -> %d", pending_mutex->parent.parent.name,
+                        pending_mutex->priority);
 
-            /* update priority */
-            _mutex_update_priority(pending_mutex);
-            /* change the priority of mutex owner thread */
-            RT_DEBUG_LOG(RT_DEBUG_IPC,
-                    ("mutex: %s priority -> %d\n", pending_mutex->parent.parent.name,
-                    pending_mutex->priority));
+                mutex_priority = _thread_get_mutex_priority(pending_mutex->owner);
+                if (mutex_priority != pending_mutex->owner->current_priority)
+                {
+                    thread = pending_mutex->owner;
 
-            mutex_priority = _thread_get_mutex_priority(pending_mutex->owner);
-            if (mutex_priority != pending_mutex->owner->current_priority)
-            {
-                _thread_update_priority(pending_mutex->owner, mutex_priority, suspend_flag);
+                    ret = rt_thread_control(thread, RT_THREAD_CTRL_CHANGE_PRIORITY, &mutex_priority);
+                }
+                else
+                {
+                    ret = -RT_ERROR;
+                }
             }
+        }
+        else
+        {
+            ret = -RT_ERROR;
         }
     }
 }
-
 /**
  * @addtogroup mutex
  * @{
@@ -948,8 +956,14 @@ void rt_mutex_drop_thread(rt_mutex_t mutex, rt_thread_t thread)
 
     rt_list_remove(&(thread->tlist));
 
-    /* should change the priority of mutex owner thread */
-    if (mutex->owner->current_priority == thread->current_priority)
+    /**
+     * Should change the priority of mutex owner thread
+     * Note: After current thread is detached from mutex pending list, there is
+     *       a chance that the mutex owner has been released the mutex. Which
+     *       means mutex->owner can be NULL at this point. If that happened,
+     *       it had already reset its priority. So it's okay to skip
+     */
+    if (mutex->owner && mutex->owner->current_priority == thread->current_priority)
         need_update = RT_TRUE;
 
     /* update the priority of mutex */
@@ -1180,9 +1194,8 @@ static rt_err_t _rt_mutex_take(rt_mutex_t mutex, rt_int32_t timeout, int suspend
 
     RT_OBJECT_HOOK_CALL(rt_object_trytake_hook, (&(mutex->parent.parent)));
 
-    RT_DEBUG_LOG(RT_DEBUG_IPC,
-                 ("mutex_take: current thread %s, hold: %d\n",
-                  thread->parent.name, mutex->hold));
+    LOG_D("mutex_take: current thread %s, hold: %d",
+          thread->parent.name, mutex->hold);
 
     /* reset thread error */
     thread->error = RT_EOK;
@@ -1238,8 +1251,8 @@ static rt_err_t _rt_mutex_take(rt_mutex_t mutex, rt_int32_t timeout, int suspend
                 rt_uint8_t priority = thread->current_priority;
 
                 /* mutex is unavailable, push to suspend list */
-                RT_DEBUG_LOG(RT_DEBUG_IPC, ("mutex_take: suspend thread: %s\n",
-                                            thread->parent.name));
+                LOG_D("mutex_take: suspend thread: %s",
+                      thread->parent.name);
 
                 /* suspend current thread */
                 ret = _ipc_list_suspend(&(mutex->parent.suspend_thread),
@@ -1268,9 +1281,8 @@ static rt_err_t _rt_mutex_take(rt_mutex_t mutex, rt_int32_t timeout, int suspend
                 /* has waiting time, start thread timer */
                 if (timeout > 0)
                 {
-                    RT_DEBUG_LOG(RT_DEBUG_IPC,
-                                 ("mutex_take: start the timer of thread:%s\n",
-                                  thread->parent.name));
+                    LOG_D("mutex_take: start the timer of thread:%s",
+                          thread->parent.name);
 
                     /* reset the timeout of thread timer and start it */
                     rt_timer_control(&(thread->thread_timer),
@@ -1298,8 +1310,14 @@ static rt_err_t _rt_mutex_take(rt_mutex_t mutex, rt_int32_t timeout, int suspend
 
                     rt_bool_t need_update = RT_FALSE;
 
-                    /* should change the priority of mutex owner thread */
-                    if (mutex->owner->current_priority == thread->current_priority)
+                    /**
+                     * Should change the priority of mutex owner thread
+                     * Note: After current thread is detached from mutex pending list, there is
+                     *       a chance that the mutex owner has been released the mutex. Which
+                     *       means mutex->owner can be NULL at this point. If that happened,
+                     *       it had already reset its priority. So it's okay to skip
+                     */
+                    if (mutex->owner && mutex->owner->current_priority == thread->current_priority)
                         need_update = RT_TRUE;
 
                     /* update the priority of mutex */
@@ -1334,8 +1352,12 @@ static rt_err_t _rt_mutex_take(rt_mutex_t mutex, rt_int32_t timeout, int suspend
                     /* enable interrupt */
                     rt_hw_interrupt_enable(level);
 
-                    /* return error */
-                    return thread->error;
+                    /* clear pending object before exit */
+                    thread->pending_object = RT_NULL;
+
+                    /* fix thread error number to negative value and return */
+                    ret = thread->error;
+                    return ret > 0 ? -ret : ret;
                 }
             }
         }
@@ -1422,9 +1444,8 @@ rt_err_t rt_mutex_release(rt_mutex_t mutex)
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
 
-    RT_DEBUG_LOG(RT_DEBUG_IPC,
-                 ("mutex_release:current thread %s, hold: %d\n",
-                  thread->parent.name, mutex->hold));
+    LOG_D("mutex_release:current thread %s, hold: %d",
+          thread->parent.name, mutex->hold);
 
     RT_OBJECT_HOOK_CALL(rt_object_put_hook, (&(mutex->parent.parent)));
 
@@ -1470,8 +1491,8 @@ rt_err_t rt_mutex_release(rt_mutex_t mutex)
                                    struct rt_thread,
                                    tlist);
 
-            RT_DEBUG_LOG(RT_DEBUG_IPC, ("mutex_release: resume thread: %s\n",
-                    next_thread->parent.name));
+            LOG_D("mutex_release: resume thread: %s",
+                  next_thread->parent.name);
 
             /* remove the thread from the suspended list of mutex */
             rt_list_remove(&(next_thread->tlist));
@@ -1767,6 +1788,7 @@ rt_err_t rt_event_send(rt_event_t event, rt_uint32_t set)
     rt_base_t level;
     rt_base_t status;
     rt_bool_t need_schedule;
+    rt_uint32_t need_clear_set = 0;
 
     /* parameter check */
     RT_ASSERT(event != RT_NULL);
@@ -1830,7 +1852,7 @@ rt_err_t rt_event_send(rt_event_t event, rt_uint32_t set)
             {
                 /* clear event */
                 if (thread->event_info & RT_EVENT_FLAG_CLEAR)
-                    event->set &= ~thread->event_set;
+                    need_clear_set |= thread->event_set;
 
                 /* resume thread, and thread list breaks out */
                 rt_thread_resume(thread);
@@ -1839,6 +1861,10 @@ rt_err_t rt_event_send(rt_event_t event, rt_uint32_t set)
                 /* need do a scheduling */
                 need_schedule = RT_TRUE;
             }
+        }
+        if (need_clear_set)
+        {
+            event->set &= ~need_clear_set;
         }
     }
 
@@ -2417,8 +2443,8 @@ static rt_err_t _rt_mb_send_wait(rt_mailbox_t mb,
             /* get the start tick of timer */
             tick_delta = rt_tick_get();
 
-            RT_DEBUG_LOG(RT_DEBUG_IPC, ("mb_send_wait: start timer of thread:%s\n",
-                                        thread->parent.name));
+            LOG_D("mb_send_wait: start timer of thread:%s",
+                  thread->parent.name);
 
             /* reset the timeout of thread timer and start it */
             rt_timer_control(&(thread->thread_timer),
@@ -2711,8 +2737,8 @@ static rt_err_t _rt_mb_recv(rt_mailbox_t mb, rt_ubase_t *value, rt_int32_t timeo
             /* get the start tick of timer */
             tick_delta = rt_tick_get();
 
-            RT_DEBUG_LOG(RT_DEBUG_IPC, ("mb_recv: start timer of thread:%s\n",
-                                        thread->parent.name));
+            LOG_D("mb_recv: start timer of thread:%s",
+                  thread->parent.name);
 
             /* reset the timeout of thread timer and start it */
             rt_timer_control(&(thread->thread_timer),
@@ -2790,11 +2816,11 @@ rt_err_t rt_mb_recv(rt_mailbox_t mb, rt_ubase_t *value, rt_int32_t timeout)
 }
 RTM_EXPORT(rt_mb_recv);
 
-rt_err_t rt_mb_recv_interruptibale(rt_mailbox_t mb, rt_ubase_t *value, rt_int32_t timeout)
+rt_err_t rt_mb_recv_interruptible(rt_mailbox_t mb, rt_ubase_t *value, rt_int32_t timeout)
 {
     return _rt_mb_recv(mb, value, timeout, RT_INTERRUPTIBLE);
 }
-RTM_EXPORT(rt_mb_recv_interruptibale);
+RTM_EXPORT(rt_mb_recv_interruptible);
 
 rt_err_t rt_mb_recv_killable(rt_mailbox_t mb, rt_ubase_t *value, rt_int32_t timeout)
 {
@@ -3144,7 +3170,6 @@ rt_err_t rt_mq_delete(rt_mq_t mq)
 RTM_EXPORT(rt_mq_delete);
 #endif /* RT_USING_HEAP */
 
-
 /**
  * @brief    This function will send a message to the messagequeue object. If
  *           there is a thread suspended on the messagequeue, the thread will be
@@ -3154,10 +3179,10 @@ RTM_EXPORT(rt_mq_delete);
  *           fully used, the current thread will wait for a timeout. If reaching
  *           the timeout and there is still no space available, the sending
  *           thread will be resumed and an error code will be returned. By
- *           contrast, the rt_mq_send() function will return an error code
+ *           contrast, the _rt_mq_send_wait() function will return an error code
  *           immediately without waiting when the messagequeue if fully used.
  *
- * @see      rt_mq_send()
+ * @see      _rt_mq_send_wait()
  *
  * @param    mq is a pointer to the messagequeue object to be sent.
  *
@@ -3165,7 +3190,11 @@ RTM_EXPORT(rt_mq_delete);
  *
  * @param    size is the length of the message(Unit: Byte).
  *
+ * @param    prio is message priority, A larger value indicates a higher priority
+ *
  * @param    timeout is a timeout period (unit: an OS tick).
+ *
+ * @param    suspend_flag status flag of the thread to be suspended.
  *
  * @return   Return the operation status. When the return value is RT_EOK, the
  *           operation is successful. If the return value is any other values,
@@ -3174,11 +3203,12 @@ RTM_EXPORT(rt_mq_delete);
  * @warning  This function can be called in interrupt context and thread
  * context.
  */
-static rt_err_t _rt_mq_send_wait(rt_mq_t     mq,
-                         const void *buffer,
-                         rt_size_t   size,
-                         rt_int32_t  timeout,
-                         int suspend_flag)
+static rt_err_t _rt_mq_send_wait(rt_mq_t mq,
+                                 const void *buffer,
+                                 rt_size_t size,
+                                 rt_int32_t prio,
+                                 rt_int32_t timeout,
+                                 int suspend_flag)
 {
     rt_base_t level;
     struct rt_mq_message *msg;
@@ -3252,8 +3282,8 @@ static rt_err_t _rt_mq_send_wait(rt_mq_t     mq,
             /* get the start tick of timer */
             tick_delta = rt_tick_get();
 
-            RT_DEBUG_LOG(RT_DEBUG_IPC, ("mq_send_wait: start timer of thread:%s\n",
-                                        thread->parent.name));
+            LOG_D("mq_send_wait: start timer of thread:%s",
+                  thread->parent.name);
 
             /* reset the timeout of thread timer and start it */
             rt_timer_control(&(thread->thread_timer),
@@ -3304,6 +3334,33 @@ static rt_err_t _rt_mq_send_wait(rt_mq_t     mq,
 
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
+#ifdef RT_USING_MESSAGEQUEUE_PRIORITY
+    msg->prio = prio;
+    if (mq->msg_queue_head == RT_NULL)
+        mq->msg_queue_head = msg;
+
+    struct rt_mq_message *node, *prev_node = RT_NULL;
+    for (node = mq->msg_queue_head; node != RT_NULL; node = node->next)
+    {
+        if (node->prio < msg->prio)
+        {
+            if (prev_node == RT_NULL)
+                mq->msg_queue_head = msg;
+            else
+                prev_node->next = msg;
+            msg->next = node;
+            break;
+        }
+        if (node->next == RT_NULL)
+        {
+            if (node != msg)
+                node->next = msg;
+            mq->msg_queue_tail = msg;
+            break;
+        }
+        prev_node = node;
+    }
+#else
     /* link msg to message queue */
     if (mq->msg_queue_tail != RT_NULL)
     {
@@ -3316,6 +3373,7 @@ static rt_err_t _rt_mq_send_wait(rt_mq_t     mq,
     /* if the head is empty, set head */
     if (mq->msg_queue_head == RT_NULL)
         mq->msg_queue_head = msg;
+#endif
 
     if(mq->entry < RT_MQ_ENTRY_MAX)
     {
@@ -3352,7 +3410,7 @@ rt_err_t rt_mq_send_wait(rt_mq_t     mq,
                          rt_size_t   size,
                          rt_int32_t  timeout)
 {
-    return _rt_mq_send_wait(mq, buffer, size, timeout, RT_UNINTERRUPTIBLE);
+    return _rt_mq_send_wait(mq, buffer, size, 0, timeout, RT_UNINTERRUPTIBLE);
 }
 RTM_EXPORT(rt_mq_send_wait);
 
@@ -3361,7 +3419,7 @@ rt_err_t rt_mq_send_wait_interruptible(rt_mq_t     mq,
                          rt_size_t   size,
                          rt_int32_t  timeout)
 {
-    return _rt_mq_send_wait(mq, buffer, size, timeout, RT_INTERRUPTIBLE);
+    return _rt_mq_send_wait(mq, buffer, size, 0, timeout, RT_INTERRUPTIBLE);
 }
 RTM_EXPORT(rt_mq_send_wait_interruptible);
 
@@ -3370,7 +3428,7 @@ rt_err_t rt_mq_send_wait_killable(rt_mq_t     mq,
                          rt_size_t   size,
                          rt_int32_t  timeout)
 {
-    return _rt_mq_send_wait(mq, buffer, size, timeout, RT_KILLABLE);
+    return _rt_mq_send_wait(mq, buffer, size, 0, timeout, RT_KILLABLE);
 }
 RTM_EXPORT(rt_mq_send_wait_killable);
 /**
@@ -3401,11 +3459,11 @@ rt_err_t rt_mq_send(rt_mq_t mq, const void *buffer, rt_size_t size)
 }
 RTM_EXPORT(rt_mq_send);
 
-rt_err_t rt_mq_send_interrupt(rt_mq_t mq, const void *buffer, rt_size_t size)
+rt_err_t rt_mq_send_interruptible(rt_mq_t mq, const void *buffer, rt_size_t size)
 {
     return rt_mq_send_wait_interruptible(mq, buffer, size, 0);
 }
-RTM_EXPORT(rt_mq_send_interrupt);
+RTM_EXPORT(rt_mq_send_interruptible);
 
 rt_err_t rt_mq_send_killable(rt_mq_t mq, const void *buffer, rt_size_t size)
 {
@@ -3513,7 +3571,6 @@ rt_err_t rt_mq_urgent(rt_mq_t mq, const void *buffer, rt_size_t size)
 }
 RTM_EXPORT(rt_mq_urgent);
 
-
 /**
  * @brief    This function will receive a message from message queue object,
  *           if there is no message in messagequeue object, the thread shall wait for a specified time.
@@ -3526,10 +3583,14 @@ RTM_EXPORT(rt_mq_urgent);
  *
  * @param    buffer is the content of the message.
  *
+ * @param    prio is message priority, A larger value indicates a higher priority
+ *
  * @param    size is the length of the message(Unit: Byte).
  *
  * @param    timeout is a timeout period (unit: an OS tick). If the message is unavailable, the thread will wait for
  *           the message in the queue up to the amount of time specified by this parameter.
+ *
+ * @param    suspend_flag status flag of the thread to be suspended.
  *
  *           NOTE:
  *           If use Macro RT_WAITING_FOREVER to set this parameter, which means that when the
@@ -3540,11 +3601,12 @@ RTM_EXPORT(rt_mq_urgent);
  * @return   Return the real length of the message. When the return value is larger than zero, the operation is successful.
  *           If the return value is any other values, it means that the mailbox release failed.
  */
-static rt_ssize_t _rt_mq_recv(rt_mq_t    mq,
-                    void      *buffer,
-                    rt_size_t  size,
-                    rt_int32_t timeout,
-                    int suspend_flag)
+static rt_ssize_t _rt_mq_recv(rt_mq_t mq,
+                              void *buffer,
+                              rt_size_t size,
+                              rt_int32_t *prio,
+                              rt_int32_t timeout,
+                              int suspend_flag)
 {
     struct rt_thread *thread;
     rt_base_t level;
@@ -3613,8 +3675,8 @@ static rt_ssize_t _rt_mq_recv(rt_mq_t    mq,
             /* get the start tick of timer */
             tick_delta = rt_tick_get();
 
-            RT_DEBUG_LOG(RT_DEBUG_IPC, ("set thread:%s to timer list\n",
-                                        thread->parent.name));
+            LOG_D("set thread:%s to timer list",
+                  thread->parent.name);
 
             /* reset the timeout of thread timer and start it */
             rt_timer_control(&(thread->thread_timer),
@@ -3675,6 +3737,10 @@ static rt_ssize_t _rt_mq_recv(rt_mq_t    mq,
     /* copy message */
     rt_memcpy(buffer, GET_MESSAGEBYTE_ADDR(msg), len);
 
+#ifdef RT_USING_MESSAGEQUEUE_PRIORITY
+    if (prio != RT_NULL)
+        *prio = msg->prio;
+#endif
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
     /* put message to free list */
@@ -3709,7 +3775,7 @@ rt_ssize_t rt_mq_recv(rt_mq_t    mq,
                     rt_size_t  size,
                     rt_int32_t timeout)
 {
-    return _rt_mq_recv(mq, buffer, size, timeout, RT_UNINTERRUPTIBLE);
+    return _rt_mq_recv(mq, buffer, size, 0, timeout, RT_UNINTERRUPTIBLE);
 }
 RTM_EXPORT(rt_mq_recv);
 
@@ -3718,7 +3784,7 @@ rt_ssize_t rt_mq_recv_interruptible(rt_mq_t    mq,
                     rt_size_t  size,
                     rt_int32_t timeout)
 {
-    return _rt_mq_recv(mq, buffer, size, timeout, RT_INTERRUPTIBLE);
+    return _rt_mq_recv(mq, buffer, size, 0, timeout, RT_INTERRUPTIBLE);
 }
 RTM_EXPORT(rt_mq_recv_interruptible);
 
@@ -3727,8 +3793,28 @@ rt_ssize_t rt_mq_recv_killable(rt_mq_t    mq,
                     rt_size_t  size,
                     rt_int32_t timeout)
 {
-    return _rt_mq_recv(mq, buffer, size, timeout, RT_KILLABLE);
+    return _rt_mq_recv(mq, buffer, size, 0, timeout, RT_KILLABLE);
 }
+#ifdef RT_USING_MESSAGEQUEUE_PRIORITY
+rt_err_t rt_mq_send_wait_prio(rt_mq_t mq,
+                              const void *buffer,
+                              rt_size_t size,
+                              rt_int32_t prio,
+                              rt_int32_t timeout,
+                              int suspend_flag)
+{
+    return _rt_mq_send_wait(mq, buffer, size, prio, timeout, suspend_flag);
+}
+rt_ssize_t rt_mq_recv_prio(rt_mq_t mq,
+                           void *buffer,
+                           rt_size_t size,
+                           rt_int32_t *prio,
+                           rt_int32_t timeout,
+                           int suspend_flag)
+{
+    return _rt_mq_recv(mq, buffer, size, prio, timeout, suspend_flag);
+}
+#endif
 RTM_EXPORT(rt_mq_recv_killable);
 /**
  * @brief    This function will set some extra attributions of a messagequeue object.

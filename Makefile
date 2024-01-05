@@ -23,30 +23,28 @@ BIN = $(CP) -O binary -S
 ######################################
 # C sources
 C_SOURCES = \
-$(wildcard *.c bootloader/*c) \
-$(wildcard *.c dsp/source/**/src/*c) \
-$(wildcard *.c f1cx00s_lib/src/*c) \
-$(wildcard *.c hardware/src/*c) \
-$(wildcard *.c myresource/src/**/*c) \
-$(wildcard *.c system/src/*c) \
-$(wildcard *.c third_party/cherryusb/class/hub/*c) \
-$(wildcard *.c third_party/cherryusb/class/msc/*c) \
-$(wildcard *.c third_party/cherryusb/core/*c) \
-$(wildcard *.c third_party/cherryusb/osal/*c) \
-$(wildcard *.c third_party/cherryusb/port/*c) \
-$(wildcard *.c third_party/fatfs/*c) \
-$(wildcard *.c third_party/lvgl/lvgl/demos/**/*c) \
-$(wildcard *.c third_party/lvgl/lvgl/demos/**/**/*c) \
-$(wildcard *.c third_party/lvgl/lvgl/porting/*c) \
-$(wildcard *.c third_party/lvgl/lvgl/src/**/*c) \
-$(wildcard *.c third_party/lvgl/lvgl/src/draw/sw/*c) \
-$(wildcard *.c third_party/lvgl/lvgl/src/extra/**/**/*c) \
-$(wildcard *.c third_party/rt-thread/bsp/*c) \
-$(wildcard *.c third_party/rt-thread/components/libc/compilers/common/*c) \
-$(wildcard *.c third_party/rt-thread/components/libc/compilers/newlib/*c) \
-$(wildcard *.c third_party/rt-thread/libcpu/f1c100s/*c) \
-$(wildcard *.c third_party/rt-thread/src/*c) \
-$(wildcard *.c user/*c) \
+$(wildcard *.c bootloader/*.c) \
+$(wildcard *.c dsp/source/**/src/*.c) \
+$(wildcard *.c f1cx00s_lib/src/*.c) \
+$(wildcard *.c hardware/src/*.c) \
+$(wildcard *.c myresource/src/**/*.c) \
+$(wildcard *.c system/src/*.c) \
+$(wildcard *.c third_party/cherryusb/class/hub/*.c) \
+$(wildcard *.c third_party/cherryusb/class/msc/*.c) \
+$(wildcard *.c third_party/cherryusb/core/*.c) \
+$(wildcard *.c third_party/cherryusb/osal/*.c) \
+$(wildcard *.c third_party/cherryusb/port/*.c) \
+$(wildcard *.c third_party/fatfs/*.c) \
+$(wildcard *.c third_party/lvgl/lvgl/**/*.c) \
+$(wildcard *.c third_party/lvgl/lvgl/**/**/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/**/**/**/*.c) \
+$(wildcard *.c third_party/lvgl/lvgl/**/**/**/**/*.c) \
+$(wildcard *.c third_party/rt-thread/bsp/*.c) \
+$(wildcard *.c third_party/rt-thread/components/libc/compilers/common/*.c) \
+$(wildcard *.c third_party/rt-thread/components/libc/compilers/newlib/*.c) \
+$(wildcard *.c third_party/rt-thread/libcpu/f1c100s/*.c) \
+$(wildcard *.c third_party/rt-thread/src/*.c) \
+$(wildcard *.c user/*.c) \
 
 # ASM sources
 ASM_SOURCES = \

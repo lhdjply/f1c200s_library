@@ -396,5 +396,5 @@ void WDOG_Config(void)
 喂狗
 
 ```c
-WDOG_Feed()
+WDOG_Feed();
 ```
