@@ -22,7 +22,7 @@ windows、linux
 
 * **vscode-pdf** :可在VSCode中直接浏览PDF文件
 
-* **vscode-yarkdown** :可进行浏览以及编辑markdown文件通过终端安装
+* **vscode-yarkdown** :可进行浏览以及编辑markdown文件
 
 ## 编译器
 
