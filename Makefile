@@ -17,6 +17,13 @@ AS = $(PREFIX)gcc -x assembler-with-cpp
 CP = $(PREFIX)objcopy
 SZ = $(PREFIX)size
 BIN = $(CP) -O binary -S
+ifdef OS
+   RM = rmdir /Q /S
+else
+   ifeq ($(shell uname), Linux)
+      RM = rm -r
+   endif
+endif
 
 ######################################
 # source
@@ -126,7 +133,7 @@ $(BUILD_DIR):
 
 clean:
 	@echo Cleaning...
-	@rmdir /Q /S $(BUILD_DIR) 
+	@$(RM) $(BUILD_DIR) 
 
 write:
 	@tools/sunxi-fel -p spiflash-write 0 $(BUILD_DIR)/$(TARGET).bin

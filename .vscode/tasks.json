@@ -10,7 +10,7 @@
     {
       "label": "重新编译",
       "type": "shell",
-      "command": "make clean\r\nmake -j4",
+      "command": "make clean \r\n make -j4",
       "group": "build"
     },
     {

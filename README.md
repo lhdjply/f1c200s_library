@@ -1,12 +1,12 @@
 # 项目简介
 
-该项目是为全志F1C100S/F1C200S所编写的库函数，编写风格模仿STM32标准库，使得从STM32过来的人更容易上手。项目以及移植了 `cherryusb`、`fatfs`、`lvgl`、`rt-thread`。
+该项目是为全志F1C100S/F1C200S所编写的库函数，编写风格模仿STM32标准库，使得从STM32过来的人更容易上手。项目已经移植了 `cherryusb`、`fatfs`、`lvgl`、`rt-thread`。
 
 # 准备工作
 
 ## 操作系统
 
-windows（linux平台未测试，请自行测试）
+windows、linux
 
 ## 编辑环境
 
@@ -22,11 +22,18 @@ windows（linux平台未测试，请自行测试）
 
 * **vscode-pdf** :可在VSCode中直接浏览PDF文件
 
-* **vscode-yarkdown** :可进行浏览以及编辑markdown文件
+* **vscode-yarkdown** :可进行浏览以及编辑markdown文件通过终端安装
 
 ## 编译器
 
 该项目编译器为**arm-none-eabi-gcc**([下载地址链接](https://developer.arm.com/downloads/-/gnu-rm))
+
+linux平台可直接通过终端下载
+
+```shell
+sudo apt-get update
+sudo apt-get install gcc-arm-none-eabi
+```
 
 # 编译与下载
 
@@ -41,6 +48,13 @@ windows（linux平台未测试，请自行测试）
 ## 下载
 
 下载前，需将板子进入**FEL**模式，然后在VSCode的菜单栏中依次点击 `终端-运行任务-下载`
+
+**注意：** linux需要安装libusb
+
+```shell
+sudo apt-get update
+sudo apt install pkg-config libusb-1.0-0-dev zlib1g-dev binutils libfdt-dev 
+```
 
 # 文件夹介绍
 
