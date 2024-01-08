@@ -148,14 +148,26 @@ void usbd_msc_get_cap(uint8_t lun, uint32_t * block_num, uint16_t * block_size)
 
 int usbd_msc_sector_read(uint32_t sector, uint8_t * buffer, uint32_t length)
 {
-  SD_ReadDisk(SDIO0, buffer, sector, length / 512);
-  return 0;
+  if(SD_DETECT != 0)
+  {
+    return SD_SWITCH_ERROR;
+  }
+  else
+  {
+    return SD_ReadDisk(SDIO0, buffer, sector, length / 512);
+  }
 }
 
 int usbd_msc_sector_write(uint32_t sector, uint8_t * buffer, uint32_t length)
 {
-  SD_WriteDisk(SDIO0, buffer, sector, length / 512);
-  return 0;
+  if(SD_DETECT != 0)
+  {
+    return SD_SWITCH_ERROR;
+  }
+  else
+  {
+    return SD_WriteDisk(SDIO0, buffer, sector, length / 512);
+  }
 }
 
 void usbd_msc_init(void)

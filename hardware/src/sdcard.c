@@ -23,9 +23,19 @@ SD_CardInfo SDCardInfo;
  * 输出  ：无
  * 调用  ：内部调用
  */
-static void SDIO_GPIO_Configuration(void)
+static SD_Error SDIO_GPIO_Configuration(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
+
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOE, &GPIO_InitStructure);
+
+  if(SD_DETECT != 0)
+  {
+    return SD_SWITCH_ERROR;
+  }
 
   CCU_BUS0_GatingClockCmd(CCU_BUS0Gating_SD0, ENABLE);
   CCU_BUS0_GatingResetCmd(CCU_BUS0Gating_SD0, ENABLE);
@@ -43,6 +53,8 @@ static void SDIO_GPIO_Configuration(void)
   GPIO_InitStructure.GPIO_DriveCurrent = GPIO_DriveCurrent_Level3;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOF, &GPIO_InitStructure);
+
+  return SD_OK;
 }
 
 /**
@@ -59,7 +71,13 @@ SD_Error SD_Init(SDIO_TypeDef * SDIOx)
   SD_Error errorstatus = SD_OK;
 
   /* SDIO 外设底层引脚初始化 */
-  SDIO_GPIO_Configuration();
+  errorstatus = SDIO_GPIO_Configuration();
+
+  if(errorstatus != SD_OK)
+  {
+    /*!< CMD Response TimeOut (wait for CMDSENT flag) */
+    return (errorstatus);
+  }
 
   /*上电并进行卡识别流程，确认卡的操作电压  */
   errorstatus = SD_PowerON(SDIOx);

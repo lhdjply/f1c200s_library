@@ -1,8 +1,8 @@
 #include "diskio.h" /* Declarations of disk functions */
 #include "common.h"
 
+extern DATA mydata;
 extern SD_CardInfo SDCardInfo;
-
 extern USB_NOCACHE_RAM_SECTION struct usbh_msc *active_msc_class;
 
 /*-----------------------------------------------------------------------*/
@@ -203,6 +203,15 @@ DRESULT disk_ioctl(
 DWORD get_fattime(void)
 {
 	DWORD time_buff = 0;
+
+	// 按照FatFs的时间格式组合
+	time_buff |= ((mydata.real_time.year - 1980) << 25); // 年
+	time_buff |= (mydata.real_time.month << 21);				 // 月
+	time_buff |= (mydata.real_time.day << 16);					 // 日
+
+	time_buff |= (mydata.real_time.hour << 11);	 // 时
+	time_buff |= (mydata.real_time.minute << 5); // 分
+	time_buff |= (mydata.real_time.second / 2);	 // 秒
 
 	return time_buff;
 }

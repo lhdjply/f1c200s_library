@@ -54,42 +54,35 @@ void Pagespitest_Init(void)
   lv_obj_center(pagespitest.back_btn_label);
   lv_label_set_text(pagespitest.back_btn_label, "back");
 
-  pagespitest.write_label = lv_label_create(pagespitest.view);
-  lv_label_set_text(pagespitest.write_label, "write data:""1234567890""(address:0xF00000)");
-  lv_obj_center(pagespitest.write_label);
+  pagespitest.spi_view = lv_obj_create(pagespitest.view);
+  lv_obj_set_size(pagespitest.spi_view, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+  lv_obj_set_style_pad_row(pagespitest.spi_view, 0, LV_PART_MAIN);
+  lv_obj_set_flex_flow(pagespitest.spi_view, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_flex_align(pagespitest.spi_view,
+                        LV_FLEX_ALIGN_START,
+                        LV_FLEX_ALIGN_CENTER,
+                        LV_FLEX_ALIGN_CENTER);
+  lv_obj_align(pagespitest.spi_view, LV_ALIGN_BOTTOM_MID, 0, LV_PCT(-5));
 
-  pagespitest.write_btn = lv_btn_create(pagespitest.view);
+  pagespitest.write_label = lv_label_create(pagespitest.spi_view);
+  lv_label_set_text(pagespitest.write_label, "write data:""1234567890""(address:0xF00000)");
+
+  pagespitest.write_btn = lv_btn_create(pagespitest.spi_view);
   lv_obj_set_size(pagespitest.write_btn, 120, 50);
-  lv_obj_align_to(pagespitest.write_btn,
-                  pagespitest.write_label,
-                  LV_ALIGN_OUT_BOTTOM_MID,
-                  0,
-                  0);
   lv_obj_add_event_cb(pagespitest.write_btn, Button_Event, LV_EVENT_CLICKED, NULL);
 
   pagespitest.write_btn_label = lv_label_create(pagespitest.write_btn);
   lv_label_set_text(pagespitest.write_btn_label, "write data");
   lv_obj_center(pagespitest.write_btn_label);
 
-  pagespitest.read_label = lv_label_create(pagespitest.view);
+  pagespitest.read_label = lv_label_create(pagespitest.spi_view);
   lv_label_set_text(pagespitest.read_label, "read data:");
-  lv_obj_align_to(pagespitest.read_label,
-                  pagespitest.write_btn,
-                  LV_ALIGN_OUT_BOTTOM_MID,
-                  0,
-                  0);
 
-  pagespitest.read_btn = lv_btn_create(pagespitest.view);
+  pagespitest.read_btn = lv_btn_create(pagespitest.spi_view);
   lv_obj_set_size(pagespitest.read_btn, 120, 50);
-  lv_obj_align_to(pagespitest.read_btn,
-                  pagespitest.read_label,
-                  LV_ALIGN_OUT_BOTTOM_MID,
-                  0,
-                  0);
   lv_obj_add_event_cb(pagespitest.read_btn, Button_Event, LV_EVENT_CLICKED, NULL);
 
   pagespitest.read_btn_label = lv_label_create(pagespitest.read_btn);
   lv_label_set_text(pagespitest.read_btn_label, "read data");
   lv_obj_center(pagespitest.read_btn_label);
-
 }

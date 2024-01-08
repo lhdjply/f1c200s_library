@@ -3,6 +3,7 @@
 
 #include "sys.h"
 
+#define SD_DETECT PEin(2)
 #define SD_TIMEOUT 65535
 
 /**

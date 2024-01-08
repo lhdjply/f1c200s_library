@@ -12,6 +12,7 @@ typedef struct
 
   lv_obj_t * usb_mode_tips;
 #if TEST_USB_MODE == TEST_USB_MODE_HOST
+  lv_obj_t * usbh_msc_view;
   lv_obj_t * usbh_msc_connect_state;
   lv_obj_t * usbh_msc_test_btn;
   lv_obj_t * usbh_msc_test_label;

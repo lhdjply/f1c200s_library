@@ -9,6 +9,7 @@ typedef struct
   lv_obj_t * back_btn;
   lv_obj_t * back_btn_label;
 
+  lv_obj_t * spi_view;
   lv_obj_t * write_label;
   lv_obj_t * write_btn;
   lv_obj_t * write_btn_label;

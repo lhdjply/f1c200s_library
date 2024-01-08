@@ -9,6 +9,8 @@ typedef struct
   lv_obj_t * back_btn;
   lv_obj_t * back_btn_label;
 
+  lv_obj_t * sdio_view;
+  lv_obj_t * sdio_connect_state;
   lv_obj_t * sdio_write_file_btn;
   lv_obj_t * sdio_write_file_btn_label;
   lv_obj_t * sdio_write_file_tips;

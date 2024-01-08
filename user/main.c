@@ -28,43 +28,51 @@ int main(void)
                                W25QXX_Thread_Tick);
   rt_thread_startup(thread[2]);
 
-  thread[3] = rt_thread_create("UART",
+  thread[3] = rt_thread_create("RTC",
+                               RTC_task,
+                               RT_NULL,
+                               RTC_Thread_StackSize,
+                               RTC_Thread_Priority,
+                               RTC_Thread_Tick);
+  rt_thread_startup(thread[3]);
+
+  thread[4] = rt_thread_create("UART",
                                UART_task,
                                RT_NULL,
                                UART_Thread_StackSize,
                                UART_Thread_Priority,
                                UART_Thread_Tick);
-  rt_thread_startup(thread[3]);
+  rt_thread_startup(thread[4]);
 
-  thread[4] = rt_thread_create("SDIO",
+  thread[5] = rt_thread_create("SDIO",
                                SDIO_task,
                                RT_NULL,
                                SDIO_Thread_StackSize,
                                SDIO_Thread_Priority,
                                SDIO_Thread_Tick);
-  rt_thread_startup(thread[4]);
+  rt_thread_startup(thread[5]);
 
-  thread[5] = rt_thread_create("USB",
+  thread[6] = rt_thread_create("USB",
                                USB_task,
                                RT_NULL,
                                USB_Thread_StackSize,
                                USB_Thread_Priority,
                                USB_Thread_Tick);
-  rt_thread_startup(thread[5]);
+  rt_thread_startup(thread[6]);
 
-  thread[6] = rt_thread_create("LCD",
+  thread[7] = rt_thread_create("LCD",
                                LCD_task,
                                RT_NULL,
                                LCD_Thread_StackSize,
                                LCD_Thread_Priority,
                                LCD_Thread_Tick);
-  rt_thread_startup(thread[6]);
+  rt_thread_startup(thread[7]);
 
-  thread[7] = rt_thread_create("WDOG",
+  thread[8] = rt_thread_create("WDOG",
                                WDOG_task,
                                RT_NULL,
                                WDOG_Thread_StackSize,
                                WDOG_Thread_Priority,
                                WDOG_Thread_Tick);
-  rt_thread_startup(thread[7]);
+  rt_thread_startup(thread[8]);
 }

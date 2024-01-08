@@ -1,7 +1,7 @@
 #include "task.h"
 
 DATA mydata;
-rt_sem_t sdio_test_sem, usbh_msc_test_sem;
+rt_sem_t rtc_settime_sem, sdio_test_sem, usbh_msc_test_sem;
 
 void LED_task(void * p)
 {
@@ -21,6 +21,26 @@ void BUZZER_task(void * p)
 void W25QXX_task(void * p)
 {
   W25QXX_Init();
+}
+
+void RTC_task(void * p)
+{
+  rt_err_t err;
+  rtc_settime_sem = rt_sem_create("rtc_settime_sem", 0, RT_IPC_FLAG_FIFO);
+  SD3031_Init();
+  Get_SD3031_Time(&mydata.real_time);
+  while(1)
+  {
+    err = rt_sem_take(rtc_settime_sem, 300);
+    if(err == RT_EOK)
+    {
+      Set_SD3031_Time(&mydata.real_time);
+    }
+    else
+    {
+      Get_SD3031_Time(&mydata.real_time);
+    }
+  }
 }
 
 void UART_task(void * p)

@@ -51,31 +51,16 @@ static void my_timer(lv_timer_t * timer)
   if(mydata.usb_write_ok_flag == 1)
   {
     lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips:file write sucess");
-    lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
-                    pageusbtest.usbh_msc_test_btn,
-                    LV_ALIGN_OUT_BOTTOM_MID,
-                    0,
-                    0);
   }
   else
   {
     if(mydata.usb_res == FR_OK)
     {
       lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips:%d", mydata.usb_res);
-      lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
-                      pageusbtest.usbh_msc_test_btn,
-                      LV_ALIGN_OUT_BOTTOM_MID,
-                      0,
-                      0);
     }
     else
     {
       lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips_error:%d", mydata.usb_res);
-      lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
-                      pageusbtest.usbh_msc_test_btn,
-                      LV_ALIGN_OUT_BOTTOM_MID,
-                      0,
-                      0);
     }
   }
 }
@@ -99,19 +84,23 @@ void Pageusbtest_Init(void)
   mydata.usb_res = FR_OK;
   mydata.usb_write_ok_flag = 0;
 
-  pageusbtest.usb_mode_tips = lv_label_create(pageusbtest.view);
-  lv_obj_set_width(pageusbtest.usb_mode_tips, LV_PCT(90));
+  pageusbtest.usbh_msc_view = lv_obj_create(pageusbtest.view);
+  lv_obj_set_size(pageusbtest.usbh_msc_view, LV_PCT(90), LV_PCT(70));
+  lv_obj_set_style_pad_row(pageusbtest.usbh_msc_view, 0, LV_PART_MAIN);
+  lv_obj_set_flex_flow(pageusbtest.usbh_msc_view, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_flex_align(pageusbtest.usbh_msc_view,
+                        LV_FLEX_ALIGN_START,
+                        LV_FLEX_ALIGN_CENTER,
+                        LV_FLEX_ALIGN_CENTER);
+  lv_obj_align(pageusbtest.usbh_msc_view, LV_ALIGN_BOTTOM_MID, 0, LV_PCT(-5));
+
+  pageusbtest.usb_mode_tips = lv_label_create(pageusbtest.usbh_msc_view);
+  lv_obj_set_width(pageusbtest.usb_mode_tips, LV_PCT(100));
   lv_label_set_text(pageusbtest.usb_mode_tips,
                     "Current usb mode is host mode.If you want to change mode to device mode,\
 please #define TEST_USB_MODE TEST_USB_MODE_DEVICE in user/common.h");
-  lv_obj_align_to(pageusbtest.usb_mode_tips,
-                  pageusbtest.back_btn,
-                  LV_ALIGN_OUT_BOTTOM_LEFT,
-                  0,
-                  10);
 
-  pageusbtest.usbh_msc_connect_state = lv_label_create(pageusbtest.view);
-  lv_obj_center(pageusbtest.usbh_msc_connect_state);
+  pageusbtest.usbh_msc_connect_state = lv_label_create(pageusbtest.usbh_msc_view);
   if(mounted_flag == true)
   {
     lv_obj_set_style_text_color(pageusbtest.usbh_msc_connect_state,
@@ -127,13 +116,8 @@ please #define TEST_USB_MODE TEST_USB_MODE_DEVICE in user/common.h");
     lv_label_set_text(pageusbtest.usbh_msc_connect_state, "usbh msc connect state:disconnect");
   }
 
-  pageusbtest.usbh_msc_test_btn = lv_btn_create(pageusbtest.view);
+  pageusbtest.usbh_msc_test_btn = lv_btn_create(pageusbtest.usbh_msc_view);
   lv_obj_set_width(pageusbtest.usbh_msc_test_btn, 150);
-  lv_obj_align_to(pageusbtest.usbh_msc_test_btn,
-                  pageusbtest.usbh_msc_connect_state,
-                  LV_ALIGN_OUT_BOTTOM_MID,
-                  0,
-                  0);
   lv_obj_add_event_cb(pageusbtest.usbh_msc_test_btn, Test_Event, LV_EVENT_CLICKED, NULL);
   if(mounted_flag == true)
   {
@@ -148,13 +132,8 @@ please #define TEST_USB_MODE TEST_USB_MODE_DEVICE in user/common.h");
   lv_obj_center(pageusbtest.usbh_msc_test_label);
   lv_label_set_text(pageusbtest.usbh_msc_test_label, "usbh msc test");
 
-  pageusbtest.usbh_msc_write_file_tips = lv_label_create(pageusbtest.view);
+  pageusbtest.usbh_msc_write_file_tips = lv_label_create(pageusbtest.usbh_msc_view);
   lv_label_set_text_fmt(pageusbtest.usbh_msc_write_file_tips, "tips:%d", mydata.usb_res);
-  lv_obj_align_to(pageusbtest.usbh_msc_write_file_tips,
-                  pageusbtest.usbh_msc_test_btn,
-                  LV_ALIGN_OUT_BOTTOM_MID,
-                  0,
-                  0);
   pageusbtest.timer = lv_timer_create(my_timer, 100, NULL);
 #else
   pageusbtest.usb_mode_tips = lv_label_create(pageusbtest.view);

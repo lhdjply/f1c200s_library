@@ -9,6 +9,7 @@
 #include "delay.h"
 #include "gpio.h"
 #include "uart.h"
+#include "sd3031.h"
 #include "sdcard.h"
 #include "w25qxx.h"
 #include "lcd.h"
@@ -30,6 +31,7 @@
 
 typedef struct
 {
+  RTC_TIME real_time;
   uint8_t lcd_brightness;
   FRESULT sd_res;
   uint8_t sd_write_ok_flag;
