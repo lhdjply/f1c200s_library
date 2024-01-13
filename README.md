@@ -10,19 +10,21 @@ windows、linux
 
 ## 编辑环境
 
-推荐使用的编辑环境为**VSCode**([下载地址链接](https://code.visualstudio.com/))，是一个运行于MacOS X、Windows和Linux之上的，针对于编写现代Web和云应用的跨平台源代码编辑器；vscode免费而且功能强大，对JavaScript和NodeJS的支持非常好，自带很多功能，例如代码格式化，代码智能提示补全、Emmet插件等。
+推荐使用的编辑环境为**VSCode**([下载地址链接](https://code.visualstudio.com/))，是一个运行于MacOS X、Windows和Linux之上的，针对于编写现代Web和云应用的跨平台源代码编辑器；VSCode免费而且功能强大，对JavaScript和NodeJS的支持非常好，自带很多功能，例如代码格式化，代码智能提示补全、Emmet插件等。
 
 ### VSCode推荐插件
 
-* **C/C++** :编写C/C++必需的插件
+* **C/C++**：编写C/C++必需的插件。
 
-* **Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code** :VSCode中文插件
+* **Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code**：VSCode中文插件。
 
-* **Git Graph** :可图形化查看git历史文件
+* **Git Graph**：可图形化查看git历史文件。
 
-* **vscode-pdf** :可在VSCode中直接浏览PDF文件
+* **vscode-pdf**：可在VSCode中直接浏览PDF文件。
 
-* **vscode-yarkdown** :可进行浏览以及编辑markdown文件
+* **vscode-yarkdown**：可进行浏览以及编辑markdown文件。
+
+* **Task Buttons**：可在vscode下方直接生成任务按钮，方便操作。
 
 ## 编译器
 
@@ -39,15 +41,15 @@ sudo apt-get install gcc-arm-none-eabi
 
 ## 编译
 
-在VSCode的菜单栏中依次点击 `终端-运行任务-编译`
+在VSCode的菜单栏中依次点击 `终端-运行任务-编译`。如果有安装插件`Task Buttons`，可在VSCode下方直接点击编译。
 
 ## 重新编译
 
-在VSCode的菜单栏中依次点击 `终端-运行任务-重新编译`
+在VSCode的菜单栏中依次点击 `终端-运行任务-重新编译`。如果有安装插件`Task Buttons`，可在VSCode下方直接点击重新编译。
 
 ## 下载
 
-下载前，需将板子进入**FEL**模式，然后在VSCode的菜单栏中依次点击 `终端-运行任务-下载`
+下载前，需将板子进入**FEL**模式，然后在VSCode的菜单栏中依次点击 `终端-运行任务-下载`。如果有安装插件`Task Buttons`，可在VSCode下方直接点击下载。
 
 **注意：** linux需要安装libusb
 
@@ -62,7 +64,7 @@ sudo apt install pkg-config libusb-1.0-0-dev zlib1g-dev binutils libfdt-dev
 |-|-|
 |.gitee|gitee平台issue和pr模板|
 |.github|github平台issue和pr模板，以及ci检查|
-|.vscode|vscode配置文件|
+|.vscode|VSCode配置文件|
 |bootloader|bootloader文件|
 |dsp|dsp库（例如`arm_mean_f32`)|
 |f1cx00s_lib|模仿**stm32**风格写的库函数|
@@ -372,7 +374,7 @@ UART_ReceiveData(UART1);
 
 ## USB
 
-使用USB给功能，需要配合`Cherryusb`进行使用。
+使用USB功能，需要配合`Cherryusb`进行使用。
 
 ### 主机
 

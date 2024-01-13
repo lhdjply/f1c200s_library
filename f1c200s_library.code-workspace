@@ -4,4 +4,29 @@
 			"path": "."
 		}
 	],
+	"settings": {
+		"VsCodeTaskButtons.tasks": [
+			{
+				"label": "编译",
+				"task": "编译",
+				"tooltip": "编译"
+			},
+			{
+					"label": "重新编译",
+					"task": "重新编译",
+					"tooltip": "重新编译"
+			},
+			{
+					"label": "清理",
+					"task": "清理",
+					"tooltip": "清理"
+			},
+			{
+					"label": "下载",
+					"task": "下载",
+					"tooltip": "下载"
+			},
+		],
+		"VsCodeTaskButtons.showCounter": false
+	},
 }
