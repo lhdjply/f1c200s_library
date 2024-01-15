@@ -38,7 +38,7 @@ void SPI_TransmitData8(SPI_TypeDef * SPIx, uint8_t TxData)
   SPIx->TCR |= 1 << 31;
 }
 
-uint8_t ReceiveData8(SPI_TypeDef * SPIx)
+uint8_t SPI_ReceiveData8(SPI_TypeDef * SPIx)
 {
   return *((volatile uint8_t *)(&SPIx->RXD_DATA));
 }

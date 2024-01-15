@@ -41,6 +41,6 @@ void SPI_DeInit(SPI_TypeDef * SPIx);
 void SPI_Init(SPI_TypeDef * SPIx, SPI_InitTypeDef * SPI_InitStruct);
 void SPI_Cmd(SPI_TypeDef * SPIx, FunctionalState NewState);
 void SPI_TransmitData8(SPI_TypeDef * SPIx, uint8_t TxData);
-uint8_t ReceiveData8(SPI_TypeDef * SPIx);
+uint8_t SPI_ReceiveData8(SPI_TypeDef * SPIx);
 
 #endif

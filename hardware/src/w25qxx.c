@@ -64,7 +64,7 @@ static uint8_t W25QXX_ReadWriteByte(uint8_t TxData)
   while((W25QXX_SPI->FSR & 0xff) < 1)
   {
   }
-  return ReceiveData8(W25QXX_SPI);
+  return SPI_ReceiveData8(W25QXX_SPI);
 }
 
 // 读取W25QXX的状态寄存器
