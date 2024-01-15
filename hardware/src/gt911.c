@@ -73,6 +73,7 @@ void GT911_Init(void)
     GT911_Cfg[4] = GTP_SET_HEIGHT_H_Byte;
     GT911_Send_Cfg(1);
   }
+
   delay_ms(10);
 }
 
@@ -113,30 +114,27 @@ static uint8_t GT911_Send_Cfg(uint8_t mode)
   return 0;
 }
 
-static void GetPointData(uint8_t cnt, uint8_t data[])
-{
-  gt911_data.point.x = data[0x03] << 8 | data[0x02];
-  gt911_data.point.y = data[0x05] << 8 | data[0x04];
-}
-
 void GT911_Read_XY(tp_dev_t * tp_devx)
 {
-  uint8_t g_touchPointInfor[6];
-  uint8_t tmp;
-  GT911_Read_Reg(0x814E, g_touchPointInfor, 0x06);
-  tmp = g_touchPointInfor[0];
-  if((tmp & 0x80) && ((tmp & 0x0f) > 0) && (tmp != 0xff))
-  {
-    tp_devx->status = 1;
-    GetPointData(tmp & 0x0f, g_touchPointInfor);
+  uint8_t touch_status, touch_num, temp, buf[5];
 
-    tp_devx->x = gt911_data.point.x;
-    tp_devx->y = gt911_data.point.y;
-  }
-  else
+  GT911_Read_Reg(GT_GSTID_REG, &touch_status, 1);
+  touch_num = touch_status & 0x0F;
+  if(touch_status)
   {
-    tp_devx->status = 0;
+    if(touch_num)
+    {
+      tp_devx->status = 1;
+
+      GT911_Read_Reg(GT9x_TP1, buf, 4); //读取XY坐标值
+      tp_devx->x = (((uint16_t)buf[1] << 8) + buf[0]);
+      tp_devx->y = (((uint16_t)buf[3] << 8) + buf[2]);
+    }
+    else
+    {
+      tp_devx->status = 0;
+    }
+    temp = 0;
+    GT911_Write_Reg(GT_GSTID_REG, &temp, 1); // 清除READY标志
   }
-  tmp = 0;
-  GT911_Write_Reg(0x814E, &tmp, 1);
 }

@@ -28,6 +28,11 @@
 #define GT_PID_REG 0X8140   // GT911产品ID寄存器
 
 #define GT_GSTID_REG 0X814E // GT911当前检测到的触摸情况
+#define GT9x_TP1 0x8150   /*!< 第一个触摸点数据地址 */
+#define GT9x_TP2 0x8158   /*!< 第二个触摸点数据地址 */
+#define GT9x_TP3 0x8160   /*!< 第三个触摸点数据地址 */
+#define GT9x_TP4 0x8168   /*!< 第四个触摸点数据地址 */
+#define GT9x_TP5 0x8170   /*!< 第五个触摸点数据地址 */
 
 typedef struct _POINT
 {
@@ -46,6 +51,7 @@ typedef struct
   uint16_t x;     /*!< 当前x坐标 */
   uint16_t y;     /*!< 当前y坐标 */
   uint8_t status; /*!< 触摸状态 */
+  uint16_t sta;
 } tp_dev_t;
 
 void GT911_Init(void);
