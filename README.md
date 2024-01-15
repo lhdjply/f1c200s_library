@@ -316,7 +316,7 @@ SPI_TransmitData8(SPI0, TxData);
 读操作
 
 ```c
-SPI_SPI_ReceiveData8(SPI0);
+SPI_ReceiveData8(SPI0);
 ```
 
 ## UART
