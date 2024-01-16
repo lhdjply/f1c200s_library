@@ -9,8 +9,8 @@ static void Back_Button_Event(lv_event_t * e)
   lv_event_code_t code = lv_event_get_code(e);
   if(code == LV_EVENT_CLICKED)
   {
-    lv_obj_del(pagepwmtest.view);
-    lv_obj_clear_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_delete(pagepwmtest.view);
+    lv_obj_remove_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
   }
 }
 
@@ -30,7 +30,7 @@ void Pagepwmtest_Init(void)
   lv_obj_remove_style_all(pagepwmtest.view);
   lv_obj_set_size(pagepwmtest.view, LV_PCT(100), LV_PCT(100));
 
-  pagepwmtest.back_btn = lv_btn_create(pagepwmtest.view);
+  pagepwmtest.back_btn = lv_button_create(pagepwmtest.view);
   lv_obj_set_size(pagepwmtest.back_btn, 120, 50);
   lv_obj_align(pagepwmtest.back_btn, LV_ALIGN_TOP_LEFT, LV_PCT(2), LV_PCT(2));
   lv_obj_add_event_cb(pagepwmtest.back_btn, Back_Button_Event, LV_EVENT_CLICKED, NULL);

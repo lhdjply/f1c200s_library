@@ -43,7 +43,7 @@ $(wildcard *.c third_party/cherryusb/osal/*.c) \
 $(wildcard *.c third_party/cherryusb/port/*.c) \
 $(wildcard *.c third_party/fatfs/*.c) \
 $(wildcard *.c third_party/lvgl/lvgl/**/*.c) \
-$(wildcard *.c third_party/lvgl/lvgl/**/**/*c) \
+$(wildcard *.c third_party/lvgl/lvgl/**/**/*.c) \
 $(wildcard *.c third_party/lvgl/lvgl/**/**/**/*.c) \
 $(wildcard *.c third_party/lvgl/lvgl/**/**/**/**/*.c) \
 $(wildcard *.c third_party/rt-thread/bsp/*.c) \

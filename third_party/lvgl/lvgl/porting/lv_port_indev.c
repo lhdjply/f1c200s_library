@@ -5,7 +5,7 @@
 extern tp_dev_t tp_dev;
 
 static void touchpad_init(void);
-static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data);
+static void touchpad_read(lv_indev_t *indev_drv, lv_indev_data_t *data);
 
 /**********************
  *  STATIC VARIABLES
@@ -22,15 +22,12 @@ lv_indev_t *indev_touchpad;
 
 void lv_port_indev_init(void)
 {
-    static lv_indev_drv_t indev_drv;
-
     touchpad_init();
 
     /*Register a touchpad input device*/
-    lv_indev_drv_init(&indev_drv);
-    indev_drv.type = LV_INDEV_TYPE_POINTER;
-    indev_drv.read_cb = touchpad_read;
-    indev_touchpad = lv_indev_drv_register(&indev_drv);
+    indev_touchpad = lv_indev_create();
+    lv_indev_set_type(indev_touchpad, LV_INDEV_TYPE_POINTER);
+    lv_indev_set_read_cb(indev_touchpad, touchpad_read);
 }
 
 /*------------------
@@ -45,7 +42,7 @@ static void touchpad_init(void)
 }
 
 /*Will be called by the library to read the touchpad*/
-static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
+static void touchpad_read(lv_indev_t *indev_drv, lv_indev_data_t *data)
 {
     static lv_coord_t last_x = 0;
     static lv_coord_t last_y = 0;

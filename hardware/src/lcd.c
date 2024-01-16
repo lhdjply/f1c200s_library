@@ -107,9 +107,13 @@ static void LCD_Fun_Config(void)
   lcd_layer.pipe = 0;
   lcd_layer.alpha_enable = 1;
   lcd_layer.alpha_value = 255;
-  lcd_layer.vram = (void *)rt_malloc(MY_DISP_HOR_RES * MY_DISP_VER_RES * sizeof(lv_color_t));
+  lcd_layer.vram = (void *)rt_malloc(MY_DISP_HOR_RES *
+                                     MY_DISP_VER_RES *
+                                     lv_color_format_get_size(LV_COLOR_FORMAT_NATIVE));
 #if LV_COLOR_DEPTH == 32
   lcd_layer.vram_format = VRAM_FORMAT_ARGB;
+#elif LV_COLOR_DEPTH == 24
+  lcd_layer.vram_format = VRAM_FORMAT_RGB888;
 #else
   lcd_layer.vram_format = VRAM_FORMAT_RGB565;
 #endif
@@ -142,14 +146,16 @@ static void LCD_BL_Config(void)
   PWM_Cmd(PWM_CHANNEL_1, ENABLE);
 }
 
-void LCD_Color_Fill(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, lv_color_t * data)
+void LCD_Color_Fill(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint8_t * data)
 {
   uint32_t y = y1;
-  lv_color_t * lcdbuf_gui = (lv_color_t *)(lcd_layer.vram);
+  uint8_t * lcdbuf_gui = (uint8_t *)lcd_layer.vram;
   do
   {
-    memcpy(&lcdbuf_gui[y * MY_DISP_HOR_RES + x1], data, (x2 - x1 + 1)*sizeof(lv_color_t));
-    data = data + x2 - x1 + 1;
+    memcpy(&lcdbuf_gui[(y * MY_DISP_HOR_RES + x1) *lv_color_format_get_size(LV_COLOR_FORMAT_NATIVE)],
+           data,
+           (x2 - x1 + 1) *lv_color_format_get_size(LV_COLOR_FORMAT_NATIVE));
+    data = data + (x2 - x1 + 1) * lv_color_format_get_size(LV_COLOR_FORMAT_NATIVE);
     y++;
   } while(y != y2 + 1);
 }

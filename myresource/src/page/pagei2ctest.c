@@ -13,9 +13,9 @@ static void Back_Button_Event(lv_event_t * e)
   lv_event_code_t code = lv_event_get_code(e);
   if(code == LV_EVENT_CLICKED)
   {
-    lv_timer_del(pagei2ctest.timer);
-    lv_obj_del(pagei2ctest.view);
-    lv_obj_clear_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    lv_timer_delete(pagei2ctest.timer);
+    lv_obj_delete(pagei2ctest.view);
+    lv_obj_remove_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
   }
 }
 
@@ -89,11 +89,11 @@ static void my_timer(lv_timer_t * timer)
 
 void Pagei2ctest_Init(void)
 {
-  pagei2ctest.view = lv_obj_create(lv_scr_act());
+  pagei2ctest.view = lv_obj_create(lv_screen_active());
   lv_obj_remove_style_all(pagei2ctest.view);
   lv_obj_set_size(pagei2ctest.view, LV_PCT(100), LV_PCT(100));
 
-  pagei2ctest.back_btn = lv_btn_create(pagei2ctest.view);
+  pagei2ctest.back_btn = lv_button_create(pagei2ctest.view);
   lv_obj_set_size(pagei2ctest.back_btn, 120, 50);
   lv_obj_align(pagei2ctest.back_btn, LV_ALIGN_TOP_LEFT, LV_PCT(2), LV_PCT(2));
   lv_obj_add_event_cb(pagei2ctest.back_btn, Back_Button_Event, LV_EVENT_CLICKED, NULL);
@@ -108,7 +108,7 @@ void Pagei2ctest_Init(void)
                         mydata.real_time.year, mydata.real_time.month, mydata.real_time.day,
                         mydata.real_time.hour, mydata.real_time.minute, mydata.real_time.second);
 
-  pagei2ctest.set_date_btn = lv_btn_create(pagei2ctest.view);
+  pagei2ctest.set_date_btn = lv_button_create(pagei2ctest.view);
   lv_obj_set_size(pagei2ctest.set_date_btn, 120, 50);
   lv_obj_align(pagei2ctest.set_date_btn, LV_ALIGN_BOTTOM_LEFT, LV_PCT(2), LV_PCT(-2));
   lv_obj_add_event_cb(pagei2ctest.set_date_btn, TIME_Event, LV_EVENT_CLICKED, NULL);
@@ -117,7 +117,7 @@ void Pagei2ctest_Init(void)
   lv_obj_center(pagei2ctest.set_date_btn_label);
   lv_label_set_text(pagei2ctest.set_date_btn_label, "set date");
 
-  pagei2ctest.set_time_btn = lv_btn_create(pagei2ctest.view);
+  pagei2ctest.set_time_btn = lv_button_create(pagei2ctest.view);
   lv_obj_set_size(pagei2ctest.set_time_btn, 120, 50);
   lv_obj_align(pagei2ctest.set_time_btn, LV_ALIGN_BOTTOM_RIGHT, LV_PCT(-2), LV_PCT(-2));
   lv_obj_add_event_cb(pagei2ctest.set_time_btn, TIME_Event, LV_EVENT_CLICKED, NULL);
@@ -131,7 +131,7 @@ void Pagei2ctest_Init(void)
 
 static void DateSet_msgbox_Init(void)
 {
-  pagei2ctest.date_msgbox = lv_msgbox_create(NULL, NULL, NULL, NULL, NULL);
+  pagei2ctest.date_msgbox = lv_msgbox_create(NULL);
   lv_obj_remove_style_all(pagei2ctest.date_msgbox);
   lv_obj_set_size(pagei2ctest.date_msgbox, 320, 250);
   lv_obj_set_style_bg_color(pagei2ctest.date_msgbox, lv_color_make(0xee, 0xee, 0xee), LV_PART_MAIN);
@@ -139,7 +139,7 @@ static void DateSet_msgbox_Init(void)
   lv_obj_set_style_radius(pagei2ctest.date_msgbox, 10, LV_PART_MAIN);
   lv_obj_align(pagei2ctest.date_msgbox, LV_ALIGN_BOTTOM_MID, 0, 0);
 
-  pagei2ctest.date_msgbox_btn_ok = lv_btn_create(pagei2ctest.date_msgbox);
+  pagei2ctest.date_msgbox_btn_ok = lv_button_create(pagei2ctest.date_msgbox);
   lv_obj_set_size(pagei2ctest.date_msgbox_btn_ok, 120, 40);
   lv_obj_align(pagei2ctest.date_msgbox_btn_ok, LV_ALIGN_BOTTOM_LEFT, 10, -15);
   pagei2ctest.date_msgbox_btn_ok_text = lv_label_create(pagei2ctest.date_msgbox_btn_ok);
@@ -147,7 +147,7 @@ static void DateSet_msgbox_Init(void)
   lv_label_set_text(pagei2ctest.date_msgbox_btn_ok_text, "yes");
   lv_obj_center(pagei2ctest.date_msgbox_btn_ok_text);
 
-  pagei2ctest.date_msgbox_btn_no = lv_btn_create(pagei2ctest.date_msgbox);
+  pagei2ctest.date_msgbox_btn_no = lv_button_create(pagei2ctest.date_msgbox);
   lv_obj_set_size(pagei2ctest.date_msgbox_btn_no, 120, 40);
   lv_obj_align(pagei2ctest.date_msgbox_btn_no, LV_ALIGN_BOTTOM_RIGHT, -10, -15);
   pagei2ctest.date_msgbox_btn_no_text = lv_label_create(pagei2ctest.date_msgbox_btn_no);
@@ -325,7 +325,7 @@ static void DateSet_msgbox_Init(void)
 
 static void TimeSet_msgbox_Init(void)
 {
-  pagei2ctest.time_msgbox = lv_msgbox_create(NULL, NULL, NULL, NULL, NULL);
+  pagei2ctest.time_msgbox = lv_msgbox_create(NULL);
   lv_obj_remove_style_all(pagei2ctest.time_msgbox);
   lv_obj_set_size(pagei2ctest.time_msgbox, 320, 250);
   lv_obj_set_style_bg_color(pagei2ctest.time_msgbox, lv_color_make(0xee, 0xee, 0xee), LV_PART_MAIN);
@@ -333,7 +333,7 @@ static void TimeSet_msgbox_Init(void)
   lv_obj_set_style_radius(pagei2ctest.time_msgbox, 10, LV_PART_MAIN);
   lv_obj_align(pagei2ctest.time_msgbox, LV_ALIGN_BOTTOM_MID, 0, 0);
 
-  pagei2ctest.time_msgbox_btn_ok = lv_btn_create(pagei2ctest.time_msgbox);
+  pagei2ctest.time_msgbox_btn_ok = lv_button_create(pagei2ctest.time_msgbox);
   lv_obj_set_size(pagei2ctest.time_msgbox_btn_ok, 120, 40);
   lv_obj_align(pagei2ctest.time_msgbox_btn_ok, LV_ALIGN_BOTTOM_LEFT, 10, -15);
   pagei2ctest.time_msgbox_btn_ok_text = lv_label_create(pagei2ctest.time_msgbox_btn_ok);
@@ -341,7 +341,7 @@ static void TimeSet_msgbox_Init(void)
   lv_label_set_text(pagei2ctest.time_msgbox_btn_ok_text, "yes");
   lv_obj_center(pagei2ctest.time_msgbox_btn_ok_text);
 
-  pagei2ctest.time_msgbox_btn_no = lv_btn_create(pagei2ctest.time_msgbox);
+  pagei2ctest.time_msgbox_btn_no = lv_button_create(pagei2ctest.time_msgbox);
   lv_obj_set_size(pagei2ctest.time_msgbox_btn_no, 120, 40);
   lv_obj_align(pagei2ctest.time_msgbox_btn_no, LV_ALIGN_BOTTOM_RIGHT, -10, -15);
   pagei2ctest.time_msgbox_btn_no_text = lv_label_create(pagei2ctest.time_msgbox_btn_no);

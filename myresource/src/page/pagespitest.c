@@ -45,7 +45,7 @@ void Pagespitest_Init(void)
   lv_obj_remove_style_all(pagespitest.view);
   lv_obj_set_size(pagespitest.view, LV_PCT(100), LV_PCT(100));
 
-  pagespitest.back_btn = lv_btn_create(pagespitest.view);
+  pagespitest.back_btn = lv_button_create(pagespitest.view);
   lv_obj_set_size(pagespitest.back_btn, 120, 50);
   lv_obj_align(pagespitest.back_btn, LV_ALIGN_TOP_LEFT, LV_PCT(2), LV_PCT(2));
   lv_obj_add_event_cb(pagespitest.back_btn, Back_Button_Event, LV_EVENT_CLICKED, NULL);
@@ -67,7 +67,7 @@ void Pagespitest_Init(void)
   pagespitest.write_label = lv_label_create(pagespitest.spi_view);
   lv_label_set_text(pagespitest.write_label, "write data:""1234567890""(address:0xF00000)");
 
-  pagespitest.write_btn = lv_btn_create(pagespitest.spi_view);
+  pagespitest.write_btn = lv_button_create(pagespitest.spi_view);
   lv_obj_set_size(pagespitest.write_btn, 120, 50);
   lv_obj_add_event_cb(pagespitest.write_btn, Button_Event, LV_EVENT_CLICKED, NULL);
 
@@ -78,7 +78,7 @@ void Pagespitest_Init(void)
   pagespitest.read_label = lv_label_create(pagespitest.spi_view);
   lv_label_set_text(pagespitest.read_label, "read data:");
 
-  pagespitest.read_btn = lv_btn_create(pagespitest.spi_view);
+  pagespitest.read_btn = lv_button_create(pagespitest.spi_view);
   lv_obj_set_size(pagespitest.read_btn, 120, 50);
   lv_obj_add_event_cb(pagespitest.read_btn, Button_Event, LV_EVENT_CLICKED, NULL);
 

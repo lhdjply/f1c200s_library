@@ -134,6 +134,7 @@ void LCD_task(void * p)
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
+  lv_tick_set_cb(&rt_tick_get_millisecond);
   mydata.lcd_brightness = 100;
   LCD_SetBrightness(mydata.lcd_brightness);
   PageDemoSelect_Init();

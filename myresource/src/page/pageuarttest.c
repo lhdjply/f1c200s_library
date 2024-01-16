@@ -9,9 +9,9 @@ static void Back_Button_Event(lv_event_t * e)
   lv_event_code_t code = lv_event_get_code(e);
   if(code == LV_EVENT_CLICKED)
   {
-    lv_timer_del(pageuarttest.timer);
-    lv_obj_del(pageuarttest.view);
-    lv_obj_clear_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+    lv_timer_delete(pageuarttest.timer);
+    lv_obj_delete(pageuarttest.view);
+    lv_obj_remove_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
   }
 }
 
@@ -32,7 +32,7 @@ static void Edit_Event(lv_event_t * e)
   {
     if(target == pageuarttest.receive_data)
     {
-      lv_obj_clear_state(target, LV_STATE_FOCUSED);
+      lv_obj_remove_state(target, LV_STATE_FOCUSED);
     }
     else if(target == pageuarttest.send_data)
     {
@@ -54,13 +54,13 @@ static void Edit_Event(lv_event_t * e)
       {
         My_Printf("%s", lv_textarea_get_text(target));
       }
-      lv_obj_del(pageuarttest.keyboard);
+      lv_obj_delete(pageuarttest.keyboard);
       lv_indev_wait_release(lv_indev_get_act());
       lv_indev_reset(lv_indev_get_act(), target);
       lv_obj_set_height(pageuarttest.view, LV_PCT(100));
       lv_obj_set_height(pageuarttest.receive_data, LV_PCT(40));
       lv_obj_set_height(pageuarttest.send_data, LV_PCT(30));
-      lv_obj_clear_state(target, LV_STATE_FOCUSED);
+      lv_obj_remove_state(target, LV_STATE_FOCUSED);
     }
   }
 }
@@ -80,7 +80,7 @@ void Pageuarttest_Init(void)
   lv_obj_remove_style_all(pageuarttest.view);
   lv_obj_set_size(pageuarttest.view, LV_PCT(100), LV_PCT(100));
 
-  pageuarttest.back_btn = lv_btn_create(pageuarttest.view);
+  pageuarttest.back_btn = lv_button_create(pageuarttest.view);
   lv_obj_set_size(pageuarttest.back_btn, 120, 50);
   lv_obj_align(pageuarttest.back_btn, LV_ALIGN_TOP_LEFT, LV_PCT(2), LV_PCT(2));
   lv_obj_add_event_cb(pageuarttest.back_btn, Back_Button_Event, LV_EVENT_CLICKED, NULL);
@@ -89,7 +89,7 @@ void Pageuarttest_Init(void)
   lv_obj_center(pageuarttest.back_btn_label);
   lv_label_set_text(pageuarttest.back_btn_label, "back");
 
-  pageuarttest.clear_btn = lv_btn_create(pageuarttest.view);
+  pageuarttest.clear_btn = lv_button_create(pageuarttest.view);
   lv_obj_set_size(pageuarttest.clear_btn, 120, 50);
   lv_obj_align(pageuarttest.clear_btn, LV_ALIGN_TOP_RIGHT, LV_PCT(-2), LV_PCT(2));
   lv_obj_add_event_cb(pageuarttest.clear_btn, Clear_Event, LV_EVENT_CLICKED, NULL);

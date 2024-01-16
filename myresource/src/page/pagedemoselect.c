@@ -78,7 +78,7 @@ static void Button_Event(lv_event_t * e)
 
 void PageDemoSelect_Init(void)
 {
-  pageDemoSelect.view = lv_obj_create(lv_scr_act());
+  pageDemoSelect.view = lv_obj_create(lv_screen_active());
   lv_obj_remove_style_all(pageDemoSelect.view);
   lv_obj_set_style_pad_all(pageDemoSelect.view, 10, LV_PART_MAIN);
   lv_obj_set_size(pageDemoSelect.view, LV_PCT(100), LV_PCT(100));
@@ -99,7 +99,7 @@ static void lv_demo_create(void)
                         LV_FLEX_ALIGN_CENTER,
                         LV_FLEX_ALIGN_CENTER);
 
-  pageDemoSelect.benchmark_btn = lv_btn_create(pageDemoSelect.lv_demos);
+  pageDemoSelect.benchmark_btn = lv_button_create(pageDemoSelect.lv_demos);
   lv_obj_set_width(pageDemoSelect.benchmark_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.benchmark_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.benchmark_label = lv_label_create(pageDemoSelect.benchmark_btn);
@@ -109,7 +109,7 @@ static void lv_demo_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.benchmark_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.benchmark_label);
 
-  pageDemoSelect.keypad_encoder_btn = lv_btn_create(pageDemoSelect.lv_demos);
+  pageDemoSelect.keypad_encoder_btn = lv_button_create(pageDemoSelect.lv_demos);
   lv_obj_set_width(pageDemoSelect.keypad_encoder_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.keypad_encoder_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.keypad_encoder_label = lv_label_create(pageDemoSelect.keypad_encoder_btn);
@@ -119,7 +119,7 @@ static void lv_demo_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.keypad_encoder_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.keypad_encoder_label);
 
-  pageDemoSelect.music_btn = lv_btn_create(pageDemoSelect.lv_demos);
+  pageDemoSelect.music_btn = lv_button_create(pageDemoSelect.lv_demos);
   lv_obj_set_width(pageDemoSelect.music_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.music_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.music_label = lv_label_create(pageDemoSelect.music_btn);
@@ -129,7 +129,7 @@ static void lv_demo_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.music_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.music_label);
 
-  pageDemoSelect.stress_btn = lv_btn_create(pageDemoSelect.lv_demos);
+  pageDemoSelect.stress_btn = lv_button_create(pageDemoSelect.lv_demos);
   lv_obj_set_width(pageDemoSelect.stress_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.stress_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.stress_label = lv_label_create(pageDemoSelect.stress_btn);
@@ -139,7 +139,7 @@ static void lv_demo_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.stress_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.stress_label);
 
-  pageDemoSelect.widgets_btn = lv_btn_create(pageDemoSelect.lv_demos);
+  pageDemoSelect.widgets_btn = lv_button_create(pageDemoSelect.lv_demos);
   lv_obj_set_width(pageDemoSelect.widgets_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.widgets_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.widgets_label = lv_label_create(pageDemoSelect.widgets_btn);
@@ -162,7 +162,7 @@ static void lv_librarytest_create(void)
                         LV_FLEX_ALIGN_CENTER,
                         LV_FLEX_ALIGN_CENTER);
 
-  pageDemoSelect.gpio_test_btn = lv_btn_create(pageDemoSelect.library_test);
+  pageDemoSelect.gpio_test_btn = lv_button_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.gpio_test_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.gpio_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.gpio_test_label = lv_label_create(pageDemoSelect.gpio_test_btn);
@@ -172,7 +172,7 @@ static void lv_librarytest_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.gpio_test_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.gpio_test_label);
 
-  pageDemoSelect.i2c_test_btn = lv_btn_create(pageDemoSelect.library_test);
+  pageDemoSelect.i2c_test_btn = lv_button_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.i2c_test_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.i2c_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.i2c_test_label = lv_label_create(pageDemoSelect.i2c_test_btn);
@@ -182,7 +182,7 @@ static void lv_librarytest_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.i2c_test_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.i2c_test_label);
 
-  pageDemoSelect.pwm_test_btn = lv_btn_create(pageDemoSelect.library_test);
+  pageDemoSelect.pwm_test_btn = lv_button_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.pwm_test_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.pwm_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.pwm_test_label = lv_label_create(pageDemoSelect.pwm_test_btn);
@@ -192,7 +192,7 @@ static void lv_librarytest_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.pwm_test_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.pwm_test_label);
 
-  pageDemoSelect.sdio_test_btn = lv_btn_create(pageDemoSelect.library_test);
+  pageDemoSelect.sdio_test_btn = lv_button_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.sdio_test_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.sdio_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.sdio_test_label = lv_label_create(pageDemoSelect.sdio_test_btn);
@@ -202,7 +202,7 @@ static void lv_librarytest_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.sdio_test_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.sdio_test_label);
 
-  pageDemoSelect.spi_test_btn = lv_btn_create(pageDemoSelect.library_test);
+  pageDemoSelect.spi_test_btn = lv_button_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.spi_test_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.spi_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.spi_test_label = lv_label_create(pageDemoSelect.spi_test_btn);
@@ -212,7 +212,7 @@ static void lv_librarytest_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.spi_test_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.spi_test_label);
 
-  pageDemoSelect.uart_test_btn = lv_btn_create(pageDemoSelect.library_test);
+  pageDemoSelect.uart_test_btn = lv_button_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.uart_test_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.uart_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.uart_test_label = lv_label_create(pageDemoSelect.uart_test_btn);
@@ -222,7 +222,7 @@ static void lv_librarytest_create(void)
   lv_obj_set_style_text_align(pageDemoSelect.uart_test_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
   lv_obj_center(pageDemoSelect.uart_test_label);
 
-  pageDemoSelect.usb_test_btn = lv_btn_create(pageDemoSelect.library_test);
+  pageDemoSelect.usb_test_btn = lv_button_create(pageDemoSelect.library_test);
   lv_obj_set_width(pageDemoSelect.usb_test_btn, LV_PCT(70));
   lv_obj_add_event_cb(pageDemoSelect.usb_test_btn, Button_Event, LV_EVENT_CLICKED, NULL);
   pageDemoSelect.usb_test_label = lv_label_create(pageDemoSelect.usb_test_btn);

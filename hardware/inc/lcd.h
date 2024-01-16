@@ -20,6 +20,6 @@
 
 void LCD_Config(void);
 void LCD_SetBrightness(int32_t brightness);
-void LCD_Color_Fill(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, lv_color_t * data);
+void LCD_Color_Fill(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint8_t * data);
 
 #endif // !__LCD__H
