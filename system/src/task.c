@@ -140,7 +140,7 @@ void LCD_task(void * p)
   while(1)
   {
     lv_task_handler();
-    delay_ms(10);
+    delay_ms(2);
   }
 }
 
