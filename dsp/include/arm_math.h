@@ -83,6 +83,33 @@ static inline int32_t __QADD(int32_t x, int32_t y)
   return ((int32_t)(clip_q63_to_q31((q63_t)x + (q31_t)y)));
 }
 
+static inline uint32_t __QSUB8(uint32_t x, uint32_t y)
+{
+  q31_t r, s, t, u;
+
+  r = __SSAT(((((q31_t)x << 24) >> 24) - (((q31_t)y << 24) >> 24)), 8) & (int32_t)0x000000FF;
+  s = __SSAT(((((q31_t)x << 16) >> 24) - (((q31_t)y << 16) >> 24)), 8) & (int32_t)0x000000FF;
+  t = __SSAT(((((q31_t)x <<  8) >> 24) - (((q31_t)y <<  8) >> 24)), 8) & (int32_t)0x000000FF;
+  u = __SSAT(((((q31_t)x) >> 24) - (((q31_t)y) >> 24)), 8) & (int32_t)0x000000FF;
+
+  return ((uint32_t)((u << 24) | (t << 16) | (s <<  8) | (r)));
+}
+
+static inline uint32_t __QSUB16(uint32_t x, uint32_t y)
+{
+  q31_t r, s;
+
+  r = __SSAT(((((q31_t)x << 16) >> 16) - (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
+  s = __SSAT(((((q31_t)x) >> 16) - (((q31_t)y) >> 16)), 16) & (int32_t)0x0000FFFF;
+
+  return ((uint32_t)((s << 16) | (r)));
+}
+
+static inline int32_t __QSUB(int32_t x, int32_t y)
+{
+  return ((int32_t)(clip_q63_to_q31((q63_t)x - (q31_t)y)));
+}
+
 #include "../source/BasicMathFunctions/inc/basicmathfunctions.h"
 #include "../source/CommonTables/inc/commontables.h"
 #include "../source/ComplexMathFunctions/inc/complexmathfunctions.h"
