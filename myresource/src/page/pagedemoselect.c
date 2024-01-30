@@ -15,63 +15,63 @@ static void Button_Event(lv_event_t * e)
   {
     if(target == pageDemoSelect.benchmark_btn)
     {
-      lv_demo_benchmark();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      lv_demo_benchmark();
     }
     else if(target == pageDemoSelect.keypad_encoder_btn)
     {
-      lv_demo_keypad_encoder();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      lv_demo_keypad_encoder();
     }
     else if(target == pageDemoSelect.music_btn)
     {
-      lv_demo_music();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      lv_demo_music();
     }
     else if(target == pageDemoSelect.stress_btn)
     {
-      lv_demo_stress();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      lv_demo_stress();
     }
     else if(target == pageDemoSelect.widgets_btn)
     {
-      lv_demo_widgets();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      lv_demo_widgets();
     }
     else if(target == pageDemoSelect.gpio_test_btn)
     {
-      Pagegpiotest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      Pagegpiotest_Init();
     }
     else if(target == pageDemoSelect.i2c_test_btn)
     {
-      Pagei2ctest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      Pagei2ctest_Init();
     }
     else if(target == pageDemoSelect.pwm_test_btn)
     {
-      Pagepwmtest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      Pagepwmtest_Init();
     }
     else if(target == pageDemoSelect.sdio_test_btn)
     {
-      Pagesdiotest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      Pagesdiotest_Init();
     }
     else if(target == pageDemoSelect.spi_test_btn)
     {
-      Pagespitest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      Pagespitest_Init();
     }
     else if(target == pageDemoSelect.uart_test_btn)
     {
-      Pageuarttest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      Pageuarttest_Init();
     }
     else if(target == pageDemoSelect.usb_test_btn)
     {
-      Pageusbtest_Init();
       lv_obj_add_flag(pageDemoSelect.view, LV_OBJ_FLAG_HIDDEN);
+      Pageusbtest_Init();
     }
   }
 }
