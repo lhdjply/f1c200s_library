@@ -1,6 +1,5 @@
-name: 其他类型
+name: 3.其他类型
 description: 其他类型
-title:
 body:
   - type: textarea
     attributes:

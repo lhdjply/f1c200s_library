@@ -1,6 +1,5 @@
-name: 问题交流
+name: 2.问题交流
 description: 讨论中没有回答的使用问题。
-labels: ["question"]
 body:
   - type: textarea
     attributes:

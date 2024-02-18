@@ -1,7 +1,5 @@
-name: bug反馈
+name: 1.bug反馈
 description: 请详细描述您使用过程中遇到的问题。
-title:
-labels: ["bug"]
 body:
   - type: checkboxes
     attributes:
