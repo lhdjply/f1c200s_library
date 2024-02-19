@@ -41,7 +41,7 @@ static void Button_Event(lv_event_t * e)
 
 void Pagespitest_Init(void)
 {
-  pagespitest.view = lv_obj_create(lv_scr_act());
+  pagespitest.view = lv_obj_create(lv_screen_active());
   lv_obj_remove_style_all(pagespitest.view);
   lv_obj_set_size(pagespitest.view, LV_PCT(100), LV_PCT(100));
 

@@ -18,6 +18,7 @@ jobs:
         with:
           repository: szepeviktor/astyle
           path: astyle
+          ref: v3.4.10
       - name: Install astyle
         run: |
           cd astyle/build/gcc/
@@ -26,12 +27,12 @@ jobs:
           astyle --version
       - name: Format code
         run: python code-format.py
-        working-directory: tools
+        working-directory: 1.Software/tools
       - name: Check that repository is clean
         shell: bash
         run: |
           set -o pipefail
           if ! (git diff --exit-code --color=always | tee /tmp/lvgl_diff.patch); then
-            echo "Please apply the preceding diff to your code or run tools/code-format.py"
+            echo "Please apply the preceding diff to your code or run 1.Software/tools/code-format.py"
             exit 1
           fi

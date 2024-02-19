@@ -67,7 +67,7 @@ void Pagesdiotest_Init(void)
   mydata.sd_res = FR_OK;
   mydata.sd_write_ok_flag = 0;
 
-  pagesdiotest.view = lv_obj_create(lv_scr_act());
+  pagesdiotest.view = lv_obj_create(lv_screen_active());
   lv_obj_remove_style_all(pagesdiotest.view);
   lv_obj_set_size(pagesdiotest.view, LV_PCT(100), LV_PCT(100));
 
