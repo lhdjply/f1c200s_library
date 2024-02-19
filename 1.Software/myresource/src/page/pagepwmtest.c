@@ -26,7 +26,7 @@ static void Slider_Event(lv_event_t * e)
 
 void Pagepwmtest_Init(void)
 {
-  pagepwmtest.view = lv_obj_create(lv_scr_act());
+  pagepwmtest.view = lv_obj_create(lv_screen_active());
   lv_obj_remove_style_all(pagepwmtest.view);
   lv_obj_set_size(pagepwmtest.view, LV_PCT(100), LV_PCT(100));
 

@@ -68,7 +68,7 @@ static void my_timer(lv_timer_t * timer)
 
 void Pageusbtest_Init(void)
 {
-  pageusbtest.view = lv_obj_create(lv_scr_act());
+  pageusbtest.view = lv_obj_create(lv_screen_active());
   lv_obj_remove_style_all(pageusbtest.view);
   lv_obj_set_size(pageusbtest.view, LV_PCT(100), LV_PCT(100));
 

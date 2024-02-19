@@ -58,19 +58,25 @@ sudo apt-get update
 sudo apt install pkg-config libusb-1.0-0-dev zlib1g-dev binutils libfdt-dev 
 ```
 
-# 文件夹介绍
+# 主文件夹介绍
 
 |文件夹|简介|
 |-|-|
 |.gitee|gitee 平台 issue 和 pr 模板|
 |.github|github 平台 issue 和 pr 模板，以及 ci 检查|
+|1\.Software|项目程序源码|
+|2\.Hardware|使用**嘉立创 EDA** 专业版进行绘制，项目例子都基于该线路板进行编写。|
+
+## Software文件夹介绍
+
+|文件夹|简介|
+|-|-|
 |.vscode|VSCode 配置文件|
 |bootloader|bootloader 文件|
 |dsp|dsp 库（例如`arm_mean_f32`)|
 |f1cx00s_lib|模仿 **stm32** 风格写的库函数|
 |hardware|外设初始化|
 |myresoure|界面左边为 lvgl 官方例子，界面右边为库函数测试例子。其中库函数例子外设初始化以及功能函数已在`hardware`，界面例子包括 `gpio`、`i2c`、`pwm`、`sdio`、`spi`、`uart`、`usb`。|
-|pcb|使用**嘉立创 EDA** 专业版进行绘制，项目例子都基于该线路板进行编写。|
 |system|任务文件，以及延迟等等|
 |third_party|第三方库，包含`cherryusb`、`fatfs`、`lvgl`、`rt-thread`|
 |tools|下载程序工具，code-format 工具（需要安装 astyle)|
@@ -206,9 +212,9 @@ I2C_Read_Reg(GT911_I2C, I2C_REG_SIZE_16BIT, reg, buf, len);
 
 ## LCD
 
-例子查看[hardware/src/lcd.c](./hardware/src/lcd.c)。
+例子查看[hardware/src/lcd.c](1.Software/hardware/src/lcd.c)。
 
-如需修改屏幕参数，请在[hardware/inc/lcd.h](./hardware/inc/lcd.h)中修改。
+如需修改屏幕参数，请在[hardware/inc/lcd.h](1.Software/hardware/inc/lcd.h)中修改。
 
 ```c
 #define LCD_FREQ 30000000//30Mhz
@@ -261,7 +267,7 @@ PWM_Set_Duty(PWM_CHANNEL_1, value);
 
 ## SDIO
 
-初始化例子可查看[hardware/src/sdcard.c](./hardware/src/sdcard.c)。需移植`FATFS`进行使用，移植例子[third_party/fatfs/diskio.c](./third_party/fatfs/diskio.c)。
+初始化例子可查看[hardware/src/sdcard.c](1.Software/hardware/src/sdcard.c)。需移植`FATFS`进行使用，移植例子[third_party/fatfs/diskio.c](1.Software/third_party/fatfs/diskio.c)。
 
 ## SPI
 
@@ -378,23 +384,23 @@ UART_ReceiveData(UART1);
 
 ### 主机
 
-使用主机前，请在 [user/common.h ](./user/common.h)中定义
+使用主机前，请在 [user/common.h ](1.Software/user/common.h)中定义
 
 ```c
 #define TEST_USB_MODE TEST_USB_MODE_HOST
 ```
 
-初始化例子可查看 [hardware/src/usbh_msc_config.c](./hardware/src/usbh_msc_config.c)。主机还需移植`FATFS`进行使用，移植例子[third_party/fatfs/diskio.c](./third_party/fatfs/diskio.c)。
+初始化例子可查看 [hardware/src/usbh_msc_config.c](1.Software/hardware/src/usbh_msc_config.c)。主机还需移植`FATFS`进行使用，移植例子[third_party/fatfs/diskio.c](1.Software/third_party/fatfs/diskio.c)。
 
 ### 设备
 
-使用设备前，请在 [user/common.h ](./user/common.h)中定义
+使用设备前，请在 [user/common.h ](1.Software/user/common.h)中定义
 
 ```c
 #define TEST_USB_MODE TEST_USB_MODE_DEVICE
 ```
 
-初始化例子可查看 [hardware/src/usbd_msc_config.c](./hardware/src/usbd_msc_config.c)。
+初始化例子可查看 [hardware/src/usbd_msc_config.c](1.Software/hardware/src/usbd_msc_config.c)。
 
 ## WDOG
 

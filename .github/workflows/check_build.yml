@@ -21,5 +21,6 @@ jobs:
         
       - name: Start build
         run: |
-          sudo chmod -R  777 tools
+          sudo chmod -R  777 1.Software/tools
+          cd 1.Software
           make -j16

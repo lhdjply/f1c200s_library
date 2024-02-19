@@ -55,8 +55,8 @@ static void Edit_Event(lv_event_t * e)
         My_Printf("%s", lv_textarea_get_text(target));
       }
       lv_obj_delete(pageuarttest.keyboard);
-      lv_indev_wait_release(lv_indev_get_act());
-      lv_indev_reset(lv_indev_get_act(), target);
+      lv_indev_wait_release(lv_indev_active());
+      lv_indev_reset(lv_indev_active(), target);
       lv_obj_set_height(pageuarttest.view, LV_PCT(100));
       lv_obj_set_height(pageuarttest.receive_data, LV_PCT(40));
       lv_obj_set_height(pageuarttest.send_data, LV_PCT(30));
@@ -76,7 +76,7 @@ static void my_timer(lv_timer_t * timer)
 
 void Pageuarttest_Init(void)
 {
-  pageuarttest.view = lv_obj_create(lv_scr_act());
+  pageuarttest.view = lv_obj_create(lv_screen_active());
   lv_obj_remove_style_all(pageuarttest.view);
   lv_obj_set_size(pageuarttest.view, LV_PCT(100), LV_PCT(100));
 
