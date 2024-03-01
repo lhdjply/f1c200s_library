@@ -214,14 +214,14 @@ I2C_Read_Reg(GT911_I2C, I2C_REG_SIZE_16BIT, reg, buf, len);
 
 例子查看[hardware/src/lcd.c](1.Software/hardware/src/lcd.c)。
 
-如需修改屏幕参数，请在[hardware/inc/lcd.h](1.Software/hardware/inc/lcd.h)中修改。
+请根据液晶屏的数据手册修改相应参数，请在[hardware/inc/lcd.h](1.Software/hardware/inc/lcd.h)中修改。
 
 ```c
-#define LCD_FREQ 30000000//30Mhz
-#define MY_DISP_HOR_RES 800
-#define MY_DISP_VER_RES 480
-
 // LCD驱动参数设置
+#define LCD_FREQ 30000000 //30Mhz 屏幕时钟
+#define MY_DISP_HOR_RES 800 //屏幕水平分辨率
+#define MY_DISP_VER_RES 480 //屏幕垂直分辨率
+
 #define LCD_HOR_PULSE_WIDTH 8 // 水平脉宽
 #define LCD_HOR_BACK_PORCH 8 // 水平后廊
 #define LCD_HOR_FRONT_PORCH 4 // 水平前廊
