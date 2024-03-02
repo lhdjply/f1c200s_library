@@ -9,6 +9,8 @@
 #include "usbh_core.h"
 #include "usbh_msc.h"
 
+#define USBH_BASE 0x01c13000
+
 extern volatile bool mounted_flag;
 
 #endif

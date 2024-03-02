@@ -1,25 +1,16 @@
 #include "usbd_msc_config.h"
 
-extern void USBD_IRQHandler();
-
 struct usbd_interface intf0;
 extern SD_CardInfo SDCardInfo;
 
-#define MSC_IN_EP  0x81
-#define MSC_OUT_EP 0x02
+extern void USBD_IRQHandler(uint8_t busid);
 
-#define USBD_VID           0x8136
-#define USBD_PID           0xd497
-#define USBD_MAX_POWER     100
-#define USBD_LANGID_STRING 1033
-
-#define USB_CONFIG_SIZE (9 + MSC_DESCRIPTOR_LEN)
-
-#ifdef CONFIG_USB_HS
-  #define MSC_MAX_MPS 512
-#else
-  #define MSC_MAX_MPS 64
-#endif
+static void My_USBD_IRQHandler(int irqno, void * param)
+{
+  rt_interrupt_enter();
+  USBD_IRQHandler(0);
+  rt_interrupt_leave();
+}
 
 void usb_dc_low_level_init(void)
 {
@@ -31,7 +22,7 @@ void usb_dc_low_level_init(void)
   USBC_ForceId(USBC_ID_TYPE_DEVICE);
   USBC_ForceVbusValid(USBC_VBUS_TYPE_HIGH);
 
-  rt_hw_interrupt_install(USB_OTG_INTERRUPT, (rt_isr_handler_t)USBD_IRQHandler, NULL, "musb_irq");
+  rt_hw_interrupt_install(USB_OTG_INTERRUPT, (rt_isr_handler_t)My_USBD_IRQHandler, NULL, "musb_irq");
   rt_hw_interrupt_umask(USB_OTG_INTERRUPT);
 }
 
@@ -114,7 +105,7 @@ const uint8_t msc_storage_descriptor[] =
   0x00
 };
 
-void usbd_event_handler(uint8_t event)
+static void usbd_event_handler(uint8_t busid, uint8_t event)
 {
   switch(event)
   {
@@ -140,13 +131,13 @@ void usbd_event_handler(uint8_t event)
   }
 }
 
-void usbd_msc_get_cap(uint8_t lun, uint32_t * block_num, uint16_t * block_size)
+void usbd_msc_get_cap(uint8_t busid, uint8_t lun, uint32_t * block_num, uint32_t * block_size)
 {
   *block_size = 512;
   *block_num = SDCardInfo.CardCapacity / 512;
 }
 
-int usbd_msc_sector_read(uint32_t sector, uint8_t * buffer, uint32_t length)
+int usbd_msc_sector_read(uint8_t busid, uint8_t lun, uint32_t sector, uint8_t * buffer, uint32_t length)
 {
   if(SD_DETECT != 0)
   {
@@ -158,7 +149,7 @@ int usbd_msc_sector_read(uint32_t sector, uint8_t * buffer, uint32_t length)
   }
 }
 
-int usbd_msc_sector_write(uint32_t sector, uint8_t * buffer, uint32_t length)
+int usbd_msc_sector_write(uint8_t busid, uint8_t lun, uint32_t sector, uint8_t * buffer, uint32_t length)
 {
   if(SD_DETECT != 0)
   {
@@ -174,8 +165,8 @@ void usbd_msc_init(void)
 {
   SD_Init(SDIO0);
 
-  usbd_desc_register(msc_storage_descriptor);
-  usbd_add_interface(usbd_msc_init_intf(&intf0, MSC_OUT_EP, MSC_IN_EP));
+  usbd_desc_register(0, msc_storage_descriptor);
+  usbd_add_interface(0, usbd_msc_init_intf(0, &intf0, MSC_OUT_EP, MSC_IN_EP));
 
-  usbd_initialize();
+  usbd_initialize(0, USBD_BASE, usbd_event_handler);
 }

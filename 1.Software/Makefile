@@ -95,9 +95,10 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 LIBS = -lgcc -lc -lnosys -lm -u _printf_float
 LIBDIR = 
 
+NOWALL= -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast
 ASFLAGS	= -Xassembler -mimplicit-it=thumb -c
 LDFLAGS = $(MCU) -specs=nano.specs -T $(LDSCRIPT) $(LIBDIR) $(LIBS) -nostartfiles -Xlinker --gc-sections -Wl,--cref,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
-MCFLAGS	= $(CPU) $(FPU) $(FLOAT-ABI) -std=gnu99 $(C_DEFS) -ffunction-sections -fdata-sections -Wall $(OPT) -MMD
+MCFLAGS	= $(CPU) $(FPU) $(FLOAT-ABI) -std=gnu99 $(C_DEFS) -ffunction-sections -fdata-sections -Wall $(NOWALL) $(OPT) -MMD
 
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).bin
 #######################################

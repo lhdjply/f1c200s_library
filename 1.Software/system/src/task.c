@@ -96,7 +96,7 @@ void USB_task(void * p)
   FATFS * fs;
   FIL * file;
   usbh_msc_test_sem = rt_sem_create("usbh_msc_test_sem", 0, RT_IPC_FLAG_FIFO);
-  usbh_initialize();
+  usbh_initialize(0, USBH_BASE);
   while(1)
   {
     rt_sem_take(usbh_msc_test_sem, RT_WAITING_FOREVER);

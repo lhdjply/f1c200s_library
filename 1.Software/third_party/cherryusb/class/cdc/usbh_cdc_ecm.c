@@ -6,6 +6,10 @@
 #include "usbh_core.h"
 #include "usbh_cdc_ecm.h"
 
+#undef USB_DBG_TAG
+#define USB_DBG_TAG "usbh_cdc_ecm"
+#include "usb_log.h"
+
 #define DEV_FORMAT "/dev/cdc_ether"
 
 /* general descriptor field offsets */
@@ -39,7 +43,7 @@ static int usbh_cdc_ecm_set_eth_packet_filter(struct usbh_cdc_ecm *cdc_ecm_class
     return usbh_control_transfer(cdc_ecm_class->hport, setup, NULL);
 }
 
-int usbh_cdc_ecm_get_notification(struct usbh_cdc_ecm *cdc_ecm_class)
+int usbh_cdc_ecm_get_connect_status(struct usbh_cdc_ecm *cdc_ecm_class)
 {
     int ret;
 
@@ -240,7 +244,7 @@ find_class:
     }
 
     while (g_cdc_ecm_class.connect_status == false) {
-        ret = usbh_cdc_ecm_get_notification(&g_cdc_ecm_class);
+        ret = usbh_cdc_ecm_get_connect_status(&g_cdc_ecm_class);
         if (ret < 0) {
             usb_osal_msleep(100);
             goto find_class;
@@ -257,7 +261,7 @@ find_class:
 
         g_cdc_ecm_rx_length += g_cdc_ecm_class.bulkin_urb.actual_length;
 
-        if (g_cdc_ecm_rx_length % USB_GET_MAXPACKETSIZE(g_cdc_ecm_class.bulkin->wMaxPacketSize)) {
+        if (g_cdc_ecm_class.bulkin_urb.actual_length != USB_GET_MAXPACKETSIZE(g_cdc_ecm_class.bulkin->wMaxPacketSize)) {
             USB_LOG_DBG("rxlen:%d\r\n", g_cdc_ecm_rx_length);
 
             p = pbuf_alloc(PBUF_RAW, g_cdc_ecm_rx_length, PBUF_POOL);
@@ -274,6 +278,7 @@ find_class:
                 USB_LOG_ERR("No memory to alloc pbuf for cdc ecm rx\r\n");
             }
         } else {
+            /* read continue util read short packet */
         }
     }
     // clang-format off

@@ -3,7 +3,14 @@
 volatile bool mounted_flag;
 USB_NOCACHE_RAM_SECTION struct usbh_msc * active_msc_class;
 
-extern void USBH_IRQHandler();
+extern void USBH_IRQHandler(uint8_t busid);
+
+static void My_USBH_IRQHandler(int irqno, void * param)
+{
+  rt_interrupt_enter();
+  USBH_IRQHandler(0);
+  rt_interrupt_leave();
+}
 
 void usb_hc_low_level_init(void)
 {
@@ -15,7 +22,7 @@ void usb_hc_low_level_init(void)
   USBC_ForceId(USBC_ID_TYPE_HOST);
   USBC_ForceVbusValid(USBC_VBUS_TYPE_HIGH);
 
-  rt_hw_interrupt_install(USB_OTG_INTERRUPT, (rt_isr_handler_t)USBH_IRQHandler, NULL, "musb_irq");
+  rt_hw_interrupt_install(USB_OTG_INTERRUPT, (rt_isr_handler_t)My_USBH_IRQHandler, NULL, "musb_irq");
   rt_hw_interrupt_umask(USB_OTG_INTERRUPT);
 }
 
