@@ -12,7 +12,7 @@ static void My_USBH_IRQHandler(int irqno, void * param)
   rt_interrupt_leave();
 }
 
-void usb_hc_low_level_init(void)
+void usb_hc_low_level_init(struct usbh_bus * bus)
 {
   usb_phy_open_clock();
   USBC_PhyConfig();
