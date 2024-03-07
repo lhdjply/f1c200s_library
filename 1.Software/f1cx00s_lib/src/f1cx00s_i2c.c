@@ -1,6 +1,5 @@
 #include "f1cx00s_i2c.h"
 #include "f1cx00s_ccu.h"
-#include "gpio.h"
 
 void I2C_DeInit(I2C_TypeDef * I2Cx)
 {
