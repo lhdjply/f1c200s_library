@@ -1,6 +1,6 @@
 # 项目简介
 
-该项目是为全志 F1C100S/F1C200S 所编写的库函数，编写风格模仿 STM32 标准库，使得从 STM32 过来的人更容易上手。项目已经移植了 `cherryusb`、`fatfs`、`lvgl`、`rt-thread`。
+该项目是为全志 F1C100S/F1C200S 所编写的库函数，编写风格模仿 STM32 标准库，使得从 STM32 过来的人更容易上手。项目已经移植了 [cherryusb](https://github.com/cherry-embedded/CherryUSB)、[fatfs](http://elm-chan.org/fsw/ff/00index_e.html)、[lvgl](https://github.com/lvgl/lvgl)、[rt-thread](https://github.com/RT-Thread/rt-thread)。
 
 # 准备工作
 
@@ -10,7 +10,7 @@ windows、linux
 
 ## 编辑环境
 
-推荐使用的编辑环境为 **VSCode**([下载地址链接](https://code.visualstudio.com/))，是一个运行于 MacOS X、Windows 和 Linux 之上的，针对于编写现代 Web 和云应用的跨平台源代码编辑器；VSCode 免费而且功能强大，对 JavaScript 和   NodeJS 的支持非常好，自带很多功能，例如代码格式化，代码智能提示补全、Emmet 插件等。
+推荐使用的编辑环境为 [VSCode](https://code.visualstudio.com/)，是一个运行于 MacOS X、Windows 和 Linux 之上的，针对于编写现代 Web 和云应用的跨平台源代码编辑器；VSCode 免费而且功能强大，对 JavaScript 和   NodeJS 的支持非常好，自带很多功能，例如代码格式化，代码智能提示补全、Emmet 插件等。
 
 ### VSCode推荐插件
 
@@ -28,7 +28,7 @@ windows、linux
 
 ## 编译器
 
-该项目编译器为 **arm-none-eabi-gcc**([下载地址链接](https://developer.arm.com/downloads/-/gnu-rm))
+该项目编译器为 [arm-none-eabi-gcc](https://developer.arm.com/downloads/-/gnu-rm)
 
 linux 平台可直接通过终端下载
 
@@ -65,7 +65,7 @@ sudo apt install pkg-config libusb-1.0-0-dev zlib1g-dev binutils libfdt-dev
 |.gitee|gitee 平台 issue 和 pr 模板|
 |.github|github 平台 issue 和 pr 模板，以及 ci 检查|
 |1\.Software|项目程序源码|
-|2\.Hardware|使用**嘉立创 EDA** 专业版进行绘制，项目例子都基于该线路板进行编写。|
+|2\.Hardware|使用[嘉立创 EDA 专业版](https://lceda.cn/page/download)进行绘制，项目例子都基于该线路板进行编写。|
 
 ## Software文件夹介绍
 
@@ -77,10 +77,10 @@ sudo apt install pkg-config libusb-1.0-0-dev zlib1g-dev binutils libfdt-dev
 |f1cx00s_lib|模仿 **stm32** 风格写的库函数|
 |hardware|外设初始化|
 |myresoure|界面左边为 lvgl 官方例子，界面右边为库函数测试例子。其中库函数例子外设初始化以及功能函数已在`hardware`，界面例子包括 `gpio`、`i2c`、`pwm`、`sdio`、`spi`、`uart`、`usb`。|
-|system|任务文件，以及延迟等等|
-|third_party|第三方库，包含`cherryusb`、`fatfs`、`lvgl`、`rt-thread`|
-|tools|下载程序工具，code-format 工具（需要安装 astyle)|
-|user|main 函数，链接脚本|
+|system|任务文件、延迟等等|
+|third_party|第三方库，包含[cherryusb](https://github.com/cherry-embedded/CherryUSB)、[fatfs](http://elm-chan.org/fsw/ff/00index_e.html)、[lvgl](https://github.com/lvgl/lvgl)、[rt-thread](https://github.com/RT-Thread/rt-thread)|
+|tools|下载程序工具、code-format 工具（需要安装 [astyle](https://astyle.sourceforge.net/install.html))|
+|user|main 函数、链接脚本|
 
 # 库函数使用说明
 
