@@ -145,3 +145,15 @@ void LCD_Layer_Cmd(LCD_Layer_Struct * lcd_layer, FunctionalState NewState)
     DEBE->MODE_CTRL &= ~(1 << (8 + lcd_layer->Layer_Num));
   }
 }
+
+void LCD_Swap_RGB(FunctionalState NewState)
+{
+  if(NewState)
+  {
+    TCON->TCON0_CTRL |= 1 << 23;
+  }
+  else
+  {
+    TCON->TCON0_CTRL &= ~(1 << 23);
+  }
+}

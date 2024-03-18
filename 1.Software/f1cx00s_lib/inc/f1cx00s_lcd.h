@@ -53,5 +53,6 @@ void LCD_FE_Clk_Divider(uint8_t divider);
 void LCD_TCON_Cmd(FunctionalState NewState);
 void LCD_Init(LCD_CFG_Struct * cfg, LCD_Layer_Struct * lcd_layer);
 void LCD_Layer_Cmd(LCD_Layer_Struct * lcd_layer, FunctionalState NewState);
+void LCD_Swap_RGB(FunctionalState NewState);
 
 #endif // __F1CX00S_LCD__H
