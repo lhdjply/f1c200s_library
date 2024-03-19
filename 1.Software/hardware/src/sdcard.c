@@ -249,7 +249,7 @@ static SD_Error SD_PowerON(SDIO_TypeDef * SDIOx)
       SDIO_CmdInitStructure.SDIO_Argument = 0x00;
       SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
       SDIO_CmdInitStructure.SDIO_Flags = SDIO_RESP_R1;
-      SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 0);
+      SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 50);
 
       /* ACMD41
        * 命令参数由支持的电压范围及HCS位组成，HCS位置一来区分卡是SDSC还是SDHC
@@ -260,7 +260,7 @@ static SD_Error SD_PowerON(SDIO_TypeDef * SDIOx)
       SDIO_CmdInitStructure.SDIO_Argument = SD_VOLTAGE_WINDOW_SD | SDType;
       SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_APP_OP_COND;
       SDIO_CmdInitStructure.SDIO_Flags = SDIO_RESP_R3;
-      SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 0);
+      SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 50);
 
       // /* 若卡需求电压在SDIO的供电电压范围内，会自动上电并标志pwr_up位
       //  * 读取卡寄存器，卡状态
@@ -319,8 +319,7 @@ static SD_Error SD_InitializeCards(SDIO_TypeDef * SDIOx)
     SDIO_CmdInitStructure.SDIO_Argument = 0x0;
     SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_ALL_SEND_CID;
     SDIO_CmdInitStructure.SDIO_Flags = SDIO_RESP_R2;
-    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 0);
-    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 500);
+    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 100);
 
     errorstatus = CmdResp2Error(SDIOx, &SDIO_CmdInitStructure);
     if(SD_OK != errorstatus)
@@ -367,9 +366,7 @@ static SD_Error SD_InitializeCards(SDIO_TypeDef * SDIOx)
     SDIO_CmdInitStructure.SDIO_Resp[1] = 0;
     SDIO_CmdInitStructure.SDIO_Resp[2] = 0;
     SDIO_CmdInitStructure.SDIO_Resp[3] = 0;
-    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 0);
-    delay_us(8);
-    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 0);
+    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 100);
 
     errorstatus = CmdResp2Error(SDIOx, &SDIO_CmdInitStructure);
     if(SD_OK != errorstatus)
