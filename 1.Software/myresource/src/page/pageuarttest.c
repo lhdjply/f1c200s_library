@@ -39,7 +39,7 @@ static void Edit_Event(lv_event_t * e)
       lv_obj_set_height(pageuarttest.view,  LV_PCT(52));
       lv_obj_set_height(pageuarttest.receive_data, LV_PCT(77));
       lv_obj_set_height(pageuarttest.send_data, LV_PCT(58));
-      pageuarttest.keyboard = lv_keyboard_create(lv_scr_act());
+      pageuarttest.keyboard = lv_keyboard_create(lv_screen_active());
       lv_obj_set_size(pageuarttest.keyboard, LV_PCT(100), LV_PCT(48));
       lv_keyboard_set_mode(pageuarttest.keyboard, LV_KEYBOARD_MODE_TEXT_LOWER);
       lv_keyboard_set_textarea(pageuarttest.keyboard, target);

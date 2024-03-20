@@ -1,5 +1,6 @@
 #include "lcd.h"
 #include "delay.h"
+#include "string.h"
 
 LCD_CFG_Struct lcd_cfg;
 LCD_Layer_Struct lcd_layer;

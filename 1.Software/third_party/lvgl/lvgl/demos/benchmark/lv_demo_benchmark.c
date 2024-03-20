@@ -22,6 +22,10 @@
     #error "LV_USE_DEMO_WIDGETS needs to be enabled"
 #endif
 
+#if LV_USE_STDLIB_MALLOC == LV_STDLIB_BUILTIN && LV_MEM_SIZE < 128 * 1024
+    #warning "It's recommended to have at least 128kB RAM for the benchmark"
+#endif
+
 #include "../../src/display/lv_display_private.h"
 #include "../../src/core/lv_global.h"
 
@@ -78,7 +82,7 @@ static void moving_wallpaper_cb(void)
     lv_obj_t * img = lv_img_create(lv_screen_active());
     lv_obj_set_size(img, lv_pct(150), lv_pct(150));
     lv_image_set_src(img, &img_benchmark_cogwheel_rgb);
-    lv_image_set_align(img, LV_IMAGE_ALIGN_TILE);
+    lv_image_set_inner_align(img, LV_IMAGE_ALIGN_TILE);
     shake_anim(img, - lv_display_get_vertical_resolution(NULL) / 3);
 }
 
@@ -117,12 +121,15 @@ static void multiple_rgb_images_cb(void)
     lv_obj_set_style_pad_row(lv_screen_active(), 20, 0);
 
     LV_IMG_DECLARE(img_benchmark_cogwheel_rgb);
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / 116;
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 116) / 116;
+    int32_t hor_cnt = ((int32_t)lv_display_get_horizontal_resolution(NULL) - 16) / 116;
+    int32_t ver_cnt = ((int32_t)lv_display_get_vertical_resolution(NULL) - 116) / 116;
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
             lv_obj_t * obj = lv_img_create(lv_screen_active());
             lv_image_set_src(obj, &img_benchmark_cogwheel_rgb);
@@ -140,12 +147,15 @@ static void multiple_argb_images_cb(void)
     lv_obj_set_style_pad_row(lv_screen_active(), 20, 0);
 
     LV_IMG_DECLARE(img_benchmark_cogwheel_argb);
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / 116;
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 116) / 116;
+    int32_t hor_cnt = ((int32_t)lv_display_get_horizontal_resolution(NULL) - 16) / 116;
+    int32_t ver_cnt = ((int32_t)lv_display_get_vertical_resolution(NULL) - 116) / 116;
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
             lv_obj_t * obj = lv_img_create(lv_screen_active());
             lv_image_set_src(obj, &img_benchmark_cogwheel_argb);
@@ -163,12 +173,15 @@ static void rotated_argb_image_cb(void)
     lv_obj_set_style_pad_row(lv_screen_active(), 20, 0);
 
     LV_IMG_DECLARE(img_benchmark_cogwheel_argb);
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / 116;
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 116) / 116;
+    int32_t hor_cnt = ((int32_t)lv_display_get_horizontal_resolution(NULL) - 16) / 116;
+    int32_t ver_cnt = ((int32_t)lv_display_get_vertical_resolution(NULL) - 116) / 116;
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
             lv_obj_t * obj = lv_img_create(lv_screen_active());
             lv_image_set_src(obj, &img_benchmark_cogwheel_argb);
@@ -190,10 +203,12 @@ static void multiple_labels_cb(void)
     lv_text_get_size(&s, "Hello LVGL!", lv_obj_get_style_text_font(lv_screen_active(), 0), 0, 0, LV_COORD_MAX,
                      LV_TEXT_FLAG_NONE);
 
-    uint32_t cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / (s.x + 30);
+    int32_t cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / (s.x + 30);
     cnt = cnt * ((lv_display_get_vertical_resolution(NULL) - 200) / (s.y + 50));
 
-    uint32_t i;
+    if(cnt < 1) cnt = 1;
+
+    int32_t i;
     for(i = 0; i < cnt; i++) {
         lv_obj_t * obj = lv_label_create(lv_screen_active());
         lv_label_set_text(obj, "Hello LVGL!");
@@ -227,12 +242,15 @@ static void multiple_arcs_cb(void)
     lv_obj_set_flex_align(lv_screen_active(), LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
 
     LV_IMG_DECLARE(img_benchmark_cogwheel_argb);
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / lv_dpx(160);
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 16) / lv_dpx(160);
+    int32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / lv_dpx(160);
+    int32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 16) / lv_dpx(160);
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
 
             lv_obj_t * obj = lv_arc_create(lv_screen_active());
@@ -259,12 +277,15 @@ static void containers_cb(void)
     lv_obj_set_flex_flow(lv_screen_active(), LV_FLEX_FLOW_ROW_WRAP);
     lv_obj_set_flex_align(lv_screen_active(), LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
 
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / 300;
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 16) / 150;
+    int32_t hor_cnt = ((int32_t)lv_display_get_horizontal_resolution(NULL) - 16) / 300;
+    int32_t ver_cnt = ((int32_t)lv_display_get_vertical_resolution(NULL) - 16) / 150;
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
             lv_obj_t * card = card_create();
             if(x == 0) lv_obj_add_flag(card, LV_OBJ_FLAG_FLEX_IN_NEW_TRACK);
@@ -278,12 +299,15 @@ static void containers_with_overlay_cb(void)
     lv_obj_set_flex_flow(lv_screen_active(), LV_FLEX_FLOW_ROW_WRAP);
     lv_obj_set_flex_align(lv_screen_active(), LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
 
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / 300;
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 16) / 150;
+    int32_t hor_cnt = ((int32_t)lv_display_get_horizontal_resolution(NULL) - 16) / 300;
+    int32_t ver_cnt = ((int32_t)lv_display_get_vertical_resolution(NULL) - 16) / 150;
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
             lv_obj_t * card = card_create();
             if(x == 0) lv_obj_add_flag(card, LV_OBJ_FLAG_FLEX_IN_NEW_TRACK);
@@ -300,12 +324,15 @@ static void containers_with_opa_cb(void)
     lv_obj_set_flex_flow(lv_screen_active(), LV_FLEX_FLOW_ROW_WRAP);
     lv_obj_set_flex_align(lv_screen_active(), LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
 
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / 300;
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 16) / 150;
+    int32_t hor_cnt = ((int32_t)lv_display_get_horizontal_resolution(NULL) - 16) / 300;
+    int32_t ver_cnt = ((int32_t)lv_display_get_vertical_resolution(NULL) - 16) / 150;
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
             lv_obj_t * card = card_create();
             if(x == 0) lv_obj_add_flag(card, LV_OBJ_FLAG_FLEX_IN_NEW_TRACK);
@@ -320,12 +347,15 @@ static void containers_with_opa_layer_cb(void)
     lv_obj_set_flex_flow(lv_screen_active(), LV_FLEX_FLOW_ROW_WRAP);
     lv_obj_set_flex_align(lv_screen_active(), LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
 
-    uint32_t hor_cnt = (lv_display_get_horizontal_resolution(NULL) - 16) / 300;
-    uint32_t ver_cnt = (lv_display_get_vertical_resolution(NULL) - 16) / 150;
+    int32_t hor_cnt = ((int32_t)lv_display_get_horizontal_resolution(NULL) - 16) / 300;
+    int32_t ver_cnt = ((int32_t)lv_display_get_vertical_resolution(NULL) - 16) / 150;
 
-    uint32_t y;
+    if(hor_cnt < 1) hor_cnt = 1;
+    if(ver_cnt < 1) ver_cnt = 1;
+
+    int32_t y;
     for(y = 0; y < ver_cnt; y++) {
-        uint32_t x;
+        int32_t x;
         for(x = 0; x < hor_cnt; x++) {
             lv_obj_t * card = card_create();
             lv_obj_set_style_opa_layered(card, LV_OPA_50, 0);
@@ -517,24 +547,24 @@ static void table_draw_task_event_cb(lv_event_t * e)
 
     int32_t row = draw_dsc_base->id1;
     if(row == 0) {
-        if(t->type == LV_DRAW_TASK_TYPE_FILL) {
-            lv_draw_fill_dsc_t * draw_dsc_fill = t->draw_dsc;
+        lv_draw_fill_dsc_t * draw_dsc_fill = lv_draw_task_get_fill_dsc(t);
+        if(draw_dsc_fill) {
             draw_dsc_fill->color = lv_palette_darken(LV_PALETTE_BLUE_GREY, 4);
         }
-        else if(t->type == LV_DRAW_TASK_TYPE_LABEL) {
-            lv_draw_label_dsc_t * draw_dsc_label = t->draw_dsc;
+        lv_draw_label_dsc_t * draw_dsc_label = lv_draw_task_get_label_dsc(t);
+        if(draw_dsc_label) {
             draw_dsc_label->color = lv_color_white();
         }
     }
     else if(row == 1) {
-        if(t->type == LV_DRAW_TASK_TYPE_BORDER) {
-            lv_draw_border_dsc_t * draw_dsc_border = t->draw_dsc;
+        lv_draw_border_dsc_t * draw_dsc_border = lv_draw_task_get_border_dsc(t);
+        if(draw_dsc_border) {
             draw_dsc_border->color = lv_palette_darken(LV_PALETTE_BLUE_GREY, 4);
             draw_dsc_border->width = 2;
             draw_dsc_border->side = LV_BORDER_SIDE_BOTTOM;
         }
-        else if(t->type == LV_DRAW_TASK_TYPE_LABEL) {
-            lv_draw_label_dsc_t * draw_dsc_label = t->draw_dsc;
+        lv_draw_label_dsc_t * draw_dsc_label = lv_draw_task_get_label_dsc(t);
+        if(draw_dsc_label) {
             draw_dsc_label->color = lv_palette_darken(LV_PALETTE_BLUE_GREY, 4);
         }
     }
