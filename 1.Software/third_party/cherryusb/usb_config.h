@@ -7,8 +7,8 @@
 #define CHERRYUSB_CONFIG_H
 
 #include "rtthread.h"
-#define CHERRYUSB_VERSION     0x010100
-#define CHERRYUSB_VERSION_STR "v1.1.0"
+#define CHERRYUSB_VERSION     0x010200
+#define CHERRYUSB_VERSION_STR "v1.2.0"
 
 /* ================ USB common Configuration ================ */
 
@@ -164,7 +164,6 @@
 #define CONFIG_USB_EHCI_HCCR_OFFSET     (0x0)
 #define CONFIG_USB_EHCI_HCOR_OFFSET     (0x10)
 #define CONFIG_USB_EHCI_FRAME_LIST_SIZE 1024
-// #define CONFIG_USB_EHCI_INFO_ENABLE
 // #define CONFIG_USB_EHCI_HCOR_RESERVED_DISABLE
 // #define CONFIG_USB_EHCI_CONFIGFLAG
 // #define CONFIG_USB_EHCI_PORT_POWER

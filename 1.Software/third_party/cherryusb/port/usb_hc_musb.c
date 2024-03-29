@@ -415,6 +415,10 @@ __WEAK void usb_hc_low_level_init(struct usbh_bus *bus)
 {
 }
 
+__WEAK void usb_hc_low_level_deinit(struct usbh_bus *bus)
+{
+}
+
 int usb_hc_init(struct usbh_bus *bus)
 {
     uint8_t regval;
@@ -478,6 +482,7 @@ int usb_hc_deinit(struct usbh_bus *bus)
         usb_osal_sem_delete(g_musb_hcd[bus->hcd.hcd_id].pipe_pool[i].waitsem);
     }
 
+    usb_hc_low_level_deinit(bus);
     return 0;
 }
 
@@ -684,23 +689,23 @@ int usbh_kill_urb(struct usbh_urb *urb)
     struct usbh_bus *bus;
     size_t flags;
 
-    ARG_UNUSED(bus);
-
     if (!urb || !urb->hcpriv || !urb->hport->bus) {
         return -USB_ERR_INVAL;
     }
 
     bus = urb->hport->bus;
 
+    ARG_UNUSED(bus);
+
     flags = usb_osal_enter_critical_section();
 
     pipe = (struct musb_pipe *)urb->hcpriv;
     urb->hcpriv = NULL;
+    urb->errorcode = -USB_ERR_SHUTDOWN;
     pipe->urb = NULL;
 
     if (urb->timeout) {
         urb->timeout = 0;
-        urb->errorcode = -USB_ERR_SHUTDOWN;
         usb_osal_sem_give(pipe->waitsem);
     } else {
         musb_pipe_free(pipe);

@@ -39,9 +39,11 @@ extern "C" {
 #elif defined(__GNUC__)
 #define CLASS_INFO_DEFINE __attribute__((section(".usbh_class_info"))) __USED __ALIGNED(1)
 #elif defined(__ICCARM__) || defined(__ICCRX__) || defined(__ICCRISCV__)
-#pragma section = "usbh_class_info"
-#define CLASS_INFO_DEFINE __attribute__((section("usbh_class_info"))) __USED __ALIGNED(1)
+#pragma section = ".usbh_class_info"
+#define CLASS_INFO_DEFINE __attribute__((section(".usbh_class_info"))) __USED __ALIGNED(1)
 #endif
+
+#define USBH_GET_URB_INTERVAL(interval, speed) (speed < USB_SPEED_HIGH ? interval: (1 << (interval - 1)))
 
 #define USBH_EP_INIT(ep, ep_desc)                                            \
     do {                                                                     \
@@ -128,6 +130,7 @@ struct usbh_hub {
     struct usb_endpoint_descriptor *intin;
     struct usbh_urb intin_urb;
     uint8_t *int_buffer;
+    struct usb_osal_timer *int_timer;
 };
 
 struct usbh_devaddr_map {
@@ -214,6 +217,7 @@ static inline void usbh_int_urb_fill(struct usbh_urb *urb,
     urb->timeout = timeout;
     urb->complete = complete;
     urb->arg = arg;
+    urb->interval = USBH_GET_URB_INTERVAL(ep->bInterval, hport->speed);
 }
 
 extern struct usbh_bus g_usbhost_bus[];

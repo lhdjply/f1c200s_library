@@ -366,7 +366,7 @@ static SD_Error SD_InitializeCards(SDIO_TypeDef * SDIOx)
     SDIO_CmdInitStructure.SDIO_Resp[1] = 0;
     SDIO_CmdInitStructure.SDIO_Resp[2] = 0;
     SDIO_CmdInitStructure.SDIO_Resp[3] = 0;
-    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 100);
+    SDIO_SendCommand(SDIOx, &SDIO_CmdInitStructure, 0);
 
     errorstatus = CmdResp2Error(SDIOx, &SDIO_CmdInitStructure);
     if(SD_OK != errorstatus)
