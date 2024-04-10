@@ -9,8 +9,6 @@ static void W25QXX_Write_Page(uint8_t * pBuffer, uint32_t WriteAddr, uint16_t Nu
 static void W25QXX_Write_NoCheck(uint8_t * pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrite);
 static void W25QXX_Wait_Busy(void);
 
-uint16_t W25QXX_TYPE = W25Q128; // 默认是W25Q128
-
 // 4Kbytes为一个Sector
 // 16个扇区为1个Block
 // W25Q128
@@ -52,9 +50,8 @@ void W25QXX_Init(void)
   SPI_Init(W25QXX_SPI, &SPI_InitStructure);
 
   SPI_Cmd(W25QXX_SPI, ENABLE); // 使能SPI外设
-
-  W25QXX_TYPE = W25QXX_ReadID(); // 读取FLASH ID.
 }
+
 // SPIx 读写一个字节
 // TxData:要写入的字节
 // 返回值:读取到的字节
@@ -84,6 +81,7 @@ static uint8_t W25QXX_ReadSR(void)
   W25QXX_CS = 1;                            // 取消片选
   return byte;
 }
+
 // 写W25QXX状态寄存器
 // 只有SPR,TB,BP2,BP1,BP0(bit 7,5,4,3,2)可以写!!!
 // static void W25QXX_Write_SR(uint8_t sr)
@@ -101,6 +99,7 @@ static void W25QXX_Write_Enable(void)
   W25QXX_ReadWriteByte(W25X_WriteEnable); // 发送写使能
   W25QXX_CS = 1;                          // 取消片选
 }
+
 // W25QXX写禁止
 // 将WEL清零
 // static void W25QXX_Write_Disable(void)
@@ -109,6 +108,7 @@ static void W25QXX_Write_Enable(void)
 //  W25QXX_ReadWriteByte(W25X_WriteDisable); // 发送写禁止指令
 //  W25QXX_CS = 1;                           // 取消片选
 // }
+
 // 读取芯片ID
 // 返回值如下:
 // 0XEF13,表示芯片型号为W25Q80
@@ -152,6 +152,7 @@ uint64_t W25QXX_Read_UniqueID(void)
   W25QXX_CS = 1;
   return Temp;
 }
+
 // 读取SPI FLASH
 // 在指定地址开始读取指定长度的数据
 // pBuffer:数据存储区
@@ -172,6 +173,7 @@ void W25QXX_Read(uint8_t * pBuffer, uint32_t ReadAddr, uint16_t NumByteToRead)
   }
   W25QXX_CS = 1;
 }
+
 // SPI在一页(0~65535)内写入少于256个字节的数据
 // 在指定地址开始写入最大256字节的数据
 // pBuffer:数据存储区
@@ -194,6 +196,7 @@ static void W25QXX_Write_Page(uint8_t * pBuffer, uint32_t WriteAddr, uint16_t Nu
   W25QXX_CS = 1;      // 取消片选
   W25QXX_Wait_Busy(); // 等待写入结束
 }
+
 // 无检验写SPI FLASH
 // 必须确保所写的地址范围内的数据全部为0XFF,否则在非0XFF处写入的数据将失败!
 // 具有自动换页功能
@@ -226,6 +229,7 @@ static void W25QXX_Write_NoCheck(uint8_t * pBuffer, uint32_t WriteAddr, uint16_t
     }
   };
 }
+
 // 写SPI FLASH
 // 在指定地址开始写入指定长度的数据
 // 该函数带擦除操作!
@@ -282,6 +286,7 @@ void W25QXX_Write(uint8_t * pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrite
     }
   }
 }
+
 // 擦除整个芯片
 // 等待时间超长...
 void W25QXX_Erase_Chip(void)
@@ -291,12 +296,9 @@ void W25QXX_Erase_Chip(void)
   W25QXX_CS = 0;                        // 使能器件
   W25QXX_ReadWriteByte(W25X_ChipErase); // 发送片擦除命令
   W25QXX_CS = 1;                        // 取消片选
-  while((W25QXX_ReadSR() & 0x01) == 0x01)
-    ;
-  //  {
-  //    rt_thread_mdelay(10);//等待擦除完成
-  //  }
+  while((W25QXX_ReadSR() & 0x01) == 0x01);
 }
+
 // 擦除一个扇区
 // Dst_Addr:扇区地址 根据实际容量设置
 // 擦除一个扇区的最少时间:150ms
@@ -312,18 +314,18 @@ void W25QXX_Erase_Sector(uint32_t Dst_Addr)
   W25QXX_ReadWriteByte((uint8_t)((Dst_Addr) >> 8));
   W25QXX_ReadWriteByte((uint8_t)Dst_Addr);
   W25QXX_CS = 1; // 取消片选
-  while((W25QXX_ReadSR() & 0x01) == 0x01)
-    ;
+  while((W25QXX_ReadSR() & 0x01) == 0x01);
   //  {
   //    rt_thread_mdelay(10);//等待擦除完成
   //  }
 }
+
 // 等待空闲
 static void W25QXX_Wait_Busy(void)
 {
-  while((W25QXX_ReadSR() & 0x01) == 0x01)
-    ; // 等待BUSY位清空
+  while((W25QXX_ReadSR() & 0x01) == 0x01); // 等待BUSY位清空
 }
+
 // 进入掉电模式
 void W25QXX_PowerDown(void)
 {
@@ -332,6 +334,7 @@ void W25QXX_PowerDown(void)
   W25QXX_CS = 1;                        // 取消片选
   delay_us(3);                          // 等待TPD
 }
+
 // 唤醒
 void W25QXX_WAKEUP(void)
 {

@@ -12,6 +12,7 @@
 #include "sd3031.h"
 #include "sdcard.h"
 #include "w25qxx.h"
+#include "w25nxx.h"
 #include "lcd.h"
 #include "wdog.h"
 #include "myresource.h"
@@ -29,10 +30,17 @@
 #define TEST_USB_MODE_DEVICE 1
 #define TEST_USB_MODE TEST_USB_MODE_HOST
 
+typedef enum
+{
+  FLASH_TYPE_SPI_NOR = 0,
+  FLASH_TYPE_SPI_NAND,
+} FLASH_TYPE;
+
 typedef struct
 {
   RTC_TIME real_time;
   uint8_t lcd_brightness;
+  FLASH_TYPE flash_type;
   FRESULT sd_res;
   uint8_t sd_write_ok_flag;
 #if TEST_USB_MODE==TEST_USB_MODE_HOST

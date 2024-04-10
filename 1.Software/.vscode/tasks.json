@@ -10,7 +10,7 @@
     {
       "label": "重新编译",
       "type": "shell",
-      "command": "make clean \r\n make -j4",
+      "command": "make clean ; make -j4",
       "group": "build"
     },
     {
@@ -20,9 +20,15 @@
       "group": "build"
     },
     {
-      "label": "下载",
+      "label": "下载到SPI NOR FLASH",
       "type": "shell",
-      "command": "make write",
+      "command": "make write-to-spinor",
+      "group": "build"
+    },
+    {
+      "label": "下载到SPI NAND FLASH",
+      "type": "shell",
+      "command": "make write-to-spinand",
       "group": "build"
     },
   ]

@@ -47,11 +47,19 @@ sudo apt-get install gcc-arm-none-eabi
 
 在 VSCode 的菜单栏中依次点击 `终端-运行任务-重新编译`。如果有安装插件`Task Buttons`，可在 VSCode 下方直接点击重新编译。
 
-## 下载
+## 下载SPI NOR FLASH
 
-下载前，需将板子进入 **FEL** 模式，然后在 VSCode 的菜单栏中依次点击 `终端-运行任务-下载`。如果有安装插件`Task Buttons`，可在VSCode下方直接点击下载。
+下载前，需将板子进入 **FEL** 模式，然后在 VSCode 的菜单栏中依次点击 `终端-运行任务-下载到SPI NOR FLASH`。如果有安装插件`Task Buttons`，可在VSCode下方直接点击下载。
 
-**注意：** linux 需要安装 libusb
+## 下载SPI NAND FLASH
+
+下载前，需将板子进入 **FEL** 模式，然后在 VSCode 的菜单栏中依次点击 `终端-运行任务-下载到SPI NAND FLASH`。如果有安装插件`Task Buttons`，可在VSCode下方直接点击下载。
+
+**注意：**
+
+1. **linux** 需要安装 **libusb**
+
+2. 库中使用的**spi nand flash**型号为**W25N01GVZEIG**，如果使用的是其他型号，需要数据手册修改[bootloader/sys-spi-flash.c](1.Software/bootloader/sys-spi-flash.c)中**SPINAND_PAGE_BITS**的大小.
 
 ```shell
 sudo apt-get update

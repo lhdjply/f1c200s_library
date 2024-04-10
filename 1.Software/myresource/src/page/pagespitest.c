@@ -2,6 +2,7 @@
 #include "myresource.h"
 
 Pagespitest pagespitest;
+extern DATA mydata;
 
 static void Back_Button_Event(lv_event_t * e)
 {
@@ -23,11 +24,25 @@ static void Button_Event(lv_event_t * e)
   {
     if(target == pagespitest.write_btn)
     {
-      W25QXX_Write((uint8_t *)WriteBuff, 0xF00000, 10);
+      if(mydata.flash_type == FLASH_TYPE_SPI_NOR)
+      {
+        W25QXX_Write((uint8_t *)WriteBuff, 0xF00000, 10);
+      }
+      else if(mydata.flash_type == FLASH_TYPE_SPI_NAND)
+      {
+        W25NXX_Write_Buffer((uint8_t *)WriteBuff, 0xF00000, 10);
+      }
     }
     else if(target == pagespitest.read_btn)
     {
-      W25QXX_Read((uint8_t *)ReadBuff, 0xF00000, 10);
+      if(mydata.flash_type == FLASH_TYPE_SPI_NOR)
+      {
+        W25QXX_Read((uint8_t *)ReadBuff, 0xF00000, 10);
+      }
+      else if(mydata.flash_type == FLASH_TYPE_SPI_NAND)
+      {
+        W25NXX_Read_Buffer((uint8_t *)ReadBuff, 0xF00000, 10);
+      }
       ReadBuff[10] = 0;
       lv_label_set_text_fmt(pagespitest.read_label, "read data:%s", ReadBuff);
       lv_obj_align_to(pagespitest.read_label,

@@ -136,8 +136,14 @@ clean:
 	@echo Cleaning...
 	@$(RM) $(BUILD_DIR) 
 
-write:
+write-to-spinor:
+	@echo SPI nor write
 	@tools/sunxi-fel -p spiflash-write 0 $(BUILD_DIR)/$(TARGET).bin
+	@tools/xfel reset
+
+write-to-spinand:
+	@echo SPI nand write
+	@tools/xfel spinand splwrite 1024 0x40000 $(BUILD_DIR)/$(TARGET).bin
 	@tools/xfel reset
 
 mktool:

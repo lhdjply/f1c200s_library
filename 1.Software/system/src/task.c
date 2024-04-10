@@ -20,7 +20,22 @@ void BUZZER_task(void * p)
 
 void W25QXX_task(void * p)
 {
+  uint16_t read_id = 0;
   W25QXX_Init();
+  read_id = W25QXX_ReadID();
+  if(read_id != 0x0000 && read_id != 0xffff)
+  {
+    mydata.flash_type = FLASH_TYPE_SPI_NOR;
+  }
+  else
+  {
+    W25NXX_Init();
+    read_id = W25NXX_ReadID();
+    if(read_id != 0x0000 && read_id != 0xffff)
+    {
+      mydata.flash_type = FLASH_TYPE_SPI_NAND;
+    }
+  }
 }
 
 void RTC_task(void * p)

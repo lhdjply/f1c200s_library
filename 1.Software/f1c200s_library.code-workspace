@@ -22,9 +22,14 @@
 					"tooltip": "清理"
 			},
 			{
-					"label": "下载",
-					"task": "下载",
-					"tooltip": "下载"
+					"label": "下载到SPI NOR FLASH",
+					"task": "下载到SPI NOR FLASH",
+					"tooltip": "下载到SPI NOR FLASH"
+			},
+			{
+					"label": "下载到SPI NAND FLASH",
+					"task": "下载到SPI NAND FLASH",
+					"tooltip": "下载到SPI NAND FLASH"
 			},
 		],
 		"VsCodeTaskButtons.showCounter": false

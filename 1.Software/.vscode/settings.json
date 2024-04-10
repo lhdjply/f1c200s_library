@@ -2,4 +2,32 @@
   "editor.fontSize": 18,
   "editor.tabSize": 2,
   "C_Cpp.errorSquiggles": "disabled",
+  "VsCodeTaskButtons.tasks": [
+    {
+      "label": "编译",
+      "task": "编译",
+      "tooltip": "编译"
+    },
+    {
+        "label": "重新编译",
+        "task": "重新编译",
+        "tooltip": "重新编译"
+    },
+    {
+        "label": "清理",
+        "task": "清理",
+        "tooltip": "清理"
+    },
+    {
+        "label": "下载到SPI NOR FLASH",
+        "task": "下载到SPI NOR FLASH",
+        "tooltip": "下载到SPI NOR FLASH"
+    },
+    {
+        "label": "下载到SPI NAND FLASH",
+        "task": "下载到SPI NAND FLASH",
+        "tooltip": "下载到SPI NAND FLASH"
+    },
+  ],
+  "VsCodeTaskButtons.showCounter": false
 }
